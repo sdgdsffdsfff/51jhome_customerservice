@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务端</title>
+</head>
+<body>
+	<ul id="clients">
+		
+	</ul>
+
+    <script type="text/javascript" src="./js/alertify.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="./js/socket.io-1.3.5.js"></script>
+    <script type="text/javascript">
+        $(window).load(function(){
+
+            console.log('connect');
+            var socket = io.connect("127.0.0.1:8083");
+
+            socket.on('connect_error', function(){
+                alert("connect_error");
+                socket.disconnect();
+            });
+
+            socket.on('connect', function(){
+                socket.on('client_in', function(){
+
+                });
+            });
+
+            socket.on('disconnect', function(){
+                alert('disconnect');
+            });
+        });
+    </script>
+</body>
+</html>

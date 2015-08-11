@@ -112,8 +112,10 @@ io.sockets.on('connection', function(socket){
         });
 
         socket.on('disconnect', function(){
-            
+            //删除对应客服中的客户
+            delete servers[clients[data.ui].server].clients[data.uid];
             delete clients[data.uid];
+
         });
     }); 
 
@@ -122,7 +124,7 @@ io.sockets.on('connection', function(socket){
             // 又可以接入10个人啦
             needNum += 10;
             servers[dat.uid] = {socket: socket, clients : {}, n: 0};
-
+            event.emit('distribution');
         }
     });
 });
