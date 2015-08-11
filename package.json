@@ -13,6 +13,8 @@
   "author": "textworld",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "*"
+    "ioredis": "*",
+    "socket.io": "*",
+    "redis-scripto": "*"
   }
 }
