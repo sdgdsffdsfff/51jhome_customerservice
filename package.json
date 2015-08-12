@@ -13,8 +13,9 @@
   "author": "textworld",
   "license": "ISC",
   "dependencies": {
+    "async": "^1.4.2",
     "ioredis": "*",
-    "socket.io": "*",
-    "redis-scripto": "*"
+    "redis-scripto": "*",
+    "socket.io": "*"
   }
 }

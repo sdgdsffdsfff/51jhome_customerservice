@@ -2,41 +2,118 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>客户端页面</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
 </head>
 <body>
-    <p id="status"></p>
-    <textarea id="words"></textarea>
-    <button id="start">连接服务器</button>
+    
+    
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="row" id="login_div">
+                <div class="col-md-12">
+                    <input class="form-control" id="input_uid" placeholder="userid"/><br>
+                    <button class="btn btn-default" id="btn_login">登陆</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p id="status"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="message"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <textarea id="words" class="form-control"></textarea>
+                    </div>
+                    <button class="btn btn-default" id="send">发送</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="./js/alertify.min.js"></script>
-    <script type="text/javascript" src="./js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/socket.io-1.3.5.js"></script>
     <script type="text/javascript">
+        function showMsg(msg){
+            if(typeof msg !== "string"){
+                msg = msg.toString();
+            }
+            $('#status').append('<p>' + msg + '</p>');
+        }
+
+        function talking(msg, type){
+            if(typeof type === "number" && type === 1){
+                $('#message').append('<p><span>' + '我：' + '</span>' + msg + '</p>');
+            }else{
+                $('#message').append('<p><span>' + '客服：' + '</span>' + msg + '</p>');
+            }
+        }
+
         $(window).load(function(){
 
-            console.log('connect');
-            var socket = io.connect("127.0.0.1:8083");
+            $('#btn_login').click(function(){
+                var usernames = ['张飞', '李逵', '赵云', '关于', '宋江', '习近平', '毛泽东'];
+                var userid = $('#input_uid').val();
+                var username = usernames[parseInt(Math.random() * usernames.length)];
 
-            socket.on('connect_error', function(){
-                alert("connect_error");
-                socket.disconnect();
-            });
+                $('#login_div').css('display', 'none');
 
-            socket.on('connect', function(){
-                socket.emit('customer', {uid: 1});
-                socket.on('connret', function(data){
-                    if(data.s == 0){
-                        $('#status').html(data.m);
-                    }else{
-                        $('#status').html(data.m);
-                    }
-                                       
+                var socket = io.connect("127.0.0.1:8083");
+
+                socket.on('connect_error', function(){
+                    showMsg("connect_error");
+                    socket.disconnect();
                 });
+
+                socket.on('connect', function(){
+                    socket.emit('customer', {uid: userid, username: username});
+                    socket.on('connret', function(data){
+                        // data.s == 0 需要等待
+                        console.log(data);
+                        if(data.s == 0){
+                            showMsg(data.m);
+                        }else{
+                            showMsg(data.m);
+                        }
+                        socket.on('server_in', function(data){
+                            var serverid = data.serverid;
+                            console.log(data);
+                            showMsg('客服' + data.servername + '为您服务');
+
+                            socket.on('service_msg', function(data){
+                                talking(data.msg);
+                            });
+
+                            $('#send').click(function(){
+                                var msg = $('#words').val();
+                                socket.emit('msg', {msg: msg});
+                                talking(msg, 1);
+                                $('#words').val('').focus();
+                            });
+
+                            socket.on('server_disconnect', function(){
+                                showMsg('客服掉线了');
+                            });
+                        });                                       
+                    });
+                });
+
+                socket.on('disconnect', function(){
+                    showMsg('disconnect');
+                    socket.disconnect();
+                });
+
+                return false;
             });
 
-            socket.on('disconnect', function(){
-                alert('disconnect');
-            });
+            
         });
     </script>
 </body>

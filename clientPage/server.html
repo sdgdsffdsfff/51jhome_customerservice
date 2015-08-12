@@ -3,34 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <title>服务端</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link href="css/layim.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-	<ul id="clients">
-		
-	</ul>
-
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <p id="msg"></p>
+            <p>状态<span id="server_status">在线</span></p>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                切换状态
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#" id="status-leave">我要离开</a></li>
+                    <li><a href="#" id="status-live">我回来了</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="./js/alertify.min.js"></script>
-    <script type="text/javascript" src="./js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/socket.io-1.3.5.js"></script>
+    <script src="./lay/lib.js"></script>
+    <script src="./lay/layer/layer.min.js"></script>
+    <script src="./lay/layim.js"></script>
     <script type="text/javascript">
+        // layimapi({
+        //     data_id: 112,
+        //     type: 'one',
+        //     name: 'textworld',
+        //     face: 'http://tp1.sinaimg.cn/1571889140/180/40030060651/1'
+        // });
+        // layimapi({
+        //     data_id: 1122,
+        //     type: 'one',
+        //     name: 'textssssworld',
+        //     face: 'http://tp1.sinaimg.cn/1571889140/180/40030060651/1'
+        // });
+        function showMsg(msg){
+            if(typeof msg !== "string"){
+                msg = msg.toString();
+            }
+            $('#msg').append('<p>' + msg + '</p>');
+        }   
         $(window).load(function(){
-
             console.log('connect');
             var socket = io.connect("127.0.0.1:8083");
 
             socket.on('connect_error', function(){
-                alert("connect_error");
+                showMsg('connect_error');
                 socket.disconnect();
             });
 
             socket.on('connect', function(){
-                socket.on('client_in', function(){
+                socket.emit('service', {uid: 1, servername: "客服一号"});
+                showMsg('欢迎您：客服一号');
+                xxim.setSocket(socket);
+                socket.on('client_in', function(data){
+                    console.log(data);
+                    xxim.popchatboxapi({
+                            type: 'one',
+                            name: data.username,
+                            data_id: data.uid,
+                            face: 'http://tp1.sinaimg.cn/1571889140/180/40030060651/1'
+                    });
+                });
 
+                socket.on('client_msg', function(data){
+                    console.log("receive client_msg");
+                    console.log(data);
+                    xxim.appendMsg({id: data.clientid, content: data.msg, type: 'one'})
+                });
+                // 用户掉线之类的
+                socket.on('client_disconnect', function(data){
+                    console.log('client_disconnect');
+                    console.log(data);
+                    xxim.closeChatWindow({uid: data.clientid, type: 'one'});
+                });
+                $('#status-leave').click(function(){
+                    $('#server_status').html('离开');
+                    socket.emit("status", {status: 0});
+                    return false;
+                });
+                $('#status-live').click(function(){
+                    $('#server_status').html('在线');
+                    socket.emit("status", {status: 1});
+                    return false;
                 });
             });
 
             socket.on('disconnect', function(){
-                alert('disconnect');
+                showMsg('disconnect');
+                socket.disconnect();
             });
         });
     </script>
