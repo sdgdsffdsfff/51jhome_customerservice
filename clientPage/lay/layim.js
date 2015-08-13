@@ -244,7 +244,6 @@ xxim.popchat = function(param){
             +'    <div class="layim_tool">'
             +'        <i class="layim_addface" title="发送表情"></i>'
             +'        <a href="javascript:;"><i class="layim_addimage" title="上传图片"></i></a>'
-            +'        <a href="javascript:;"><i class="layim_addfile" title="上传附件"></i></a>'
             +'        <a href="" target="_blank" class="layim_seechatlog"><i></i>聊天记录</a>'
             +'    </div>'
             +'    <textarea class="layim_write" id="layim_write"></textarea>'

@@ -117,6 +117,7 @@ io.sockets.on('connection', function(socket){
             "uid" : data.uid,
             "lastactive": (new Date()).getTime()
         };
+        log('aa');
         redis_client.llen('cs_line', function(err, len){
             if(err){
                 return close(socket, msg.redis_err);

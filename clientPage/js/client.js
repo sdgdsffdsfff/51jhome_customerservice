@@ -11,6 +11,25 @@ $(function(){
 		})	
 			
 });
+
+
+function getAvatar($uid){
+	return '/images/1.png';
+    if (!$uid){
+        $uid=1;
+    }
+    if ($uid>30664){
+        $path='http://wx.51jhome.com/upload/';
+    }else{
+        $path='http://img.51jhome.com/yun/';
+    }
+    $uid=pad($uid,9);
+    $dir1 = $uid.substr(0, 3);
+    $dir2 = $uid.substr(3, 2);
+    $dir3 = $uid.substr(5, 2);
+    //z($uid+'|'+$uid.substr(-2));
+    return $path+'avatar/' + $dir1 + '/' + $dir2 + '/' + $dir3 + '/' +$uid.substr(-2) + '_132.jpg';
+}
 	
 (function () {
 	var d = document,
@@ -20,7 +39,9 @@ $(function(){
 		db = d.body,
 		dc = d.compatMode == 'CSS1Compat',
 		dx = dc ? dd: db,
-		ec = encodeURIComponent;
+		ec = encodeURIComponent,
+		reconnectTimes=3,
+		reconnectFailCount=0;
 	
 	w.CHAT = {
 		msgObj:$("#main-content"),
@@ -54,12 +75,54 @@ $(function(){
 			//连接websocket后端服务器
 			this.socket = io.connect(SOCKET_URL);
 			
-			//告诉服务器端有用户登录
-			this.socket.emit('login', {userid:this.userid, username:this.username});
+			var socket = this.socket,
+				t = this;
+
+			socket.on('connect', function(){
+				//告诉服务器端有用户登录
+				socket.emit('customer', {uid:t.userid, username:t.username});
+
+				socket.on('connret', function(data){
+					var serverd = false,
+						server = {};
+                    // data.s == 0 需要等待
+                    console.log(data);
+                    if(data.s == 0){
+                        CHAT.appendSysMsg('客服正忙，请耐心等待');
+                    }else{
+                        //CHAT.appendSysMsg(data.m);
+                    }
+
+                    socket.on('server_in', function(data){
+                        var serverid = data.serverid;
+                        server.servername = data.servername;
+                        server.serverid = data.serverid;
+                        CHAT.appendSysMsg('客服' + data.servername + '为您服务');
+
+                        if(serverd == false){
+                        	// 收到从服务器发来的消息，也就是客服消息
+                            socket.on('service_msg', function(data){
+                            	var obj = {
+                            		userid: server.serverid,
+                            		content: data.msg,
+                            		username: server.servername
+                            	};
+                            	CHAT.updateMsgList(obj);
+                            });
+                            serverd = true;
+                        }
+
+                        socket.on('server_disconnect', function(){
+                            showMsg('客服掉线了');
+                        });
+                    });                                       
+                });
+			});
+			
 			
 			//监听新用户登录
 			this.socket.on('userLogin', function(o){
-				z(o);
+				//z(o);
 				CHAT.updateSysMsg(o, 'login');	
 			});
 			
@@ -75,9 +138,44 @@ $(function(){
 			
 			this.socket.on('res',function(res){
 				//z('接受到最新的聊天记录');
-				console.log(res);
+				//console.log(res);
 				CHAT.getMsgList(res);
 			});
+			
+			//连接失败
+            this.socket.on('connect_failed', function(o) {
+            	socket.disconnect();
+                console.log("connect_failed to Server");
+				CHAT.updateSysMsg(o, 'connect_failed',"无法连接服务器...",'red');
+            });
+		//连接错误
+            this.socket.on('error', function(o) {
+            	socket.disconnect();
+                console.log("error");
+				CHAT.updateSysMsg(o, 'error',"服务器连接错误...",'red');
+            });
+		//尝试新的连接
+            this.socket.on('reconnecting', function (o) {
+            	socket.disconnect();
+                console.log("reconnecting："+reconnectFailCount);
+				reconnectFailCount++;
+				if (reconnectFailCount >= reconnectTimes) {
+					CHAT.updateSysMsg(o, 'reconnecting',"与服务器通讯失败，请检查网络...",'red');
+				}
+            });
+		//尝试连接成功
+            this.socket.on('reconnect', function (o) {
+            	socket.disconnect();
+                console.log("reconnect");
+				CHAT.updateSysMsg(o, 'reconnect',"欢迎再次回来",'white');
+                reconnectFailCount--;
+            });
+		//断开连接
+            this.socket.on('disconnect', function (o) {
+                console.log("disconnect");
+				CHAT.updateSysMsg(o, 'disconnect',"连接失败，请检查网络...",'red');
+            });
+
 		},
 		//获取消息列表，用户进入时
 		getMsgList: function(data){
@@ -90,16 +188,15 @@ $(function(){
 				var isme = (obj.userid == CHAT.userid) ? true : false,
 					time = obj.infotime,
 					className = 'rightd';
-					innerHTML = '<div class="speech right">' + CHAT.setEmotion(obj.content) + '</div>';
-					
+					innerHTML = '<div class="right-avatar"><img rel="'+obj.username+'" src="'+getAvatar(obj.userid)+'" onerror="avtLoadErr(this)"/></div><div class="right-speech">' + CHAT.setEmotion(obj.content) + '</div>';
 				contHtml += CHAT.showTime(CHAT.msgTime,time);
 				CHAT.msgTime = time;
 							
 				if(!isme){
 					className = 'leftd';
-					innerHTML = '<div class="user">' + obj.username + '</div><div class="speech left">' + CHAT.setEmotion(obj.content) + '</div>';
+					innerHTML = '<div class="left-user">' + obj.username + '</div><div class="chat-line"><div class="left-avatar"><img rel="'+obj.username+'" src="'+getAvatar(obj.userid)+'" onerror="avtLoadErr(this)"/></div><div class="left-speech">' + CHAT.setEmotion(obj.content) + '</div></div>';
 				}
-				contHtml += '<div class="' + className + '" style="background-image:url('+getAvatar(obj.userid)+')">' + innerHTML + '</div>';
+				contHtml += '<div class="' + className + '">' + innerHTML + '</div>';
 			}
 			contHtml += '</div>';
 			//z('前面：'+CHAT.getHight());
@@ -116,7 +213,7 @@ $(function(){
 		updateMsgList: function(obj){
 			var isme = (obj.userid == CHAT.userid) ? true : false,
 				className = 'rightd',
-				innerHTML = '<div class="speech right">' + CHAT.setEmotion(obj.content) + '</div>',
+				innerHTML = '<div class="right-avatar"><img rel="'+obj.username+'" src="'+getAvatar(obj.userid)+'" onerror="avtLoadErr(this)"/></div><div class="right-speech">' + CHAT.setEmotion(obj.content) + '</div>',
 				time_c = new Date(),
 				time_f = time_c.format("yyyy-MM-dd hh:mm:ss"),
 				time_id = 'CHAT-' + time_c.getTime(),
@@ -126,23 +223,26 @@ $(function(){
 			CHAT.lastMsgTime = time_f;
 			if(!isme){
 				className = 'leftd';
-				innerHTML = '<div class="user">' + obj.username + '</div><div class="speech left">' + CHAT.setEmotion(obj.content) + '</div>';
+				innerHTML = '<div class="left-user">' + obj.username + '</div><div class="chat-line"><div class="left-avatar"><img rel="'+obj.username+'" src="'+getAvatar(obj.userid)+'" onerror="avtLoadErr(this)"/></div><div class="left-speech">' + CHAT.setEmotion(obj.content) + '</div></div>';
 			}
-			contHtml += '<div class="' + className + '" style="background-image:url('+getAvatar(obj.userid)+')">' + innerHTML + '</div></div>';
+			contHtml += '<div class="' + className + '">' + innerHTML + '</div></div>';
 			CHAT.lastHight=CHAT.getHight();
 			CHAT.msgObj.append(contHtml);
 			CHAT.setWipe(time_id);
 			CHAT.refreshiScroll('bottom');
 		},
 		//更新系统消息，本例中在用户加入、退出的时候调用
-		updateSysMsg:function(o, action){
+		updateSysMsg:function(o, action,msg,className){
+			msg=msg||'';
+			className=className||'';
 			//z(o);
+			if (o){
 			//当前在线用户列表
-			var onlineUsers = o.onlineUsers;
+			var onlineUsers = o.onlineUsers||[];
 			//当前在线人数
-			var onlineCount = o.onlineCount;
+			var onlineCount = o.onlineCount||null;
 			//新加入用户的信息
-			var user = o.user;
+			var user = o.user||null;
 				
 			//更新在线人数
 			//var userhtml = '';
@@ -154,36 +254,51 @@ $(function(){
 //				}
 //		    }
 //			d.getElementById("onlinecount").innerHTML = '当前共有 '+onlineCount+' 人在线，在线列表：'+userhtml;
-			
+			}
 			//添加系统消息
 			var html = '';
-			html += '<div class="sysmsg-box"><div class="sysmsg">';
-			html += user.username;
-			html += (action == 'login') ? ' 加入了聊天室' : ' 退出了聊天室';
+			html += '<div class="sysmsg-box"><div class="sysmsg '+className+'">';
+			switch(action){
+				case 'login':
+				case 'logout':
+					html += user.username;
+					html += (action == 'login') ? ' \u52a0\u5165\u4e86\u804a\u5929\u5ba4' : ' \u9000\u51fa\u4e86\u804a\u5929\u5ba4'; //加入了聊天室,//退出了聊天室
+				break;
+				default:
+					html +=msg;
+				break;
+			}
 			html += '</div></div>';
 			
 			//console.log(section);
 			CHAT.lastHight=CHAT.getHight();
 			CHAT.msgObj.append(html);
 			CHAT.refreshiScroll('bottom');
+			$("#pullDown").hide();
+		},
+		appendSysMsg: function(msg, style){
+			var html = '';
+			msg = msg || '';
+			html += '<div class="sysmsg-box"><div class="sysmsg">'+ msg + '</div></div>';
+
+			CHAT.lastHight=CHAT.getHight();
+			style ? CHAT.msgObj.append($(html).find('.sysmsg').css(style)) : CHAT.msgObj.append(html);
+			CHAT.refreshiScroll('bottom');
+			$("#pullDown").hide();
 		},
 		//单击私聊，长按@好友
 		setWipe: function(obj){
-			$('#' + obj).find(".leftd").swipe({tap:function(event){//单击私聊
+			$('#' + obj).find(".left-avatar").swipe({tap:function(event){//单击私聊
 				var $that=$(event.target);
-				if ($that.hasClass('leftd')){
-					var username=$that.find('.user').text();
-					console.log('开始私聊');
-				}
+				var username=$that.text();
+					console.log('\u5f00\u59cb\u79c1\u804a'); //开始私聊
 				return false;			
 			},hold:function(event){//长按@好友
-				console.log('长按');
+				console.log('\u957f\u6309'); //长按
 				var $that=$(event.target);
-				if ($that.hasClass('leftd')){
-					var content=$("#content").val();
-					var username=$that.find('.user').text();
-					$("#content").focus().val(content+'@'+username+' ');
-				}
+				var content=$("#content").val();
+				var username=$that.attr('rel');
+				$("#content").focus().val(content+'@'+username+' ');
 			}});
 		},
 		//下拉刷新消息列表
@@ -192,9 +307,9 @@ $(function(){
 				var i,contHtml = '';
 		
 				for (i=0; i<3; i++) {
-					contHtml += '<div class="leftd" style="background-image:url('+getAvatar(1)+')"><div class="user">ye11' + i + '</div><div class="speech left">拉你个锤子。。。</div></div></div>';
+					contHtml += '<div class="leftd"><div class="left-user">ye11' + i + '</div><div class="chat-line"><div class="left-avatar"><img rel="ye11'+i+'" src="'+getAvatar(1)+'" onerror="avtLoadErr(this)"/></div><div class="left-speech">拉你个锤子...</div></div></div>';
 				}
-				console.log(contHtml);
+				//console.log(contHtml);
 				CHAT.msgObj.prepend(contHtml);
 				CHAT.iscrollContent.refresh();
 			}, 1000);
@@ -236,7 +351,11 @@ $(function(){
 		},
 		//内容更新后，刷新滚动条 p
 		refreshiScroll: function(p){
-			CHAT.iscrollContent.refresh();
+			if (CHAT.iscrollContent){
+				CHAT.iscrollContent.refresh();
+			}else{
+				return false;	
+			}
 			if(p == 'bottom') {
 				var c_height = (CHAT.getHight()-CHAT.lastHight);
 				//z('高度：'+c_height);
@@ -287,9 +406,9 @@ $(function(){
 					if(c_day<=0){
 						return t_t.format("hh:mm");
 					}else if(c_day==1){
-						return "昨天 " + t_t.format("hh:mm");
+						return "\u6628\u5929 " + t_t.format("hh:mm"); //昨天
 					}else if(c_day==2){
-						return "前天 " + t_t.format("hh:mm");
+						return "\u524d\u5929 " + t_t.format("hh:mm"); //前天
 					}
 				}else{
 					return t_t.format("MM-dd hh:mm");
