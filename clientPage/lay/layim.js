@@ -142,6 +142,7 @@ xxim.popchat = function(param){
     var node = xxim.node, log = {};
     
     log.success = function(layero){
+        console.log(layero);
         layer.setMove();
      
         xxim.chatbox = layero.find('#layim_chatbox');
@@ -532,26 +533,35 @@ xxim.closeChatWindow = function(data){
     config.chatings--;
     var chatlist = xxim.chatbox.find('.layim_chatmore>ul');
     var li = $('.layim_chatlist>li[data-id='+dataId+']');
-
-    console.log(li);
-    index = li.index();
-    console.log('index');
-    console.log(index);
-    li.remove();
-    $('#layim_area'+dataType+dataId).remove();
-    if(li.hasClass('layim_chatnow')){
-        if(index === config.chatings){
-            indexs = index - 1;
-        } else {
-            indexs = index + 1;
+    var lis = $('.layim_chatlist>li');
+    console.log(li.length);
+    if(lis.length > 1){
+        index = li.index();
+        li.remove();
+        $('#layim_area'+dataType+dataId).remove();
+        if(li.hasClass('layim_chatnow')){
+            if(index === config.chatings){
+                indexs = index - 1;
+            } else {
+                indexs = index + 1;
+            }
+            console.log(config.chating);
+            console.log("indexs["+indexs+"]");
+            xxim.tabchat(config.chating[chatlist.eq(indexs).attr('type') + chatlist.eq(indexs).attr('data-id')]);
         }
-        console.log(config.chating);
-        xxim.tabchat(config.chating[chatlist.eq(indexs).attr('type') + chatlist.eq(indexs).attr('data-id')]);
-    }
 
-    if($('.layim_chatlist').find('li') === 1){
-        $('.layim_chatlist').parent().hide();
-    }
+        if($('.layim_chatlist').find('li') === 1){
+            $('.layim_chatlist').parent().hide();
+        }
+    }else{
+        console.log('唯一的客户离开了');
+        var layero = $('#xubox_layer1');
+        var indexs = layero.attr('times');
+        layer.close(indexs);
+        xxim.chatbox = null;
+        config.chating = {};
+        config.chatings = 0;
+    }   
 };
 //事件
 xxim.event = function(){

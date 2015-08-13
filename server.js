@@ -6,6 +6,8 @@ var Redis = require('ioredis'),
 
 var event = new EventEmitter();
 
+var Chat = require('./model/chat.js');
+
 var io = require('socket.io')();
 var Scripto = require('redis-scripto');
 var scriptManager = new Scripto(redis_client);
@@ -21,19 +23,20 @@ var msg = {
 };
 
 var needNum = 0;
-var capacity = 10;
+var capacity = 2;
 
 function getMinum(){
     var min = 1000;
     var minUid = null;
     for(var uid in servers){
-        if(servers[uid].status == 1 && servers[uid].n <= 10 && servers[uid].n < min){
+        if(servers[uid].status == 1 && servers[uid].live && servers[uid].n <= 10 && servers[uid].n < min){
             min = servers[uid].n;
             minUid = uid;
         }
     }
     return minUid;    
 }
+
 var log = function(msg){
     var date = new Date();
     var dstring = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + (parseInt(date.getSeconds()) <  10 ? '0' + date.getSeconds() : date.getSeconds());
@@ -55,6 +58,7 @@ event.on('distribution', function(){
             if(minUid){
                 var server = servers[minUid];
                 server.n += 1;
+                needNum -= 1;
                 (function(minUid, server){
                     redis_client.rpop('cs_line', function(err, customerid){
                         if(customerid){
@@ -62,8 +66,14 @@ event.on('distribution', function(){
                             var client = clients[customerid];
                             client.serverid = minUid;
                             server.clients[customerid] = 1;
-                            client.socket.emit('server_in', {servername: server.servername, serverid: server.serverid});
-                            server.socket.emit('client_in', {username: client.username, uid: client.uid});
+                            Chat.init(customerid, minUid, function(err){
+                                if(err){
+                                    console.log(err);
+                                }
+                                client.socket.emit('server_in', {servername: server.servername, serverid: server.serverid});
+                                server.socket.emit('client_in', {username: client.username, uid: client.uid, cur_n: server.n});
+                            });
+                            
                         }else{
                              log('no client in cs_line');
                         }                                               
@@ -126,12 +136,18 @@ io.sockets.on('connection', function(socket){
                 event.emit('distribution');
             });            
 
-            socket.on('msg', function(data){
+            socket.on('message', function(data){
                 var clientid = socket.uid;
                 log("clientid [" + clientid + "] in msg");
                 var serverid = clients[clientid].serverid;
                 clients[clientid].lastactive = (new Date()).getTime();
-                servers[serverid].socket.emit('client_msg', {msg: data.msg, clientid: clientid});
+                Chat.insert({clientid: clientid, serverid: serverid, whosaid: 2, chatcontent: data.content}, function(err){
+                    if(err){
+                        log("client msg Chat insert error");
+                        console.log(err);
+                    }
+                    servers[serverid].socket.emit('client_msg', {msg: data.content, clientid: clientid});
+                });                
             });
         });
 
@@ -154,31 +170,79 @@ io.sockets.on('connection', function(socket){
         var serverid = data.uid;
 
         if(typeof servers[serverid] !== "undefined"){
-            return close(socket, "客服uid 已经存在");
+            // live true 该客服已经上线
+            if(servers[serverid].live == true){
+                return close(socket, "客服uid 已经存在");
+            }else{
+                console.log("客服断线重连");
+
+                var server = servers[serverid];
+                var clientids = [];
+                for(var clientid in server.clients){
+                    clientids.push(clientid);
+                }
+                for(var i = 0; i < clientids.length; i++){
+                    var client = clients[clientids[i]];
+                    socket.emit('client_in', {username: client.username, uid: client.uid, cur_n: server.n});
+                    client.socket.emit('server_in', {servername: server.servername, serverid: server.serverid});
+                }
+                server.live = true;
+                server.status = 1;
+                needNum += (capacity - server.n);
+            }            
+        }else{
+            // 又可以接入10个人啦
+            needNum += capacity;
+            servers[data.uid] = {
+                socket: socket, 
+                servername: data.servername, 
+                serverid: data.uid, 
+                clients : {}, 
+                n: 0, 
+                status: 1, /*用来表示离开或者在线 */
+                live: true /* socket是否在线 */
+            };
+            event.emit('distribution');
         }
 
-        // 又可以接入10个人啦
-        needNum += 10;
-        servers[data.uid] = {socket: socket, servername: data.servername, serverid: data.uid, clients : {}, n: 0, status: 1};
-        event.emit('distribution');
+        
 
         socket.on('msg_from_server', function(data){
             log("server_msg");
             console.log(data);
             var clientid = data.clientid+'';
             if(servers[serverid].clients[clientid] == 1){
-                log("send msg["+ data.msg+"] to client["+ clientid+"]")
-                clients[clientid].socket.emit('service_msg', {msg: data.msg});
+                log("send msg["+ data.msg+"] to client["+ clientid+"]");
+                Chat.insert({clientid: clientid, serverid: serverid, whosaid: 1, chatcontent: data.msg}, function(err){
+                    if(err){
+                        log("Chat insert error");
+                        console.log(err);
+                    }
+                    clients[clientid].socket.emit('service_msg', {msg: data.msg});
+                });                
             }
         });
         // 客服变换状态的请求
         socket.on('status', function(data){
-            servers[serverid].status = data.status;
-            if(data.status == 0){
-                needNum -= (capacity - servers[serverid].n);
+            if(servers[serverid].status != parseInt(data.status)){
+                servers[serverid].status = data.status;
+                if(data.status == 0){
+                    needNum -= (capacity - servers[serverid].n);
+                }else{
+                    needNum += (capacity - servers[serverid].n);
+                }            
+                log("server status: " + servers[serverid].status);
+                log("needNum: " + needNum);
             }else{
-                needNum += (capacity - servers[serverid].n);
-            }            
+                log('状态已经切换过了');
+                log("status[" + data.status + "]");
+            }
+            
+        });
+
+        // 客户主动离开
+        socket.on('initiative_exit', function(){
+
         });
         /* 客服离线 */
         socket.on('disconnect', function(){
@@ -194,7 +258,7 @@ io.sockets.on('connection', function(socket){
                 log('error in async');
                 console.log(err);
             });
-            delete servers[serverid];
+            servers[serverid].live = false;
         });
     });
 });
@@ -203,6 +267,7 @@ redis_client.flushall(function(){
      log('flushall');
     io.listen(8083);
 });
+
 
 setInterval(function(){
     var now = (new Date()).getTime();

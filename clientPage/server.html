@@ -11,7 +11,7 @@
         <div class="col-md-6 col-md-offset-3">
             <p id="msg"></p>
             <p>状态<span id="server_status">在线</span></p>
-            <div class="dropdown">
+            <div class="dropdown" id="status_switch">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 切换状态
                 <span class="caret"></span>
@@ -62,8 +62,10 @@
                 socket.emit('service', {uid: 1, servername: "客服一号"});
                 showMsg('欢迎您：客服一号');
                 xxim.setSocket(socket);
+
                 socket.on('client_in', function(data){
                     console.log(data);
+                    console.log("当前人数："+data.cur_n);
                     xxim.popchatboxapi({
                             type: 'one',
                             name: data.username,
@@ -83,11 +85,13 @@
                     console.log(data);
                     xxim.closeChatWindow({uid: data.clientid, type: 'one'});
                 });
+                //我要离开按钮
                 $('#status-leave').click(function(){
                     $('#server_status').html('离开');
                     socket.emit("status", {status: 0});
                     return false;
                 });
+                //我要回来按钮
                 $('#status-live').click(function(){
                     $('#server_status').html('在线');
                     socket.emit("status", {status: 1});
