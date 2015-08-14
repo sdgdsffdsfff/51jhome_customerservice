@@ -102,6 +102,10 @@ function getAvatar($uid){
                         if(serverd == false){
                         	// 收到从服务器发来的消息，也就是客服消息
                             socket.on('service_msg', function(data){
+                            	// var img_pattern = "/^<img\s*/i";
+                            	// if(!img_pattern.test(data.msg)){
+                            	// 	data.msg = data.msg.rep
+                            	// }
                             	var obj = {
                             		userid: server.serverid,
                             		content: data.msg,

@@ -8,6 +8,15 @@
  */
  
 ;!function(win, undefined){
+    function replaceFaces(str){
+        var _str = str || '',
+            reg = /\[.+?\]/g,
+        _str = _str.replace(reg,function(a,b){
+            return '<img class="expimg" src="'+basePath+'images/' + faces[a] + '">';    
+        });
+        return _str;   
+    }
+            
 
 var config = {
     msgurl: '私信地址',
@@ -242,8 +251,8 @@ xxim.popchat = function(param){
             +'        <ul class="layim_chatview layim_chatthis"  id="layim_area'+ param.type + param.id +'"></ul>'
             +'    </div>'
             +'    <div class="layim_tool">'
-            +'        <i class="layim_addface" title="发送表情"></i>'
-            +'        <a href="javascript:;"><i class="layim_addimage" title="上传图片"></i></a>'
+            +'        <i class="layim_addface" id="layim_addface" title="发送表情"></i>'
+            +'        <a href="javascript:;" id="upload-img"><i class="layim_addimage" title="上传图片"></i><input type="file" name="file" id="input_file" multiple /></a>'
             +'        <a href="" target="_blank" class="layim_seechatlog"><i></i>聊天记录</a>'
             +'    </div>'
             +'    <textarea class="layim_write" id="layim_write"></textarea>'
@@ -273,7 +282,24 @@ xxim.popchat = function(param){
             }, success: function(layero){
                 log.success(layero);
             }
-        })
+        });
+        $('.layim_addface').qqFace({
+            id : 'face_box', 
+            assign:'layim_write', 
+            path:'images/' //表情存放的路径
+        });
+        $(document).on('change', '#input_file', function(val){
+            console.log(val);
+            var obj = {"callback": "img_callback"};
+            $.ajax('/upload.php', {
+                files: $('#input_file'),
+                iframe: true,
+                processDate:false,
+                data: obj
+            }).complete(function(data){
+                console.log(data);
+            });
+        });
     } else {
         log.chatmore = xxim.chatbox.find('#layim_chatmore');
         log.chatarea = xxim.chatbox.find('#layim_chatarea');
@@ -444,7 +470,7 @@ xxim.transmit = function(){
                             }
                         }()
                     +'</div>'
-                    +'<div class="layim_chatsay">'+ param.content +'<em class="layim_zero"></em></div>'
+                    +'<div class="layim_chatsay">'+ replaceFaces(param.content) +'<em class="layim_zero"></em></div>'
                 +'</li>';
             };
             
@@ -509,7 +535,7 @@ xxim.appendMsg = function(data){
                     }
                 }()
             +'</div>'
-            +'<div class="layim_chatsay">'+ param.content +'<em class="layim_zero"></em></div>'
+            +'<div class="layim_chatsay">'+ replaceFaces(param.content) +'<em class="layim_zero"></em></div>'
         +'</li>';
     };
     
@@ -728,5 +754,48 @@ xxim.view = (function(){
 }());
 
 window.xxim = xxim;
+window.img_callback = function(ret){
+    ret = JSON.parse(ret);
+    if(ret.status == 0){
+        //此处皆为模拟
+        var keys = xxim.nowchat.type + xxim.nowchat.id;
+        var log = {};
+        //聊天模版
+        log.html = function(param, type){
+            return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
+                +'<div class="layim_chatuser">'
+                    + function(){
+                        if(type === 'me'){
+                            return '<span class="layim_chattime">'+ param.time +'</span>'
+                                   +'<span class="layim_chatname">'+ param.name +'</span>'
+                                   +'<img src="'+ param.face +'" >';
+                        } else {
+                            return '<img src="'+ param.face +'" >'
+                                   +'<span class="layim_chatname">'+ param.name +'</span>'
+                                   +'<span class="layim_chattime">'+ param.time +'</span>';      
+                        }
+                    }()
+                +'</div>'
+                +'<div class="layim_chatsay">'+ replaceFaces(param.content) +'<em class="layim_zero"></em></div>'
+            +'</li>';
+        };
+        
+        log.imarea = xxim.chatbox.find('#layim_area'+ keys);
+        var content = '<a href="#" rel="pop"><img class="chat-img" src="'+ret.data.img.fullPath+'" /></a>';
+        log.imarea.append(log.html({
+            time: '2014-04-26 0:37',
+            name: config.user.name,
+            face: config.user.face,
+            content: content
+        }, 'me'));
+        log.imarea.scrollTop(log.imarea[0].scrollHeight);
+            
+        config.socket.emit('msg_from_server', {clientid: xxim.nowchat.id, msg: content});
+    }else{
+        alert('nonoe');
+    }
+    console.log('ret');
+    console.log(ret);
+};
 }(window);
 

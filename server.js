@@ -272,7 +272,7 @@ redis_client.flushall(function(){
 
 setInterval(function(){
     var now = (new Date()).getTime();
-    var maxLiveTime = 1000*60*5;
+    var maxLiveTime = 1000*60*5*10;
     for(var clientid in clients){
         if((now - clients[clientid].lastactive) > maxLiveTime){
             clients[clientid].socket.disconnect();
