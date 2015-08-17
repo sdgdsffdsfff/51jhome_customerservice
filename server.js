@@ -28,13 +28,24 @@ var capacity = 2;
 function getMinum(){
     var min = 1000;
     var minUid = null;
+    var uids = [];
     for(var uid in servers){
-        if(servers[uid].status == 1 && servers[uid].live && servers[uid].n <= 10 && servers[uid].n < min){
-            min = servers[uid].n;
-            minUid = uid;
+        if(servers[uid].status == 1 && servers[uid].live && servers[uid].n <= 10 ){
+            if(servers[uid].n < min){
+                min = servers[uid].n;
+                minUid = uid;
+                uids.push(uid);
+            }else if(servers[uid].n == min){
+                //若存在相同情况，则加入数组随机一个
+                uids.push(uid);
+            }
         }
     }
-    return minUid;    
+    if(uids.length > 1){
+        return uids[parseInt(Math.random()*uids.length)];
+    }else{
+        return minUid;  
+    }   
 }
 
 var log = function(msg){
@@ -192,7 +203,7 @@ io.sockets.on('connection', function(socket){
                 needNum += (capacity - server.n);
             }            
         }else{
-            // 又可以接入10个人啦
+            // 又可以接入若干个人啦
             needNum += capacity;
             servers[data.uid] = {
                 socket: socket, 
@@ -213,7 +224,7 @@ io.sockets.on('connection', function(socket){
             console.log(data);
             var clientid = data.clientid+'';
             if(servers[serverid].clients[clientid] == 1){
-                log("send msg["+ data.msg+"] to client["+ clientid+"]");
+                log("serverid["+serverid+"] servername["+servers[serverid].servername+"] send msg["+ data.msg+"] to client["+ clientid+"]");
                 Chat.insert({clientid: clientid, serverid: serverid, whosaid: 1, chatcontent: data.msg}, function(err){
                     if(err){
                         log("Chat insert error");
@@ -222,6 +233,49 @@ io.sockets.on('connection', function(socket){
                     clients[clientid].socket.emit('service_msg', {msg: data.msg});
                 });                
             }
+        });
+        socket.on('getservers', function(){
+            var olservers = [];
+            for(var i in servers){
+                if(serverid != i){
+                    olservers.push({serverid: i, servername: servers[i].servername});
+                }                
+            }
+            console.log("olservers");
+            console.log(olservers);
+            socket.emit('getserversret', olservers);
+        });
+        var forward = function(clientid, targetid){
+            if(typeof clients[clientid] !== "undefined" && typeof servers[targetid] !==  "undefined"){
+                console.log('forward success');
+                delete servers[serverid].clients[clientid];
+                servers[serverid].n--;
+
+                servers[targetid].clients[clientid] = 1;
+                servers[targetid].n ++;
+
+                clients[clientid].serverid = targetid;
+                clients[clientid].socket.emit('server_in', {serverid: targetid, servername: servers[targetid].servername});
+                servers[targetid].socket.emit('client_in', {
+                    username: clients[clientid].username, 
+                    uid: clients[clientid].uid, 
+                    cur_n: servers[targetid].n
+                });
+            }else{
+                socket.emit('forward_ret', {status: -1});
+            }
+        }
+        /* 转至其他客服*/
+        socket.on('forward', function(data){
+            console.log('forward');
+            var targetid = data.serverid,
+                clientid = data.clientid;
+            forward(clientid, targetid);
+        });
+        socket.on('client_offline', function(data){
+            var clientid = data.clientid;
+            delete servers[serverid].clients[clientid];
+            clients[clientid].socket.emit('offline', {msg: '感谢对结邻公社的支持!'});
         });
         // 客服变换状态的请求
         socket.on('status', function(data){
@@ -238,28 +292,33 @@ io.sockets.on('connection', function(socket){
                 log('状态已经切换过了');
                 log("status[" + data.status + "]");
             }
-            
         });
 
-        // 客户主动离开
-        socket.on('initiative_exit', function(){
-
-        });
-        /* 客服离线 */
+        /* 客服掉线 */
         socket.on('disconnect', function(){
             var clientids = [];
             for(var clientid in servers[serverid].clients){
                 clientids.push(clientid);
             }
+            servers[serverid].live = false;
             log("clientids");
             console.log(clientids);
-            async.forEach(clientids, function(item){
-                clients[item].socket.emit('server_disconnect');
-            }, function(err){
-                log('error in async');
-                console.log(err);
-            });
-            servers[serverid].live = false;
+            if(clientids.length > 0){
+                async.forEach(clientids, function(item){
+                    clients[item].socket.emit('server_disconnect');
+                    var targetid = getMinum();
+                    if(targetid){
+                        forward(item, targetid);
+                    }
+                }, function(err){
+                    if(err){
+                        log('error in async');
+                        console.log(err);    
+                    }
+                });
+            }else{
+                log("server "+servers[serverid].servername+" off line");
+            }
         });
     });
 });
