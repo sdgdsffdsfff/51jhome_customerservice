@@ -193,6 +193,7 @@ io.sockets.on('connection', function(socket){
                 for(var clientid in server.clients){
                     clientids.push(clientid);
                 }
+                console.log(clientids);
                 for(var i = 0; i < clientids.length; i++){
                     var client = clients[clientids[i]];
                     socket.emit('client_in', {username: client.username, uid: client.uid, cur_n: server.n});
@@ -217,7 +218,11 @@ io.sockets.on('connection', function(socket){
             event.emit('distribution');
         }
 
-        
+        for(var sid in servers){
+            if(sid != serverid){
+                servers[sid].socket.emit('server_online', {serverid: serverid, servername: servers[serverid].servername});
+            }
+        }
 
         socket.on('msg_from_server', function(data){
             log("server_msg");
@@ -303,6 +308,11 @@ io.sockets.on('connection', function(socket){
             servers[serverid].live = false;
             log("clientids");
             console.log(clientids);
+            for(var sid in servers){
+                if(sid != serverid){
+                    servers[sid].socket.emit('server_offline', {serverid: serverid});
+                }
+            }
             if(clientids.length > 0){
                 async.forEach(clientids, function(item){
                     clients[item].socket.emit('server_disconnect');

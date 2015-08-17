@@ -32,25 +32,63 @@
             display: inline-block;
             max-width: 50%;
         }
+        .layim_tabs .nav>li>a{
+        	padding: 10px 8px;
+        }
+        #layim_shortwords{
+        	overflow: hidden;
+        	height: 411px;
+        }
+        #layim_shortwords li{
+        	border-bottom: 1px solid #e3e3e3;
+        }
+        #layim_shortwords li:hover{
+        	cursor: pointer;
+        }
+        #layim_shortwords:hover{
+        	overflow-y: auto;
+        }
+        .layim_tabs .nav-tabs>li>a{
+        	border-radius: 0px;
+        }
+        .layim-trans-btn:hover{
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <p id="msg"></p>
-            <p>状态<span id="server_status">在线</span></p>
-            <div class="dropdown" id="status_switch">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                切换状态
-                <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#" id="status-leave">我要离开</a></li>
-                    <li><a href="#" id="status-live">我回来了</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">腾房科技客服系统</a>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav navbar-right">
+	        <li class="active"><a href="#">工作台</a></li>
+	        <li><a href="#">管理后台</a></li>
+            <li><a href="#">历史访客</a></li>
+	        <li><a href="#"><i class="glyphicon glyphicon-user"></i> 客服露露</a></li>
+	        <li class="dropdown" id="server-status">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="status-text"><span>在线</span> <span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="#" id="status-leave">我要离开</a></li>
+                <li><a href="#" id="status-live">我回来了</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+   
     <script type="text/javascript">
         var basePath = '/';
     </script>
@@ -89,7 +127,9 @@
                 assign:'layim_write', 
                 path:'arclist/' //表情存放的路径
             });*/
-
+            
+            var id = "<?php echo $_GET['id'];?>",
+                name = "<?php echo $_GET['name'];?>";
             console.log('connect');
             var socket = io.connect("127.0.0.1:8083");
 
@@ -99,7 +139,7 @@
             });
 
             socket.on('connect', function(){
-                socket.emit('service', {uid: 1, servername: "客服一号"});
+                socket.emit('service', {uid: id, servername: name});
                 showMsg('欢迎您：客服一号');
                 xxim.setSocket(socket);
 
@@ -112,6 +152,45 @@
                             data_id: data.uid,
                             face: 'http://tp1.sinaimg.cn/1571889140/180/40030060651/1'
                     });
+                });
+
+                $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function(e){
+                	console.log('tab show');
+                	if($(e.target).text() == "转接"){
+                		console.log('转接');
+                		socket.emit('getservers');
+                	}
+                });
+
+                socket.on('getserversret', function(servers){
+                	console.log('servers');
+                	console.log(servers);
+                	var tab_trans = $('#layim_trans');
+                	tab_trans.empty();
+                	if(servers.length == 0){
+                		tab_trans.append('暂时没有其他客服');
+                	}else{
+                		tab_trans.append('<ul></ul>');
+	                	for(var i = 0; i < servers.length; i++){
+	                		$('#layim_trans>ul').append('<li>'+servers[i].servername+'    <a data-serverid="'+servers[i].serverid+'" class="layim-trans-btn" id="layim-trans-'+servers[i].serverid+'">转接</a></li>');
+	                	}
+                	}                	
+                });
+
+                socket.on('server_online', function(server){
+                    var ul = $('#layim_trans>ul');
+                    if(ul.length == 0){
+                        $('#layim_trans').empty().append('<ul></ul>');
+                    }
+                    $('#layim_trans>ul').append('<li>'+server.servername+'    <a data-serverid="'+server.serverid+'" class="layim-trans-btn" id="layim-trans-'+server.serverid+'">转接</a></li>');
+                });
+
+                socket.on('server_offline', function(server){
+                    console.log('offline');
+                    $('#layim-trans-'+server.serverid).parent().remove();
+                    if($('#layim_trans').find('li').length == 0){
+                        $('#layim_trans').html('暂时没有其他客服');
+                    }
                 });
 
                 socket.on('client_msg', function(data){
@@ -127,20 +206,29 @@
                 });
                 //我要离开按钮
                 $('#status-leave').click(function(){
-                    $('#server_status').html('离开');
+                    $('#status-text>span').first().html('离开');
                     socket.emit("status", {status: 0});
+                    //$('#server-status').dropdown();
                     return false;
                 });
                 //我要回来按钮
                 $('#status-live').click(function(){
-                    $('#server_status').html('在线');
+                    $('#status-text>span').first().html('在线');
                     socket.emit("status", {status: 1});
+                    // $('#server-status').dropdown();
                     return false;
                 });
             });
 
+            //连接失败
+            socket.on('connect_failed', function(o) {
+                socket.disconnect();
+                console.log("connect_failed to Server");
+                alert('connect_failed');
+            });
+
             socket.on('disconnect', function(){
-                showMsg('disconnect');
+                //showMsg('disconnect');
                 socket.disconnect();
             });
         });

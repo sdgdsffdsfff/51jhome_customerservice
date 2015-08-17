@@ -47,9 +47,42 @@ var config = {
         '主人正在开机自检，键盘鼠标看好机会出去凉快去了，我是他的电冰箱，我打字比较慢，你慢慢说，别急……',
         '(*^__^*) 嘻嘻，是贤心吗？'
     ],
-    
+    shortword: [
+        '您好，我现在有事不在，一会再和您联系。', 
+        '你没发错吧？',
+        '洗澡中，请勿打扰，偷窥请购票，个体四十，团体八折，订票电话：一般人我不告诉他！',
+        '你好，我是主人的美女秘书，有什么事就跟我说吧，等他回来我会转告他的。',
+        '我正在拉磨，没法招呼您，因为我们家毛驴去动物保护协会把我告了，说我剥夺它休产假的权利。',
+        '<（@￣︶￣@）>',
+        '你要和我说话？你真的要和我说话？你确定自己想说吗？你一定非说不可吗？那你说吧，这是自动回复。',
+        '主人正在开机自检，键盘鼠标看好机会出去凉快去了，我是他的电冰箱，我打字比较慢，你慢慢说，别急……',
+        '(*^__^*) 嘻嘻，是贤心吗？',
+        '您好，我现在有事不在，一会再和您联系。', 
+        '你没发错吧？',
+        '洗澡中，请勿打扰，偷窥请购票，个体四十，团体八折，订票电话：一般人我不告诉他！',
+        '你好，我是主人的美女秘书，有什么事就跟我说吧，等他回来我会转告他的。',
+        '我正在拉磨，没法招呼您，因为我们家毛驴去动物保护协会把我告了，说我剥夺它休产假的权利。',
+        '<（@￣︶￣@）>',
+        '你要和我说话？你真的要和我说话？你确定自己想说吗？你一定非说不可吗？那你说吧，这是自动回复。',
+        '主人正在开机自检，键盘鼠标看好机会出去凉快去了，我是他的电冰箱，我打字比较慢，你慢慢说，别急……',
+        '(*^__^*) 嘻嘻，是贤心吗？',
+        '您好，我现在有事不在，一会再和您联系。', 
+        '你没发错吧？',
+        '洗澡中，请勿打扰，偷窥请购票，个体四十，团体八折，订票电话：一般人我不告诉他！',
+        '你好，我是主人的美女秘书，有什么事就跟我说吧，等他回来我会转告他的。',
+        '我正在拉磨，没法招呼您，因为我们家毛驴去动物保护协会把我告了，说我剥夺它休产假的权利。',
+        '<（@￣︶￣@）>',
+        '你要和我说话？你真的要和我说话？你确定自己想说吗？你一定非说不可吗？那你说吧，这是自动回复。',
+        '主人正在开机自检，键盘鼠标看好机会出去凉快去了，我是他的电冰箱，我打字比较慢，你慢慢说，别急……',
+        '(*^__^*) 嘻嘻，是贤心吗？',
+    ],
     
     chating: {},
+    music: (function(src){
+                var audio = new Audio();
+                audio.src = src;
+                return audio;
+        })('/4638.mp3'),
     hosts: (function(){
         var dk = location.href.match(/\:\d+/);
         dk = dk ? dk[0] : '';
@@ -192,6 +225,7 @@ xxim.popchat = function(param){
             delete config.chating[dataType + dataId];
             config.chatings--;
             
+            config.socket.emit("client_offline", {clientid: dataId});
             parents.remove();
             $('#layim_area'+ dataType + dataId).remove();
             if(dataType === 'group'){
@@ -216,6 +250,7 @@ xxim.popchat = function(param){
         log.chatlist.on('click', 'li', function(){
             var othis = $(this), dataType = othis.attr('type'), dataId = othis.attr('data-id');
             xxim.tabchat(config.chating[dataType + dataId]);
+            $('#layim_userunread'+dataId).remove();
         });
         
         //发送热键切换
@@ -246,6 +281,18 @@ xxim.popchat = function(param){
             +'    <ul class="layim_chatlist"></ul>'
             +'</div>'
             +'<div class="layim_groups" id="layim_groups"></div>'
+            +'<div class="layim_tabs" id="layim_tabs">'
+            +'<ul class="nav nav-tabs" role="tablist">'
+            +'<li role="presentation" class="active"><a href="#layim_shortwords" aria-controls="layim_shortwords" role="tab" data-toggle="tab">常用短语</a></li>'
+            +'<li role="presentation" class=""><a href="#layim_chathistory" aria-controls="layim_chathistory" role="tab" data-toggle="tab">聊天记录</a></li>'
+            +'<li role="presentation" class=""><a href="#layim_trans" aria-controls="layim_trans" role="tab" data-toggle="tab">转接</a></li>'
+            +'</ul>'
+            +'<div class="tab-content">'
+            +'<div role="tabpanel" class="tab-pane active" id="layim_shortwords"></div>'
+            +'<div role="tabpanel" class="tab-pane" id="layim_chathistory"></div>'
+            +'<div role="tabpanel" class="tab-pane" id="layim_trans"></div>'
+            +'</div>'
+            +'</div>'
             +'<div class="layim_chat">'
             +'    <div class="layim_chatarea" id="layim_chatarea">'
             +'        <ul class="layim_chatview layim_chatthis"  id="layim_area'+ param.type + param.id +'"></ul>'
@@ -272,7 +319,7 @@ xxim.popchat = function(param){
             border: [0],
             title: false,
             shade: [0],
-            area: ['620px', '493px'],
+            area: ['900px', '493px'],
             move: ['.layim_chatbox .layim_move', true],
             moveType: 1,
             closeBtn: false,
@@ -288,6 +335,15 @@ xxim.popchat = function(param){
             assign:'layim_write', 
             path:'images/' //表情存放的路径
         });
+        $('#layim_shortwords').append("<ul></ul>");
+        var shortwordtab = $('#layim_shortwords>ul');
+        for(var i = 0; i < config.shortword.length; i++){
+            shortwordtab.append("<li>"+config.shortword[i]+"</li>");
+        }
+        $(document).on('click', '#layim_shortwords>ul>li', function(){
+            var t = this;
+            $('#layim_write').val($('#layim_write').val() + $(t).text());
+        });
         $(document).on('change', '#input_file', function(val){
             console.log(val);
             var obj = {"callback": "img_callback"};
@@ -300,19 +356,26 @@ xxim.popchat = function(param){
                 console.log(data);
             });
         });
+
+        $(document).on('click', '.layim-trans-btn', function(){
+            var id = $(this).data('serverid');
+            console.log('id'+id);
+            config.socket.emit('forward', {serverid: id, clientid: xxim.nowchat.id});
+            xxim.closeChatWindow({uid: xxim.nowchat.id, type: 'one'});
+        });
     } else {
         log.chatmore = xxim.chatbox.find('#layim_chatmore');
         log.chatarea = xxim.chatbox.find('#layim_chatarea');
         
         log.chatmore.show();
         
-        log.chatmore.find('ul>li').removeClass('layim_chatnow');
-        log.chatmore.find('ul').append('<li data-id="'+ param.id +'" type="'+ param.type +'" id="layim_user'+ param.type + param.id +'" class="layim_chatnow"><span>'+ param.name +'</span><em>×</em></li>');
+        //log.chatmore.find('ul>li').removeClass('layim_chatnow');
+        log.chatmore.find('ul').append('<li data-id="'+ param.id +'" type="'+ param.type +'" id="layim_user'+ param.type + param.id +'" class=""><span>'+ param.name +'</span><em>×</em></li>');
         
-        log.chatarea.find('.layim_chatview').removeClass('layim_chatthis');
-        log.chatarea.append('<ul class="layim_chatview layim_chatthis" id="layim_area'+ param.type + param.id +'"></ul>');
+        //log.chatarea.find('.layim_chatview').removeClass('layim_chatthis');
+        log.chatarea.append('<ul class="layim_chatview" id="layim_area'+ param.type + param.id +'"></ul>');
         
-        xxim.tabchat(param);
+        //xxim.tabchat(param);
     }
     
     //群组
@@ -379,6 +442,7 @@ xxim.popchatbox = function(othis){
 };
 
 xxim.popchatboxapi = function(user){
+    config.music.play();
     var node = xxim.node, dataId = user.data_id, param = {
         id: dataId,
         type: user.type,
@@ -390,7 +454,7 @@ xxim.popchatboxapi = function(user){
         xxim.popchat(param);
         config.chatings++;
     } else {
-        xxim.tabchat(param);
+        //xxim.tabchat(param);
     }
     config.chating[key] = param;
     
@@ -540,6 +604,17 @@ xxim.appendMsg = function(data){
     };
     
     log.imarea = xxim.chatbox.find('#layim_area'+ keys);
+
+
+    var li = $('#layim_userone'+data.id);
+    if(!li.hasClass('layim_chatnow')){
+        var unread = $('#layim_userunread'+data.id);
+        if(unread.length == 0){
+            li.append('<strong class="badge" id="layim_userunread' + data.id + '">1</strong >');
+        }else{
+            unread.text(parseInt(unread.text()) + 1);
+        }
+    }
     
     log.imarea.append(log.html({
         time: '2014-04-26 0:37',
@@ -552,14 +627,15 @@ xxim.appendMsg = function(data){
 };
 //根据id关闭某个聊天
 xxim.closeChatWindow = function(data){
+    console.log(data);
     var dataId = data.uid, dataType = data.type;
     var index , indexs;
     delete config.chating[dataType + dataId];
-    config.chatings--;
+
     var chatlist = xxim.chatbox.find('.layim_chatmore>ul');
     var li = $('.layim_chatlist>li[data-id='+dataId+']');
     var lis = $('.layim_chatlist>li');
-    console.log(li.length);
+    console.log(lis.length);
     if(lis.length > 1){
         index = li.index();
         li.remove();
@@ -578,14 +654,21 @@ xxim.closeChatWindow = function(data){
         if($('.layim_chatlist').find('li') === 1){
             $('.layim_chatlist').parent().hide();
         }
+        if(chatlist.find('li').length === 1){
+            chatlist.parent().hide();
+        }
+        config.chatings--; 
     }else{
-        console.log('唯一的客户离开了');
-        var layero = $('#xubox_layer1');
-        var indexs = layero.attr('times');
-        layer.close(indexs);
-        xxim.chatbox = null;
-        config.chating = {};
-        config.chatings = 0;
+        if(xxim.nowchat.id == dataId){
+            config.chatings--; 
+            console.log('唯一的客户离开了');
+            var layero = $('#xubox_layer1');
+            var indexs = layero.attr('times');
+            layer.close(indexs);
+            xxim.chatbox = null;
+            config.chating = {};
+            config.chatings = 0;
+        }
     }   
 };
 //事件

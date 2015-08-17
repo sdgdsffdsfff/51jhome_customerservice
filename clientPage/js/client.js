@@ -79,6 +79,7 @@ function getAvatar($uid){
 				t = this;
 
 			socket.on('connect', function(){
+				console.log('connect');
 				//告诉服务器端有用户登录
 				socket.emit('customer', {uid:t.userid, username:t.username});
 
@@ -117,12 +118,16 @@ function getAvatar($uid){
                         }
 
                         socket.on('server_disconnect', function(){
-                            showMsg('客服掉线了');
+                            CHAT.appendSysMsg('客服' + data.servername + '已经离开');
                         });
                     });                                       
                 });
 			});
 			
+			socket.on('offline', function(data){
+				CHAT.appendSysMsg(data.msg);
+				socket.disconnect();
+			});
 			
 			//监听新用户登录
 			this.socket.on('userLogin', function(o){

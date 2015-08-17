@@ -77,9 +77,9 @@ li{list-style:none;}
 .xxim_bottom .xxim_off{background-position:-5px -65px;}
 
 /* 聊天窗口 */
-.layim_chatbox{width:620px; border:1px solid #BEBEBE; background-color:#fff; font-size:12px; box-shadow: 0 0 10px rgba(0,0,0,.2);}
+.layim_chatbox{width:900px; border:1px solid #BEBEBE; background-color:#fff; font-size:12px; box-shadow: 0 0 10px rgba(0,0,0,.2);}
 .layim_chatbox h6{position:relative; height:40px; border-bottom:1px solid #D9D9D9; background-color:#FCFDFA}
-.layim_move{position:absolute; height:40px; width: 620px; z-index:0;}
+.layim_move{position:absolute; height:40px; width: 900px; z-index:0;}
 .layim_face{position:absolute; bottom:-1px; left:10px; width:60px; height:60px; padding:1px; border:1px solid #ccc;}
 .layim_face img{width:60px; height:60px;}
 .layim_names{position:absolute; left:90px; max-width:300px; line-height:40px; color:#000; overflow:hidden; text-overflow: ellipsis; white-space:nowrap; font-size:14px;}
@@ -88,12 +88,12 @@ li{list-style:none;}
 .layim_rightbtn .layim_close{ background-position:-5px -40px;}
 .layim_rightbtn .layim_close:hover{-webkit-transform: rotate(180deg); -moz-transform: rotate(180deg);}
 .layim_rightbtn .layer_setmin{margin-right:15px; background-position:-275px -2px;}
-.layim_chat, .layim_chatmore,.layim_groups{height:450px; overflow:hidden;}
+.layim_chat, .layim_chatmore,.layim_groups, .layim_tabs{height:450px; overflow:hidden;}
 .layim_chatmore{display:none; float:left; width:135px; border-right:1px solid #BEBEBE; background-color:#F2F2F2}
 .layim_chatlist li, .layim_groups li{position:relative; height:30px; line-height:30px; padding:0 10px; overflow:hidden; text-overflow: ellipsis; white-space:nowrap; cursor:pointer;}
 .layim_chatlist li{padding:0 20px 0 10px;}
 .layim_chatlist li:hover{background-color:#E3E3E3;}
-.layim_chatlist li span{display:inline-block; *display:inline; *zoom:1; vertical-align:top; width:90px; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
+.layim_chatlist li span{display:inline-block; *display:inline; *zoom:1; vertical-align:top; width:70px; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
 .layim_chatlist li em{display:none; position:absolute; top:6px; right:10px; height:18px; line-height:18px; padding:0 3px; font-weight:900; border-radius:3px;}
 .layim_chatlist li em:hover{background-color: #FCBE00; color:#fff;}
 .layim_chatlist .layim_chatnow,.layim_chatlist .layim_chatnow:hover{/*border-top:1px solid #D9D9D9; border-bottom:1px solid #D9D9D9;*/ background-color:#fff;}
@@ -119,6 +119,7 @@ li{list-style:none;}
 .layim_chateme .layim_chatsay{float:right; background-color:#EBFBE3}
 .layim_chateme .layim_zero{border-right-color:#EBFBE3;} 
 .layim_groups{display:none; float:right; width:130px; border-left:1px solid #D9D9D9; background-color:#fff;}
+.layim_tabs{display: block;float: right;width: 230px;border-left: 1px solid #d9d9d9; background-color: #fff;}
 .layim_groups ul{display:none;}
 .layim_groups ul.layim_groupthis{display:block;}
 .layim_groups li *{display:inline-block; *display:inline; *zoom:1; vertical-align:top; margin-right:10px;}

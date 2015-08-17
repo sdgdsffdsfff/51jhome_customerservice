@@ -44,9 +44,9 @@
     <div style="clear:both; display:none"></div>
     </footer>
     <script type="text/javascript">
-        var SOCKET_URL = "127.0.0.1:8083",
-            UserName = "张飞",
-            UserId  = 'ab1223',
+        var SOCKET_URL = "192.168.8.20:8083",
+            UserName = '<?php echo $_GET["username"];?>',
+            UserId  = '<?php echo $_GET["userid"];?>',
             basePath='http://static.51jhome.com/statics/default/';
     </script>
     <script type="text/javascript" src="./js/alertify.min.js"></script>
@@ -198,7 +198,7 @@
 
                 $('#login_div').css('display', 'none');
 
-                var socket = io.connect("127.0.0.1:8083");
+                var socket = io.connect("192.168.8.20:8083");
 
                 socket.on('connect_error', function(){
                     showMsg("connect_error");
