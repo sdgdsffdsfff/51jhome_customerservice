@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head> 
+  <meta charset="utf-8" /> 
+  <title>Mobile first web app theme | first</title> 
+  <meta name="description" content="mobile first, app, web app, responsive, admin dashboard, flat, flat ui" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+  <link rel="stylesheet" href="js/select2/select2.css" /> 
+  <link rel="stylesheet" href="css/font.css" /> 
+  <link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+  <link rel="stylesheet" href="css/appmsg.css" type="text/css" />
+  <!--[if lt IE 9]> <script src="js/ie/respond.min.js"></script> <script src="js/ie/html5.js"></script> <![endif]-->
+ </head>
+ <body> 
+  <!-- header --> 
+  <header id="header" class="navbar"> 
+   <ul class="nav navbar-nav navbar-avatar pull-right"> 
+    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="hidden-xs-only">Mika Sokeil</span> <span class="thumb-small avatar inline"><img src="images/avatar.jpg" alt="Mika Sokeil" class="img-circle" /></span> <b class="caret hidden-xs-only"></b> </a> 
+     <ul class="dropdown-menu pull-right"> 
+      <li><a href="#">Settings</a></li> 
+      <li><a href="#">Profile</a></li> 
+      <li><a href="#"><span class="badge bg-danger pull-right">3</span>Notifications</a></li> 
+      <li class="divider"></li> 
+      <li><a href="docs.html">Help</a></li> 
+      <li><a href="signin.html">Logout</a></li> 
+     </ul> </li> 
+   </ul> 
+   <a class="navbar-brand" href="#">first</a> 
+   <button type="button" class="btn btn-link pull-left nav-toggle visible-xs" data-toggle="class:slide-nav slide-nav-left" data-target="body"> <i class="fa fa-bars fa-lg text-default"></i> </button> 
+   <ul class="nav navbar-nav hidden-xs"> 
+    <li> 
+     <div class="m-t m-b-small" id="panel-notifications"> 
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-comment-o fa-fw fa-lg text-default"></i><b class="badge badge-notes bg-danger count-n">2</b></a> 
+      <section class="dropdown-menu m-l-small m-t-mini"> 
+       <section class="panel panel-large arrow arrow-top"> 
+        <header class="panel-heading bg-white">
+         <span class="h5"><strong>You have <span class="count-n">2</span> notifications</strong></span>
+        </header> 
+        <div class="list-group"> 
+         <a href="#" class="media list-group-item"> <span class="pull-left thumb-small"><img src="images/avatar.jpg" alt="John said" class="img-circle" /></span> <span class="media-body block m-b-none"> Moved to Bootstrap 3.0<br /> <small class="text-muted">23 June 13</small> </span> </a> 
+         <a href="#" class="media list-group-item"> <span class="media-body block m-b-none"> first v.1 (Bootstrap 2.3 based) released<br /> <small class="text-muted">19 June 13</small> </span> </a> 
+        </div> 
+        <footer class="panel-footer text-small"> 
+         <a href="#" class="pull-right"><i class="fa fa-cog"></i></a> 
+         <a href="#">See all the notifications</a> 
+        </footer> 
+       </section> 
+      </section> 
+     </div> </li> 
+    <li>
+     <div class="m-t-small">
+      <a class="btn btn-sm btn-info" data-toggle="modal" href="#modal"><i class="fa fa-fw fa-plus"></i> POST</a>
+     </div></li> 
+    <li class="dropdown shift" data-toggle="shift:appendTo" data-target=".nav-primary .nav"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg visible-xs visible-xs-inline"></i>Settings <b class="caret hidden-sm-only"></b></a> 
+     <ul class="dropdown-menu"> 
+      <li> <a href="#" data-toggle="class:navbar-fixed" data-target="body">Navbar <span class="text-active">auto</span> <span class="text">fixed</span> </a> </li> 
+      <li class="hidden-xs"> <a href="#" data-toggle="class:nav-vertical" data-target="#nav">Nav <span class="text-active">vertical</span> <span class="text">horizontal</span> </a> </li> 
+      <li class="divider hidden-xs"></li> 
+      <li class="dropdown-header">Colors</li> 
+      <li> <a href="#" data-toggle="class:bg bg-black" data-target=".navbar">Navbar <span class="text-active">white</span> <span class="text">inverse</span> </a> </li> 
+      <li> <a href="#" data-toggle="class:bg-light" data-target="#nav">Nav <span class="text-active">inverse</span> <span class="text">light</span> </a> </li> 
+     </ul> </li> 
+   </ul> 
+   <form class="navbar-form pull-left shift" action="" data-toggle="shift:appendTo" data-target=".nav-primary"> 
+    <i class="fa fa-search text-muted"></i> 
+    <input type="text" class="input-sm form-control" placeholder="Search" /> 
+   </form> 
+  </header> 
+  <!-- / header --> 
+  
+  <!-- nav --> 
+  <nav id="nav" class="nav-primary hidden-xs nav-vertical"> 
+   <ul class="nav" data-spy="affix" data-offset-top="50"> 
+    <li><a href="index.html"><i class="fa fa-dashboard fa-lg"></i><span>Dashboard</span></a></li> 
+    <li class="dropdown-submenu"> <a href="#"><i class="fa fa-th fa-lg"></i><span>Elements</span></a> 
+     <ul class="dropdown-menu"> 
+      <li><a href="buttons.html">Buttons</a></li> 
+      <li><a href="icons.html"><b class="badge pull-right">302</b>Icons</a></li> 
+      <li><a href="grid.html">Grid</a></li> 
+      <li><a href="widgets.html"><b class="badge bg-primary pull-right">8</b>Widgets</a></li> 
+      <li><a href="components.html"><b class="badge pull-right">18</b>Components</a></li> 
+      <li><a href="portlet.html">Portlet</a></li> 
+     </ul> </li> 
+    <li class="dropdown-submenu"> <a href="#"><i class="fa fa-list fa-lg"></i><span>Lists</span></a> 
+     <ul class="dropdown-menu"> 
+      <li><a href="list.html">List groups</a></li> 
+      <li><a href="table.html">Table</a></li> 
+     </ul> </li> 
+    <li class="active"><a href="form.html"><i class="fa fa-edit fa-lg"></i><span>Form</span></a></li> 
+    <li><a href="chart.html"><i class="fa fa-signal fa-lg"></i><span>Chart</span></a></li> 
+    <li class="dropdown-submenu"> <a href="#"><i class="fa fa-link fa-lg"></i><span>Others</span></a> 
+     <ul class="dropdown-menu"> 
+      <li><a href="mail.html">Mail</a></li> 
+      <li><a href="calendar.html">Fullcalendar</a></li> 
+      <li><a href="timeline.html">Timeline</a></li> 
+      <li><a href="profile.html">Profile</a></li> 
+      <li><a href="gallery.html">Gallery</a></li> 
+      <li><a href="maps.html">Maps</a></li> 
+      <li><a href="invoice.html">Invoice</a></li> 
+      <li><a href="signin.html">Signin page</a></li> 
+      <li><a href="signup.html">Signup page</a></li> 
+      <li><a href="404.html">404 page</a></li> 
+     </ul> </li> 
+   </ul> 
+  </nav> 
+  <!-- / nav -->
+  
+<!--content begin-->
+<section id="content"> 
+    <section class="main padder"> 
+        <div class="clearfix"> 
+        	<h4 style="font-weight:bold; font-size:14px;"><i class="fa fa-edit"></i>&nbsp;多图文编辑</h4> 
+        </div> 
+        <div class="row"> 
+            <div class="col-sm-12"> 
+                <section class="panel"> 
+                    <div class="panel-body">
+						
+                        <!--多图文编辑  b-->
+						<!--span5 B-->
+						<div class="span5 msg-preview" style="width:380px;float:left;">
+							<div class="msg-item-wrapper">
+								<div id="appmsgItem1" class="appmsgItem msg-item sub-msg-opr-show">
+									<p class="msg-meta">
+										<span class="msg-date">2014-07-09</span>
+									</p>
+									<div class="cover">
+										<p class="default-tip">封面图片</p>
+										<h4 class="msg-t">
+											<span class="i-title">标题</span>
+										</h4>
+										<dl class="abs tc sub-msg-opr">                 
+											<dd class="b-dib sub-msg-opr-item">                   
+												<a href="javascript:;" class="th opr-icon edit-icon" title="编辑">编辑</a>                 
+											</dd>               
+										</dl>
+										<img class="i-img" style="">
+									</div>
+									<p class="msg-text"></p>
+									<input type="hidden" value="" class="title">
+									<input type="hidden" value="" class="cover">
+									<input type="hidden" value="" class="coverurl">
+									<textarea class="content" style="display: none;">null</textarea>
+									<input type="hidden" value="" class="sourceurl">
+									<input type="hidden" class="author">
+									<input type="hidden" class="isCover">
+								</div>
+								<div class="rel sub-msg-item appmsgItem">              
+									<span class="thumb">                 
+										<span class="default-tip" style="">缩略图</span>         
+										<img src="" class="i-img" style="display:none">       
+									</span>       
+									<h4 class="msg-t">                    
+										<span class="i-title">标题</span>                
+									</h4>       
+									<dl class="abs tc sub-msg-opr">         
+										<dd class="b-dib sub-msg-opr-item edit-icon"><a href="javascript:;" class="th opr-icon edit-icon" title="编辑">编辑</a></dd>         
+										<dd class="b-dib sub-msg-opr-item del-icon"><a href="javascript:;" class="th opr-icon del-icon" title="删除">删除</a></dd>       
+									</dl>    
+									<input type="hidden" class="title">
+									<input type="hidden" class="cover">
+									<input type="hidden" class="coverurl">
+									<textarea class="content" style="display: none;"></textarea>
+									<input type="hidden" class="sourceurl">
+									<input type="hidden" class="author">
+									<input type="hidden" class="isCover">
+								</div>
+				
+								<div class="sub-add">            
+									<a href="javascript:;" class="block tc sub-add-btn"><span class="vm dib sub-add-icon"></span>增加一条</a>           
+								</div>
+							</div>
+						</div>
+						<!--span5 E-->
+						
+						<!--span7 B-->
+						<div class="span7" style="width:540px; float:left; margin-left:20px;">
+							<div class="msg-editer-wrapper">
+								<div class="msg-editer">
+									<div class="control-group">
+										<label class="control-label">标题</label><span class="maroon">*</span><span class="help-inline">(必填,不能超过64个字)</span>
+										<div class="controls">
+											<input type="text" value="" id="title" class="span5" style="width: 482px;" name="title">
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">作者</label><span class="help-inline">（选填）</span>
+										<div class="controls">
+											<input type="text" value="" id="author" class="span5" style="width: 482px;" name="author">
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">封面</label>
+										<div class="controls">
+											<div class="cover-area">
+                                                <div class="cover-hd">
+                                                    <input id="file_upload"  class="btn btn-sm btn-info m-b-small" name="file_upload" type="file" />
+                                                    <input id="coverurl" value="" name="coverurl" type="hidden" />
+                                                </div>
+                                                <p id="upload-tip" class="upload-tip">大图片建议尺寸：640像素 * 320像素</p>
+                                                <p id="imgArea" class="cover-bd" style="display: none;">
+                                                <img src="" id="img">
+                                                <a href="javascript:;" class="vb cover-del" id="delImg">删除</a>
+                                                </p>
+                                            </div>
+										</div>
+										<div style="padding:5px 0;">
+											<input type="checkbox" id="isCover" name="isCover" value="1" style="width:15px; height:15px; margin-right:10px; vertical-align:middle;"><span style="vertical-align:middle;" >封面图片显示在正文中</span>
+										</div>
+									</div>
+									<div class="control-group">
+									<label class="control-label">正文</label> <span class="maroon"></span><span class="help-inline">(不能超过20000个字)</span>     
+										<div class="controls">
+											<script type="text/plain" id="editor"></script>
+                                        </div>
+									</div>
+									<a id="url-block-link" href="javascript:void(0);" class="url-link block">添加来源</a>
+									<div id="url-block" style="display: none;" class="control-group">
+										<label class="control-label">来源</label> <span class="help-inline">(请输入正确的URL链接格式)</span>          
+										<div class="controls">
+											<input type="text" id="source_url" class="span5" value="" style="width: 482px;" name="source_url">
+										</div>
+									</div>
+									<div class="control-group">
+										<div class="controls">
+										<input name="tid" id="tid" type="hidden" value="1">
+											<button id="save-btn" type="submit" class="btn btn-primary btn-large">保存</button>
+											<button id="cancel-btn" type="button" class="btn btn-large">取消</button>
+										</div>
+									</div>
+									<input id="action" name="action" type="hidden" value="mul_add">
+								</div>
+								<span class="abs msg-arrow a-out" style="margin-top: 0px;"></span>
+								<span class="abs msg-arrow a-in" style="margin-top: 0px;"></span>
+							</div>
+						</div>
+						<!--span7 E-->
+						<div class="clear"></div>
+                        
+                        <!--多图文编辑  E-->
+                    </div> 
+                </section>
+            </div> 
+        </div> 
+    </section> 
+</section>
+<!--content end-->
+  
+  <!-- footer --> 
+  <footer id="footer"> 
+   <div class="text-center padder clearfix"> 
+    <p> <small>&copy; first 2013, Mobile first web app framework base on Bootstrap</small><br /><br /> <a href="#" class="btn btn-xs btn-circle btn-twitter"><i class="fa fa-twitter"></i></a> <a href="#" class="btn btn-xs btn-circle btn-facebook"><i class="fa fa-facebook"></i></a> <a href="#" class="btn btn-xs btn-circle btn-gplus"><i class="fa fa-google-plus"></i></a> </p> 
+   </div> 
+  </footer> 
+  <!-- / footer --> 
+  <!-- Bootstrap --> 
+
+  <script src="js/jquery-1.7.1.min.js"></script>
+  
+  <!--新增 --> 
+	<script>var MAIN_PATH='/';var PUBLIC_URL='';var USER_ID=5;</script>
+    <script type="text/javascript" src="http://wxlp.myhanami.com/statics/default/js/operamasks-ui.min.js"></script>
+ 	<script type="text/javascript" src="js/appmsg-mul.js"></script>
+	<script>
+	window.UEDITOR_HOME_URL = 'ueditor/';
+	var fixedImagePath='';
+	var gotoUrl='http://wxlp.myhanami.com/content/news/index.html';
+	var postUrl='http://wxlp.myhanami.com/content/news/post.html';
+	var postPicUrl='http://wxlp.myhanami.com/content/news/postpic.html';
+	var uploadUrl='http://wxlp.myhanami.com/content/news/upload.html';
+	var vcode='A5Wt0CbY4ncyhQ9kUxCD5%2F%2ByG0PQ3I4rHH2qjBZivTaz4nxGGi2OIOpoiCpDLk4FOEls9znQ07k%3D';
+	</script>
+	<script type="text/javascript" src="ueditor/editor_config.js"></script>
+	<script type="text/javascript" src="ueditor/editor.min.js"></script>
+ </body>
+ <script>
+$(function(){
+	$("#newsClassify-list").find('dd').click(function(){
+		$("#newsClassify-list").find('dd').removeClass('hover');
+		$(this).addClass('hover');
+		$("#tid").val($(this).attr('rel'));
+	})	
+})
+</script>
+</html>

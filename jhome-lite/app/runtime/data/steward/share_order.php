@@ -1,0 +1,3 @@
+<?php
+ if (!defined('IN_XLP')){ exit('Access Denied');} return '{"title":"\u6211\u62a2\u5230\u5fc3\u6674\u5927\u7ea2\u5305\uff0c\u7f20\u7ef5\u96e8\u5b63\u8981\u6709\u597d\u5fc3\u6674~","desc":"\u7f20\u7ef5\u96e8\u5b63 \u6211\u597d\u60f3\u4f60~\u7ed3\u90bb\u9001\u4f60\u5fc3\u6674\u7ea2\u5305~\u96e8\u5929\u9047\u89c1\u5c0f\u7ba1\u5bb6\uff0c\u597d\u5fc3\u6674\u54df~","imgUrl":"http:\/\/wx.51jhome.com\/statics\/default\/images\/steward\/2015\/xinqing-share.jpg"}';
+?>

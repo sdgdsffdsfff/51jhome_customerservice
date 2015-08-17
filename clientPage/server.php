@@ -102,18 +102,6 @@
     <script type="text/javascript" src="./lay/layim.js"></script>
     <script type="text/javascript" src="./js/jquery.iframe-transport.js"></script>
     <script type="text/javascript">
-        // layimapi({
-        //     data_id: 112,
-        //     type: 'one',
-        //     name: 'textworld',
-        //     face: 'http://tp1.sinaimg.cn/1571889140/180/40030060651/1'
-        // });
-        // layimapi({
-        //     data_id: 1122,
-        //     type: 'one',
-        //     name: 'textssssworld',
-        //     face: 'http://tp1.sinaimg.cn/1571889140/180/40030060651/1'
-        // });
         function showMsg(msg){
             if(typeof msg !== "string"){
                 msg = msg.toString();
@@ -121,13 +109,6 @@
             $('#msg').append('<p>' + msg + '</p>');
         }   
         $(window).load(function(){
-            // qqFace 
-            /*$('.layim_addface').qqFace({
-                id : 'layim_addface', 
-                assign:'layim_write', 
-                path:'arclist/' //表情存放的路径
-            });*/
-            
             var id = "<?php echo $_GET['id'];?>",
                 name = "<?php echo $_GET['name'];?>";
             console.log('connect');

@@ -1,0 +1,54 @@
+*,*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+html,body{min-height:100%}
+html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+body{position:relative;background:#E8E8E8;font-family:"Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",sans-serif;font-weight:normal;line-height:1.6;color:#333;font-size:1.6rem;margin:0}
+body,input,textarea,select,button{text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-moz-font-feature-settings:"liga","kern"}
+button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}
+button{overflow:visible}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button{-webkit-appearance:button;cursor:pointer}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+button,input:not([type="radio"]):not([type="checkbox"]),select{vertical-align:middle}
+.am-form-field{display:block;width:100%;padding:.625em;font-size:1.6rem;line-height:1.2;color:#555;vertical-align:middle;background-color:#fff;background-image:none;border:1px solid #ccc;border-radius:2px;-webkit-transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out;-webkit-appearance:none}
+.am-form-field:focus{outline:0}
+.am-form-field:focus{background-color:#fafffe;border-color:#3bb4f2;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 5px rgba(59,180,242,0.3);box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 5px rgba(59,180,242,0.3)}
+.am-input-group{position:relative;display:table;border-collapse:separate}
+.am-input-group .am-form-field{position:relative;z-index:2;float:left;width:100%;margin-bottom:0}
+.am-input-group-label,.am-input-group .am-form-field{display:table-cell}
+.am-input-group .am-form-field:not(:first-child):not(:last-child){border-radius:0}
+.am-input-group-label{width:1%;white-space:nowrap;vertical-align:middle}
+.am-input-group-label{font-size:1.6rem;font-weight:normal;line-height:1.2;color:#555;text-align:center;background-color:#eee;border:1px solid #ccc;border-radius:2px}
+.am-input-group-label:first-child{border-bottom-right-radius:0;border-top-right-radius:0}
+.am-input-group-label:first-child{border-right:0}
+.am-input-group-label:last-child{border-bottom-left-radius:0;border-top-left-radius:0}
+.am-input-group-label:last-child{border-left:0}
+.pd10{padding:0 10px}
+.add-item{width:32px;min-height:36px;height:100%;display:inline-block}
+.emo-icon{background:url(../../images/chat/icon/happy_face.png) no-repeat center center;background-size:30px 30px}
+.add-icon{background:url(../../images/chat/icon/add.png) no-repeat center center;background-size:30px 30px}
+.add-photo{background:url(../../images/chat/icon/photo.png) no-repeat center center;background-size:30px 30px}
+#show-tools{padding:0;margin:0}
+#tools-list{padding-top:15px}
+.tools-item{width:60px;height:60px;line-height:60px;text-align:center;cursor:pointer;border-radius:5px;border:1px solid #999;margin:0 0 15px 10px;display:inline-block;float:left;color:#999}
+.expreList{overflow:hidden}
+.expreBox{width:312px;margin:15px auto;overflow:hidden}
+.expreCon{width:1500px;overflow:hidden}
+.expreCon li{display:inline-block;float:left;width:312px;height:117px;background:url(../../images/chat/expressImg1.png) no-repeat;overflow:hidden}
+.expreCon a{width:39px;height:39px;display:block;float:left}
+.expreCon a.on{background-color:#000;-moz-opacity:.3;opacity:.3}
+.expreConNew{width:1900px}
+.expreConNew li:nth-child(1){background:url(../../images/chat/expressImgA1.png) no-repeat;background-size:312px auto}
+.expreConNew li:nth-child(2){background:url(../../images/chat/expressImgA2.png) no-repeat;background-size:312px auto}
+.expreConNew li:nth-child(3){background:url(../../images/chat/expressImgA3.png) no-repeat;background-size:312px auto}
+.expreConNew li:nth-child(4){background:url(../../images/chat/expressImgA4.png) no-repeat;background-size:312px auto}
+.expreConNew li:nth-child(5){background:url(../../images/chat/expressImgA5.png) no-repeat;background-size:312px auto}
+.expreConNew a{width:44px}
+.fanE a{width:62px;height:58px}
+.fanE li{background-size:312px auto}
+.pNumCon{width:100%;line-height:25px;clear:both;text-align:center}
+.pNum{width:6px;height:6px;display:inline-block;margin-right:3px;background-color:#dedede;-moz-border-radius:.4rem;-webkit-border-radius:.4rem;border-radius:.4rem}
+.pNumOn{background-color:#769cdc}
+.expressionTab{width:200%;height:35px;background-color:#fafafa;border-bottom:1px solid #e2e2e2;overflow:hidden}
+.expressionTab a{display:block;width:75px;float:left;border-right:1px solid #e2e2e2;line-height:35px;font-size:1.5rem;text-align:center;color:#b4b4b4}
+.expressionTab .on{color:#769cdc;background-color:#f1f1f1}

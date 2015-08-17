@@ -1,0 +1,13 @@
+.score-go,.score-info{ width:95%; height:40px; line-height:40px; color:#626262; padding-left:10px; margin:10px auto 0; border:1px solid #dedede; border-radius:3px; background:#FFF url(../../images/icon/go.png) no-repeat; background-position:96% center; background-size:8px 15px; display:block;}
+.my-score-list li{ position:relative; padding-right:60px;}
+.my-score-list .add-score,.my-score-list .lose-score{ height:40px; line-height:40px; position:absolute; top:50%; margin-top:-20px; right:10px; font-size:14px; color:#8fc31f;}
+.my-score-list .lose-score{ color:#dc1524; font-size:16px;}
+.my-score-list{ padding-bottom:20px; margin-top:10px}
+.score-info{background-image:none;}
+.score-info em{margin-right:15px;}
+.score-change{ margin-bottom:70px; margin-top:15px;}
+.score-change .change-item{ width:45%; height:140px; margin:10px 2.5%; box-shadow:0 0 1px #ccc; border-radius:5px; overflow:hidden; float:left; position:relative;}
+.score-change .good-info{ width:100%; height:35px; line-height:35px; font-size:12px; padding-left:5px; padding-right:50px; background:#FFF; border-top:1px solid #efefef; position:absolute; left:0; bottom:0;}
+.score-change .need-score{ height:35px; line-height:35px; font-size:14px; position:absolute; right:5px; top:0; color:#8fc31f;}
+.score-change .deal-box{position:absolute; top:0; left:0; bottom:0; right:0; z-index:1; background:rgba(0,0,0,.6) url(../../images/icon/right.png) no-repeat center center; background-size:40px 40px; display:none;}
+.deal-btn{ width:80%; height:40px; line-height:40px; text-align:center; margin:0 auto; border-radius:3px; background:#3c9cf2; color:#fff; display:block;}

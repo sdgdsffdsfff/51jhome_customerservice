@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xlphp 说明文档</title>
+		<link rel="stylesheet" href="statics/css/book.css">
+		<link rel="stylesheet" href="statics/css/prettify.css">
+		<script type="text/javascript" src="statics/js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="statics/js/prettify.js"></script>
+		<script type="text/javascript">
+			$(function(){	
+				$(window).resize(function(){
+					$('.book-content').css('min-height', $(window).height() - 130);
+				}).resize();
+				
+				//表格隔行变色
+				$('table').TableColor();
+				
+				//代码高亮
+				prettyPrint();
+			});
+			
+			//表格隔行变色插件
+			$.fn.TableColor = function(){
+				return $(this).each(function(){
+					if(this.nodeName.toLowerCase() != 'table') return;
+					var self = $(this);
+					self.find('tr').each(function(index) {
+						var _this = $(this);
+						if(index % 2 == 0){
+							_this.addClass('add');
+						} else {
+							_this.addClass('even');	
+						}
+						_this.hover(
+							function(){_this.addClass('hover')},
+							function(){_this.removeClass('hover')}
+						);
+					});	
+				});
+			}
+		</script>
+</head>
+
+<body>
+<div class="book-content">
+<h2>xlphp PHP框架使用说明</h2>
+<h3>更新时间：2014-07-15</h3>
+<p>xlphp框架是独立的，位置无关的，项目只要正确引入框架即可正常使用。xlphp的项目是按单一入口的思路开发，因此只要在入口文件（通常是index.php）中按要求定义几个必须的常量，然后引入框架，就可以创建控制器、模型进行开发，下面是基本的入口文件标准代码：</p>
+<p><code class="prettyprint linenums lang-php">&lt;?php<br />
+header(&quot;Content-type:text/html;charset=utf-8&quot;);<br />
+  <br />
+  define('ROOT', dirname(__FILE__) . DIRECTORY_SEPARATOR);//定义根目录<br />
+  define('IN_XLP', true);//定义入口访问标记<br />
+  define('APP_PATH', ROOT . 'app' . DIRECTORY_SEPARATOR);//定义项目根路径<br />
+  define('XLPHP_PATH', ROOT . DIRECTORY_SEPARATOR . 'xlphp' . DIRECTORY_SEPARATOR);//定义框架根路径<br />
+  define('DEBUG', false);//调试模式<br />
+  define('TRACE', false);//输出系统消耗统计  <br />require(XLPHP_PATH . 'base.php');</code>//加载框架</p>
+<p>完成入口文件后，就可以在定义好的项目根路径下创建项目目录，标准的项目目录结构是：</p>
+<p>app</p>
+<p>------config&nbsp;//项目配置目录</p>
+<p>------function&nbsp; //项目函数库</p>
+<p>------lib //项目核心库</p>
+<p>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ------action //项目控制器</p>
+<p>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ------model //项目数据模型</p>
+<p>------runtime //运行产生的数据保存目录</p>
+<p>------service //自定义类库</p>
+<p>------tpl //项目模板</p>
+<p>最精简的项目可以没有function、runtime、service、tpl</p>
+<p>xlphp是按最精简模式运行，为保证程序员对程序的精确把控，做到严格控制加载，一切非必须的文件都由手动加载进来，config目录是项目的配置管理文件夹，因此建议所有涉及配置的文件均放在此处，系统运行必须的几个文件是：</p>
+<p class="com">config_inc.php ：全局配置，所有需要用到的配置均可放在此文件中；</p>
+<p><code class="prettyprint linenums lang-php">
+&lt;?php<br />
+if (!defined('IN_XLP')) {<br />
+  exit('Access Denied!');<br />
+  }<br />
+  /*<br />
+  * 自定义系统配置文件，将覆盖默认的配置信息<br />
+  *<br />
+  */<br />
+  return array(<br />
+  'title' =&gt; 'xlphp', //网站标题<br />
+  'main_url' =&gt; '', //主路径<br />
+  'main_path' =&gt; '',<br />
+  'cookie' =&gt; //设置cookie<br />
+  array(<br />
+  'pre' =&gt; '', //COOKIE前缀<br />
+  'path' =&gt; '/', //COOKIE作用路径<br />
+  'domain' =&gt; '', //COOKIE作用域<br />
+  ),<br />
+  'time_zone' =&gt; 'PRC', //设置区时<br />
+  'vcode' =&gt; 'ytuyiqwrwriocv%kl', //密钥<br />
+  'skin' =&gt; 'default', //当前主题<br />
+  'c' =&gt; 'index', //默认控制器名称<br />
+  'm' =&gt; 'index', //默认模型<br />
+  'g' =&gt; 'index', //当前分组<br />
+  'default_group' =&gt; 'index', //默认分组<br />
+  'group_list' =&gt; array('content'), //分组列表<br />
+  'path_mod' =&gt; 1, //路由模式，1 path_info，2 普通<br />
+  'delimiter' =&gt; '/', //分隔符号，建议为 &quot;/&quot;or &quot;-&quot; or &quot;_&quot;<br />
+  'postfix' =&gt; '.html', //URL后缀<br />
+  'hide_index' =&gt; true, //是否隐藏 index.php，需要配置服务器<br />
+  'filter' =&gt; 'htmlspecialchars', //POST,GET 默认过滤函数<br />
+  'gzip' =&gt; false, //开启GZIP压缩模式<br />
+  /*<br />
+* autoload_action：支持多重加载<br />
+* 键值为分组名称，没有写分组名称的，默认加载 index下的控制器，键值可以是单个控制器或者控制器数组<br />
+* @example 'autoload_action' =&gt; array('index' =&gt; 'common') index分组下加载 commonAction.class.php 控制器<br />
+* @example 'autoload_action' =&gt; array('index' =&gt; 'common','admin'=&gt;'common') 分组分别加载各自下面的 commonAction.class.php 控制器<br />
+* @example 'autoload_action' =&gt; array('common') 所有分组均加载 index分组下的 commonAction.class.php 即全局跨分组加载父类控制器<br />
+* @example 'autoload_action' =&gt; array('index' =&gt; 'common', 'content' =&gt; array('common1','common2'));一个分组可同时加载多个控制器<br />
+* @example 'autoload_action' =&gt; array('common', 'content' =&gt; array('common1','common2')); 全局加载和分组加载配合使用<br />
+*/  <br />
+  'autoload_action' =&gt; array('index' =&gt; 'common'), //自动加载的控制器<br />
+  /*<br />
+* autoload_model：不支持多重加载<br />
+* @example 'autoload_model' =&gt; array('common','common1'), //自动加载的模型数组<br />
+*/  <br />
+  'autoload_model' =&gt; array(), //自动加载的模型<br />
+  );</code></p>
+<p class="com">database_inc.php：默认数据库设置，如果多个数据库信息，可以另外创建文件，引用时用C函数可以载入；</p>
+<p>【<span class="fun">更新</span>】【<span class="fun">07-15</span>】新增debug参数，可以开启全局调试模式，SQL有错误时会自动抛出错误信息，方便调试开发</p>
+<p><code class="prettyprint linenums lang-php">&lt;?php<br />if (!defined('IN_XLP')) {<br />
+  exit('Access Denied!');<br />
+  }<br />
+  /*<br />
+  * 数据库配置文件<br />
+  */<br />
+  return array(<br />
+  'dbtype' =&gt; 'mysql', //使用哪种数据库  mysql or sqlite<br />
+  'dbdrive' =&gt; 'pdo', //数据库驱动 pdo、mysql<br />
+  'debug' =&gt; true, //是否是调试模式，开启的话会在有错误时直接将错误抛出，上线前请务必关掉！  <br />
+  'mysql' =&gt; array(<br />
+ &nbsp;&nbsp; 'host' =&gt; '127.0.0.1',<br />
+ &nbsp;&nbsp; 'port' =&gt; '3306',<br />
+ &nbsp;&nbsp; 'user' =&gt; 'root',<br />
+ &nbsp;&nbsp; 'password' =&gt; 'root',<br />
+ &nbsp;&nbsp; 'dbname' =&gt; 'hz_news',<br />
+ &nbsp;&nbsp; 'dbprefix' =&gt; 'hz_',<br />
+ &nbsp;&nbsp; 'dbcharset' =&gt; 'utf8',<br />
+ &nbsp;&nbsp; 'pconnect' =&gt; false, //使用持续链接<br />
+ &nbsp;&nbsp; 'save_errlog' =&gt; true, //是否保存错误日志,日志保存在\app\runtime\logs\db 下面<br />
+  )<br />
+  )</code>
+</p>
+<p class="com">upload_inc.php：上传相关设置</p>
+<p><code class="prettyprint linenums lang-php">&lt;?php<br />
+if (!defined('IN_XLP')) {<br />
+  exit('Access Denied!');<br />
+  }<br />
+  /*<br />
+  * 上传配置文件<br />
+  */<br />
+  return array(<br />
+  'dir' =&gt; 'upload', //上传目录<br />
+  'maxsize' =&gt; 3, //单位M<br />
+  'dirtype' =&gt; 3, //上传保存目录 1：Ymd、2：Y-m-d、3：Y/md、4：Y/m/d，默认为3<br />
+  'pic_type' =&gt; 'jpg|png|gif|jpeg|bmp|jpe',<br />
+  'attach_type' =&gt; 'mp3|wav|wma|ppt|zip|rar',<br />
+  );</code></p>
+<p class="com">cache_inc.php：缓存相关设置</p>
+<p><code class="prettyprint linenums lang-php">&lt;?php<br />
+if (!defined('IN_XLP')) {<br />
+exit('Access Denied!');<br />
+}<br />
+/*<br />
+* 缓存配置文件<br />
+*/<br />
+return array(<br />
+'open' =&gt; false, //开启全局页面缓存，一般不建议开启，可在各控制器中分别使用S函数即可<br />
+'time' =&gt; 86400, //缓存有效时间，单位：秒，默认为24小时<br />
+'dir' =&gt; 'cache'//缓存目录<br />
+);</code></p>
+<p>&nbsp;</p>
+<p>项目下的函数库文件 app/function/common.php 如果存在，会在框架初始化的时候自动载入，不存在则不会，如果要载入其他自定义的函数库，需要手动调用 loadAppFile 函数调入，具体用法请参考“全局函数库”章节。</p>
+<p class="fun">&nbsp;</p>
+<p class="fun">为保证文件不被非法访问，请在所有的文件(除入口文件外)顶部加上：</p>
+<p><code class="prettyprint linenums lang-php">
+  if (!defined('IN_XLP')) {<br/>
+  exit('Access Denied!');<br/>
+   }</code></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>相关链接：</p>
+<p><a href="index.html">首页</a></p>
+<p><a href="define.html">框架常量</a></p>
+<p><a href="action.html">控制器</a></p>
+<p><a href="model.html">模型</a></p>
+<p><a href="function.html">全局函数库</a></p>
+<p><a href="class.html">框架核心类库</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

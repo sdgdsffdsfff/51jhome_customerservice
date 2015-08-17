@@ -32,7 +32,7 @@ var config = {
     },
     user: { //当前用户信息
         name: '游客',
-        face: 'images/1.png'
+        face: 'clientPage/images/1.png'
     },
     
     //自动回复内置文案，也可动态读取数据库配置

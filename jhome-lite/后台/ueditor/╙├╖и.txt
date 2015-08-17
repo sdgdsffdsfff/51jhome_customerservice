@@ -1,0 +1,23 @@
+<script>
+window.UEDITOR_HOME_URL = '/hzforall/wxlp_v2/statics/default/ueditor/';
+var fixedImagePath='';
+var gotoUrl='http://127.0.0.1/hzforall/wxlp_v2/content/news/index.html';
+var postUrl='http://127.0.0.1/hzforall/wxlp_v2/content/news/post.html';
+var postPicUrl='http://127.0.0.1/hzforall/wxlp_v2/content/news/postpic.html';
+var uploadUrl='http://127.0.0.1/hzforall/wxlp_v2/content/news/upload.html';
+var vcode='DxjercgxPZTSLoCfi2M6%2F6ER3%2Fbz%2FXx048nci0pUzePA7FDmWM9r7WkDpjLXQ0DiP1QD%2BD31F5k%3D';
+</script>
+<script type="text/javascript" src="/hzforall/wxlp_v2/statics/default/ueditor/editor_config.js"></script>
+<script type="text/javascript" src="/hzforall/wxlp_v2/statics/default/ueditor/editor.min.js"></script>
+
+
+
+
+<script type="text/plain" id="editor"></script> 
+
+    window.msg_editor = new UE.ui.Editor({
+        initialFrameWidth: 498
+    });
+    window.msg_editor.render("editor")
+
+

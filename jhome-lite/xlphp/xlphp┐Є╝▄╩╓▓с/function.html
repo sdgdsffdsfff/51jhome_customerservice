@@ -1,0 +1,660 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xlphp 说明文档</title>
+		<link rel="stylesheet" href="statics/css/book.css">
+		<link rel="stylesheet" href="statics/css/prettify.css">
+		<script type="text/javascript" src="statics/js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="statics/js/prettify.js"></script>
+		<script type="text/javascript">
+			$(function(){	
+				$(window).resize(function(){
+					$('.book-content').css('min-height', $(window).height() - 130);
+				}).resize();
+				
+				//表格隔行变色
+				$('table').TableColor();
+				
+				//代码高亮
+				prettyPrint();
+			});
+			
+			//表格隔行变色插件
+			$.fn.TableColor = function(){
+				return $(this).each(function(){
+					if(this.nodeName.toLowerCase() != 'table') return;
+					var self = $(this);
+					self.find('tr').each(function(index) {
+						var _this = $(this);
+						if(index % 2 == 0){
+							_this.addClass('add');
+						} else {
+							_this.addClass('even');	
+						}
+						_this.hover(
+							function(){_this.addClass('hover')},
+							function(){_this.removeClass('hover')}
+						);
+					});	
+				});
+			}
+		</script>
+</head>
+
+<body>
+<div class="book-content">
+<h2>global.fun.php</h2>
+<h3>用途：公共函数 </h3>
+<h3>加载：<i>自动</i></h3>
+<p class="sm">/*<br />
+* 获取配置参数<br />
+* @param $file string 需要获取内容的文件名<br />
+* @param $field string 获取具体内容的键名名称<br />
+* @param $path string 配置文件的路径<br />
+* @param $returnBool bool 没有找到内容时是否返回布尔值<br />
+* @return 键值<br />
+* @example C('system','title');//加载config/config_inc.php 中的title的值<br />
+* @example C('cache');//返回config/cache_inc.php的数组<br />
+* @example C('cache','open');//加载config/cache_inc.php 中的open的值<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function C($file = '', $field = null, $path = APP_PATH, $returnBool = true);</code></p>
+<p>注意：C函数与thinkphp区别很大，切不可按TP的用法来使用！</p>
+<p>C函数主要读取app/config&nbsp;目录下的内容</p>
+<p>C函数$file 为空或者为 system&nbsp;时，将读取系统加载的config_inc.php 中的内容，如果为其他值，则读取该目录下相应的配置文件。</p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">C('system','title');//将读取 config_inc.php 中的 title的值<br>
+C('cache','open');// 将读取 cache_inc.php 中的open的值</code></p>
+<p>对应内容不存在，则返回null</p>
+<p class="sm">/*<br />
+* 加载框架函数和类库<br />
+* @param $file string 需要加载的文件名<br />
+* 注意，该函数可以加载xlphp\lib\driver和xlphp\lib\function下的文件<br />
+* 默认加载driver下的文件，当文件名中包含.fun时则加载function下的文件<br />
+* @return bool 是否成功加载<br />
+* @example load('curl')//加载xlphp\lib\driver 下的curl.class.php<br />
+* @example load('time.fun')//加载xlphp\lib\function下的文件 下的time.fun.php<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function load($file = '');</code></p>
+<p>由于系统是按最小加载原则来执行的，因此在执行特殊任务时，需要手动加载系统的函数或者类库来做操作，load函数可以加载框架\xlphp\lib\function和\xlphp\lib\driver下的文件，并且会自动检测重复加载情况，</p>
+<p>函数默认指向driver目录下的类库，如果需要指向function目录，在参数中加入后缀.fun 即可</p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">load('curl');//加载driver下的curl.class.php文件<br/>
+load('time.fun');//加载function下的time.fun.php文件</code></p>
+<p class="sm">/*<br />
+* 系统级消息提示<br />
+* @param $msg string 提示内容<br />
+* @param $url string 跳转链接<br />
+* @param $urlTitle string 显示标题<br />
+* @param $isAutoGo bool 是否自动跳转<br />
+* @param $title string 提示标题<br />
+* @param $exit bool 是否终止程序<br />
+* @param $returnStatus int 返回状态值<br />
+* @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function showMsg($msg, $url = '', $urlTitle = '', $isAutoGo = false, $title = '提示信息', $exit = true, $returnStatus = 0);<br />
+showError($msg, $url = 'back', $isAutoGo = false);//错误信息<br />
+showOk($msg, $url = 'back', $isAutoGo = false);//成功信息<br />
+showInfo($msg = '', $url = 'back', $isexit = false);//提示消息</code></p>
+<p class="sm">/*<br />
+* 判断变量是否存在<br />
+* @param $str string 需检测的变量名<br />
+* @param $checkValue bool 是否检查有值<br />
+* @return bool<br />
+* @example isHave($_GET['id'])?1:0<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function isHave(&amp;$str, $checkValue = true);</code></p>
+<p>判断变量是否存在，并且判断变量值是否为空，其执行的语句类似于：isset($str)&amp;&amp;$str?true:false;</p>
+<p class="sm">/*<br />
+* 是否AJAX请求<br />
+* @param 无<br />
+* @return bool<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function isAjax();</code></p>
+<p class="sm">/*<br />
+* 保存系统日志<br />
+* @param $fileName string 日志保存路径和名称<br />
+* @param $data string 日志内容<br />
+* @return bool<br />
+* @example saveLog('sys/error',array('info'=&gt;'访问错误'));<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function saveLog($fileName = 'error', $data = '');</code></p>
+<p>注意$fileName无需指定文件类型或者完整路径，系统日志保存路径为app/runtime/logs</p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">saveLog('db/error',  '数据库打开失败');//同时还支持数组保存</code></p>
+<p class="sm">/*<br />
+* 载入项目自建函数库<br />
+* @param $file string 需要载入的文件名<br />
+* @param $ext string 文件后缀，默认为.php<br />
+* @return 返回载入对象<br />
+* @example loadAppFile('global');//加载app/funciton下的global.php<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function loadAppFile($file = '', $ext = '.php');</code></p>
+<p class="sm">/*<br />
+* 跳转页面<br />
+* @param $url string 需要跳转的路径<br />
+* @return 无<br />
+* @example jumpTo('http://www.baidu.com');<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function jumpTo($url = 'javascript:history.back(-1);');</code></p>
+<p class="sm">/*<br />
+* 超全局变量处理<br />
+* @param $name string 需要获取或者设置的全局变量名称<br />
+* @param $val string 需要设置的值，当值为NULL的时候则是注销该全局变量<br />
+* @return 返回对象变量值<br />
+* @example G('uid');//返回全局变量中的$uid<br />
+* @example G('uid',12);//设置全局变量中的$uid=12;<br />
+* @example G('uid',null);//删除全局变量$uid<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function G($name = '', $val = '');</code></p>
+<p>框架中的简写函数一般用法都相同，不传入$val的值，就会是获取$name的值，如果$val有值，则是给$name赋值，如果$val=null ,则为删除$name的值</p>
+<p class="sm">/*<br />
+* 去除默认索引页<br />
+* @param $str string 路径地址<br />
+* @param $hideIndex bool 是否隐藏入口文件<br />
+* @return string 返回处理后的字符串<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function setHideIndex($str = '', $hideIndex = true);</code></p>
+<p class="sm">/*<br />
+* 增加默认索引页<br />
+* @param $str string 路径地址<br />
+* @return string 返回处理后的字符串<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getShowIndex($str = '');</code></p>
+<p class="sm">/*<br />
+* 加载model类<br />
+* @param $classname string 模型名称<br />
+* @return object 返回实例化的模型对象<br />
+* @example D('user');//将加载app\lib\model\userModel.class.php并实例化<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function D($classname = '');</code></p>
+<p class="sm">/*<br />
+* 获取数据表前缀<br />
+* @param $table string 需要获取完整表名的数据表名<br />
+* @return string 返回带前缀的数据表名<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getTableName($table = '') ;</code></p>
+<p class="sm">/*<br />
+* 无model模型，直接以表名初始化<br />
+* @param $dbname string 数据库名，无需带前缀<br />
+* @param $config string 数据库配置文件，默认为系统数据库<br />
+* @return object 实例化的对象，支持数据库链式操作<br />
+* @example M('user');//将返回一个数据模型对象，操作的表为user<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function M($dbname = '', $config = 'database');</code></p>
+<p>$dbname&nbsp;为数据表名称，无需传入前缀，系统会自动补全；$config为config目录下的数据库配置文件，可以跨库读取数据，默认读取系统数据库</p>
+<p class="sm">/*<br />
+* 加载系统级第三方类库，为框架vendor目录的类库<br />
+* @param $file string 类库路径，相对于vendor目录，无需文件后缀<br />
+* @param $addc string 是否在路径后面主动添加“.class”<br />
+* @return bool 是否成功载入类库<br />
+* @example V('weixin/reply');//将加载 \xlphp\vendor\weixin\reply.class.php<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function V($file = '', $addc = true);</code></p>
+<p class="sm">/*<br />
+* 加载项目级类库，文件只加载一次，后续直接调用即可<br />
+* @param $file string 类库路径，相对于项目下的service目录，无需文件后缀<br />
+* @param $addc string 是否在路径后面主动添加“.class”<br />
+* @return bool 是否成功载入类库<br />
+* @example T('user');//将加载 app\service\user.class.php<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function T($file = '', $addc = true);</code></p>
+<p class="sm">/*<br />
+* 快速文件数据读取和保存 针对简单类型数据 字符串、数组<br />
+* @param $name string 需要保存的文件名<br />
+* @param $value string or array 保存的内容，当内容为NULL时，则删除文件<br />
+* @param $path string 自定义保存路径<br />
+* @return 返回文件内容<br />
+* @example F('user');//返回runtime/data/user.php 的文件内容<br />
+* @example F('user',12);//设置runtime/data/user.php 的文件内容;<br />
+* @example F('user',null);//删除runtime/data/user.php<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function F($name, $value = '', $path = '');</code></p>
+<p class="sm">/*<br />
+* 全局缓存设置和读取<br />
+* @param $name string 需要保存的文件名<br />
+* @param $value string or array 保存的内容，当内容为NULL时，则删除文件<br />
+* @param $expire int 缓存有效期<br />
+* @return 返回文件内容<br />
+* @example S('user');//返回runtime/cache/user.php 的文件内容<br />
+* @example S('user',12，3600);//设置runtime/cache/user.php 的文件内容;<br />
+* @example S('user',null);//删除runtime/cache/user.php<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function S($name, $value = '', $expire = 0);</code></p>
+<p class="sm">/*<br />
+* 设置全局链接，自动匹配模式，支持自定义URL规则<br />
+* @param $strArr string or array 路由URL<br />
+* @param $arrList array URL参数组<br />
+* @param $hidePostFix bool 是否隐藏URL后缀，默认false<br />
+* @param $hideIndex bool 是否隐藏索引文件，默认true<br />
+* @param $native bool 是否保持原生URL，默认false<br />
+* @return string 生成的URL链接<br />
+* @example U('user/index',array('uid'=&gt;12));<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function U($strArr = '', $arrList = array(), $native = false, $hidePostFix = false);</code></p>
+<p class="sm">/*<br />
+* 生成一个随机的字符串<br />
+* @param $length int 生成内容的长度<br />
+* @param $specialChars bool 是否添加特殊字符<br />
+* @return string 生成的随机的字符串<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getRandStr($length = 16, $specialChars = false);</code></p>
+<p class="sm">/*<br />
+* 生成一个随机数字<br />
+* @param $length int 生成内容的长度<br />
+* @param $numeric bool 生成数字串还是字符串 默认为纯数字<br />
+* @return string 生成的随机的字符串<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getRandInt($length = 12, $numeric = 1);</code></p>
+<p class="sm">/*<br />
+* 删除文件夹下所有文件<br />
+* @param $dir string 需要删除的文件夹名<br />
+* @return bool 操作结果<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function deleteDir($dir = '');</code></p>
+<p class="sm">/*<br />
+* 建立多级文件夹<br />
+* @param $dir string 创建的文件夹路径<br />
+* @param $mode int 目录权限<br />
+* @return bool 操作结果<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function setDir($dir, $mode = 0777);</code></p>
+<p class="sm">/*<br />
+* 将格式化的时间转换成时间戳<br />
+* @param $time string 需转换的格式化时间，默认为当前时间<br />
+* @return int 时间戳<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function inTime($time = '');</code></p>
+<p class="sm">/*<br />
+* 将时间戳转换为格式化的时间<br />
+* @param $str int 需转换的时间戳<br />
+* @param $style int 格式化样式<br />
+* 1:Y-m-d H:i:s,2:Y-m-d,3:Y/m/d H:i:s,4:Y/m/d<br />
+* @return string 格式化后的时间<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function outTime($str = '', $style = 1);</code></p>
+<p class="sm">/*<br />
+* 获取站点链接<br />
+* @param $type string 获取的类型<br />
+* all:完整路径,main:主路径<br />
+* @return string 路径<br />
+* @example getSiteUrl('all');//http://127.0.0.1/index.php/index/index.html?id=12<br />
+* @example getSiteUrl('main');//http://127.0.0.1/index.php<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getSiteUrl($type = 'all');</code></p>
+<p class="sm">/*<br />
+* 获取文件扩展名,不包含&quot;.&quot;<br />
+* @param $file string 文件名<br />
+* @return string 文件后缀<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getFileExt($file);</code></p>
+<p class="sm">/*<br />
+* 判断字符串是否存在<br />
+* @param $haystack string 检查的内容<br />
+* @param $needle string 关键字<br />
+* @return bool 关键字是否存在于检查的内容中<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function strExists($haystack, $needle);</code></p>
+<p class="sm">/*<br />
+* 产生form防伪码<br />
+* @param 无<br />
+* @return string 生成的HASH串<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function formHash();</code></p>
+<p class="sm">/*<br />
+* 判断提交是否正确<br />
+* @param 无<br />
+* @return bool 表单提交是否合法<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function formCheck();</code></p>
+<p class="sm">/*<br />
+* 清除表单提交<br />
+* @param 无<br />
+* @return bool 清除表单验证HASH<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function formClear();</code></p>
+<p class="sm">/*<br />
+* 检查路径<br />
+* @param $str string 检查是否是合法的文件路径<br />
+* @return bool<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function checkPath($str);</code></p>
+<p class="sm">/*<br />
+* 检查是否纯数字<br />
+* @param $str int 检查是否是纯数字串<br />
+* @return bool<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function checkNum($str = '');</code></p>
+<p class="sm">/*<br />
+* 转换文件大小单位<br />
+* @param $size int 文件大小值<br />
+* @param $dec int 保留小数位数，默认为2<br />
+* @return string 带单位的文件大小串<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function changeFileSize($size, $dec = 2);</code></p>
+<p class="sm">/*<br />
+* 生成加密字符串<br />
+* @param $data array or string 需要加密的内容<br />
+* @param $secretkey string 加密密钥<br />
+* @param $file string 加密类库<br />
+* @return string 加密后的字符串<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function setEnocde($data = array(), $secretkey = '', $file = 'Xxtea');</code></p>
+<p class="sm">/*<br />
+* 解析加密字符串<br />
+* @param $data array or string 需要解密的内容<br />
+* @param $secretkey string 解密密钥<br />
+* @param $file string 解密类库<br />
+* @return 解密后的内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getDecode($data = '', $secretkey = '', $file = 'Xxtea');</code></p>
+<p class="sm">/*<br />
+* cookie操作<br />
+* @param $var string cookie名称<br />
+* @param $value string 保存的内容，当内容为NULL时，则删除文件<br />
+* @param $expire int 有效期<br />
+* @return 返回文件内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function myCookie($var, $value = '', $life = 0);</code></p>
+<p class="sm">/*<br />
+* session操作<br />
+* @param $var string session名称<br />
+* @param $value string 保存的内容，当内容为NULL时，则删除文件<br />
+* @return 返回文件内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function mySession($name, $value = '');</code></p>
+<p class="sm">/*<br />
+* 获得客户端真实的IP地址<br />
+* @param 无<br />
+* @return string Ip地址<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getUserIp();</code></p>
+<p class="sm">/*<br />
+* 截取一定长度的完整的中文字符<br />
+* @param $sourcestr string 需要截取的字符串<br />
+* @param $cutlength int 需要截取的长度<br />
+* @param $startlength int 开始截取的长度<br />
+* @param $html bool 是否保留html标签<br />
+* @param $ellipsis bool 内容超出长度时是否显示省略号<br />
+* @return string 截取后的内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function cnsubStr($sourcestr, $cutlength = 100, $startlength = 0, $html = false, $ellipsis = false);</code></p>
+<p class="sm">/*<br />
+* 获取字符串长度<br />
+* @param string $str 要获取长度的字符串<br />
+* @return int<br />
+*/<br />
+<code class="prettyprint linenums lang-php">function getStrLen($str);</code></p>
+<p class="sm">/*<br />
+* 获取GET参数字符串<br />
+* @param $arr array key:需要处理的键名 value:处理的键值<br />
+* value为空则删除此key<br />
+* @param $retrunArr bool 是否返回数组还是格式化的链接<br />
+* @return 处理完毕的数组（格式化好的链接）<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getUrlStrList($arr = array(), $retrunArr = false);</code></p>
+<p class="sm">/*<br /> 清理内容格式，删除多余空格等<br />
+* @param string 字符串<br />
+* @return string 清理后的内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function clearStrSpace($str = '');</code></p>
+<p class="sm">/*<br />
+* 过滤用户输入内容<br />
+* @param $content string 输入的内容<br />
+* @param $delhtmltag bool 是否保留普通的html标签<br />
+* return 处理后的内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function wordsFilter($content = '', $delhtmltag = false);</code></p>
+<p class="sm">/*<br />
+* 自动转换字符集 支持数组转换<br />
+* @param $fContents string 需要转换的内容<br />
+* @param $from string 输入的编码格式<br />
+* @param $to string 输出的编码格式<br />
+* return 处理后的内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function autoCharset($fContents, $from = 'gbk', $to = 'utf-8');</code></p>
+<h2>array.fun.php</h2>
+<h3>用途：数组辅助函数</h3>
+<h3> 加载：<i>手动</i></h3>
+<p class="sm">/*<br />
+  +----------------------------------------------------------<br />
+  * 把返回的数据集转换成Tree<br />
+  +----------------------------------------------------------<br />
+  * @access public<br />
+  +----------------------------------------------------------<br />
+  * @param array $list 要转换的数据集<br />
+  * @param string $pid parent标记字段<br />
+  * @param string $level level标记字段<br />
+  +----------------------------------------------------------<br />
+  * @return array<br />
+  +----------------------------------------------------------<br />
+  */<br />
+  <code class="prettyprint linenums lang-php">function treeByList($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0); </code></p>
+<p class="sm">/*<br />
++----------------------------------------------------------<br />
+* 对查询结果集进行排序<br />
++----------------------------------------------------------<br />
+* @access public<br />
++----------------------------------------------------------<br />
+* @param array $list 查询结果<br />
+* @param string $field 排序的字段名<br />
+* @param array $sortby 排序类型<br />
+* asc正向排序 desc逆向排序 nat自然排序<br />
++----------------------------------------------------------<br />
+* @return array<br />
++----------------------------------------------------------<br />
+*/<br />
+<code class="prettyprint linenums lang-php">function sortByList($list, $field, $sortby = 'asc');</code></p>
+<p class="sm">/*<br />
++----------------------------------------------------------<br />
+* 在数据列表中搜索<br />
++----------------------------------------------------------<br />
+* @access public<br />
++----------------------------------------------------------<br />
+* @param array $list 数据列表<br />
+* @param mixed $condition 查询条件<br />
+* 支持 array('name'=&gt;$value) 或者 name=$value<br />
++----------------------------------------------------------<br />
+* @return array<br />
++----------------------------------------------------------<br />
+*/<br />
+<code class="prettyprint linenums lang-php">function searchByList($list, $condition);</code></p>
+<p class="sm">/*<br />
+@method:xml to array  *<br />
+*  @param : simplexml $xml<br />
+*  @author:taylor<br />
+* */<br />
+<code class="prettyprint linenums lang-php">function xmlToArray($xml, &amp;$tmparr = array());</code></p>
+<p class="sm">/*<br />
+将数组生成XML文档<br />
+*  @param $data array 输入的数组<br />
+*  @param $encoding string 编码格式<br />
+*  @param $root string 根节点名称<br />
+*  @return string<br />
+* */<br />
+<code class="prettyprint linenums lang-php">function xmlByArray($data, $encoding='utf-8', $root=&quot;xlphp&quot;);</code></p>
+<h2>image.fun.php</h2>
+<h3>用途：图像处理 </h3>
+<h3>加载：<i>手动</i></h3>
+<p class="sm">/*<br />
+* 获得任意大小图像，不足地方拉伸，不产生变形，不留下空白<br />
+* @param $srcFile string 源图像<br />
+* @param $new_width int 新宽度<br />
+* @param $new_height int 新长度<br />
+* @param $thumb_dir string 保存文件夹<br />
+* @param $dst_file string 保存文件名<br />
+* @param $prefix string 前缀<br />
+* @param $suffix strinig 保存格式<br />
+* @param $is_must bool 是否强制生成<br />
+* @param $showErr bool 是否显示错误提示<br />
+* @return string 生成图片的路径<br />
+*/</p>
+<p>
+  <code class="prettyprint linenums lang-php">function imageResize($srcFile, $new_width = 3000, $new_height = 3000, $thumb_dir = '', $dst_file = '', $prefix = '', $suffix = '', $is_must = false, $showErr = false);</code></p>
+<h2>string.fun.php</h2>
+<h3>用途：字符串处理函数 </h3>
+<h3>加载：<i>手动</i></h3>
+<p class="sm">/*<br />
+*  验证url地址<br />
+*  @param $str string 输入的链接地址<br />
+*  @return bool<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function checkUrl($str);</code></p>
+<p class="sm">/*<br />验证邮件地址<br />
+*  @param $str string 输入的邮箱地址<br />
+*  @return bool<br />
+*/</p>
+<p>
+  <code class="prettyprint linenums lang-php">function checkEmail($str);</code></p>
+<p class="sm">/*<br /> 
+*  验证手机号码<br />
+*  @param $phone string 输入的手机号码<br />
+*  @return bool<br />
+*/</p>
+<p>
+  <code class="prettyprint linenums lang-php">function checkPhone($phone = '');</code></p>
+<p class="sm">/*<br />过滤函数<br />
+*  @param $oldStr string 待检查的字符串<br />
+*  @return string<br />
+*/</p>
+<p>
+  <code class="prettyprint linenums lang-php">function safeStr($oldStr);</code></p>
+<p class="sm">/*<br />
+*  处理搜索关键字<br />
+*  @param $str string 待检查的字符串<br />
+*  @return string<br />
+*/</p>
+<p>
+  <code class="prettyprint linenums lang-php">function safeSearch($str);</code></p>
+<p class="sm">/*<br />
+*  输出安全的html，过滤危险的标签<br />
+*  @param $text string 待处理的字符串<br />
+*  @param $tags string 需要保留的标签，多个用|隔开<br />
+* 默认保留：table|td|th|tr|i|b|u|strong|img|p|br|div|strong|em|ul|ol|li|dl|dd|dt|a<br />
+*  @return string<br />
+*/</p>
+<p>
+  <code class="prettyprint linenums lang-php">function h($text, $tags = null);</code></p>
+<p class="sm">/*<br />
+*  检查字符串是否是UTF8编码<br />
+*  @param $string string 字符串<br />
+*  @return Boolean<br />
+*/</p>
+<p>
+  <code class="prettyprint linenums lang-php">function isUtf8($string);</code></p>
+<p class="sm">/*<br />
+*  过滤Xss危险代码<br />
+*  @param $val string 字符串<br />
+*  @return Boolean<br />
+*/</p>
+<p>
+  <code class="prettyprint linenums lang-php">function removeXss($val);</code></p>
+<h2>sys.fun.php</h2>
+<h3>用途：系统调试 </h3>
+<h3>加载：<i>手动</i></h3>
+<p class="sm">/*<br />
+*  输出调试信息<br />
+*  @param $str string or array 输出内容<br />
+*  @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function outPut($str);</code></p>
+<p class="sm">/*<br />
+*  输出程序运行消耗资源信息<br />
+*  @param 无<br />
+*  @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getRunInfo();</code></p>
+<p class="sm">/*<br />
+*  发送Http状态信息<br />
+*  @param $code int http状态码<br />
+*  @return<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function sendHttpStatus($code);</code></p>
+<h2>time.fun.php</h2>
+<h3>用途：时间处理函数 </h3>
+<h3>加载：<i>手动</i></h3>
+<p class="sm">/*<br />
+*  获得今日零时格林威治时间的时间戳<br />
+*  @param 无<br />
+*  @return int 时间戳<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getTodayTime();</code></p>
+<p class="sm">/*<br />
+*  时间类处理函数，用于社交互动模式显示友好时间<br />
+*  @param $time int 时间戳<br />
+*  @return string 格式化好的时间<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function tranTime($time);</code></p>
+<h2>view.fun.php</h2>
+<h3>用途：视图辅助函数 </h3>
+<h3>加载：<i>自动</i></h3>
+<p class="sm">/*<br />
+* 安全输出内容，可以选择是否转义HTML标记<br />
+* @param $str string 输出内容串<br />
+* @param $safe bool 是否要进行HTML转义<br />
+* @return string 处理后的内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function _e($str, $safe = false);</code></p>
+<p class="sm">/*<br />
+* 加载CSS<br />
+* @param $mycss string or array css文件名列表<br />
+* @param $autoecho bool 是否直接输出还是返回处理好后的字符串<br />
+* @param $noCache bool 是否不缓存<br/>
+* @return string 直接输出或返回处理后的内容<br />
+* @example getCss('global,style');<br />
+* @example getCss(array('global','style'));<br />
+* 以上都是加载/statics/[default]/css/global.css,/statics/[default]/css/style.css<br />
+* <span class="fun">[09-16]以“./”开头的资源会直接载入本地文件而忽视CDN设置</span><br />
+* @example getCss(array('./global','style'));<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getCss($mycss, $autoecho = true, $noCache = false);</code></p>
+<p class="sm">/*<br />
+* 加载JS<br />
+* @param $myjs string or array js文件名列表<br />
+* @param $autoecho bool 是否直接输出还是返回处理好后的字符串<br />
+* @param $noCache bool 是否不缓存<br/>
+* @return string 处理后的内容<br />
+* @example getJs('global,main');<br />
+* @example getJs(array('global','main'));<br />
+* 以上都是加载/statics/[default]/js/global.js,/statics/[default]/js/main.js<br />
+* <span class="fun">[09-16]以“./”开头的资源会直接载入本地文件而忽视CDN设置</span><br />
+* @example getJs(array('./global','main'));<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getJs($myjs, $autoecho = true, $noCache = false);</code></p>
+<p class="sm">/*<br />
+* 加载模板文件<br />
+* @param $tpl string 模板名称<br />
+* @param $dir string 模板所在目录<br />
+* @example include getTpl('index');<br/>
+* @return string 处理后的内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getTpl($tpl = '', $dir = '');</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">include getTpl('index');//加载index_tpl.php<br/>include getTpl('header','public');//加载pubilc目录下的header_tpl.php</code></p>
+<p class="sm">/*<br />
+* 分页函数修正版<br />
+* 支持：原生、伪静态、jquery分页<br />
+* @param $total int :总数<br />
+* @param $page  int:传递过来的当前页的值,第八页$page = 8;<br />
+* @param $showId string 显示类型，null：正常，ajax：ajax<br />
+* @param $pageSize int :每页显示的数据的数目<br />
+* @param $mypage string:分页标示<br />
+* @param $url   string:传递的地址,默认为当前页面<br />
+* @param $maxLength int:分页代码时候,中间的分页数的一半<br />
+* @return string 格式化好的分页代码<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function page($total, $page, $showId = '', $pageSize = 20, $mypage = 'p', $url = '', $maxLength = 5);</code></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>相关链接：</p>
+<p><a href="index.html">首页</a></p>
+<p><a href="define.html">框架常量</a></p>
+<p><a href="action.html">控制器</a></p>
+<p><a href="model.html">模型</a></p>
+<p><a href="function.html">全局函数库</a></p>
+<p><a href="class.html">框架核心类库</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

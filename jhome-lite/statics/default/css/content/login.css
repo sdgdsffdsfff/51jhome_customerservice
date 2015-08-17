@@ -1,0 +1,37 @@
+body{background:url("../../images/content/bg_line.png") repeat-x #8EC1DA;margin:0;padding:0;}
+#main{position:relative}
+#cloud{background: url("../../images/content/cloud.png") repeat-x scroll left top transparent;clear: both;height: 260px;position: absolute;top: 76px;width: 100%;z-index: -1;}
+#login-bar{position:absolute;z-index:999;width:0;height:0;line-height:80px;top:400px;background:#FFFFFF;border:1px #FFFFFF solid}
+.selector{filter: alpha(opacity=40); /* MSIE/PC */-moz-opacity: 0.4; /* Mozilla 1.6 and older */opacity: 0.4;}
+#p{position:absolute;z-index:999;width:100px;height:100px;background:url("../../images/content/p.png") no-repeat center;top:352px}
+#login-form{position:absolute;z-index:999; width:100%; height:80px;top:400px;}
+#form1{width:660px; height:42px;margin:20px auto 15px auto; display:none; color:#666}
+.txt{border:1px #CCCCCC solid; width:180px; height:38px; line-height:38px; padding-left:5px; margin-right:5px; font-size:20px; color:#999}
+.txt:hover{border:1px #5BA0C2 solid}
+.error-show{border:1px #FF0000 solid; background:#ffe9e8}
+#form-l,#form-r{float:left; display:inline; height:48px}
+#form-l{width:530px;}
+#form-r{width:130px;}
+/* button
+---------------------------------------------- */
+.btn-list{margin-top:10px; text-align:center}
+.button{display:block;zoom:1; /* zoom and *display = ie7 hack for display:inline-block */*display:inline;vertical-align:baseline;margin:0 auto;outline:none;cursor:pointer;text-align:center;text-decoration:none;font:14px/100% Arial, Helvetica, sans-serif;padding:.8em 2em;}
+.button-radius{text-shadow:0 1px 1px rgba(0,0,0,.3);-webkit-border-radius:.5em;-moz-border-radius:.5em;border-radius:.5em;-webkit-box-shadow:0 1px 2px rgba(0,0,0,.2);-moz-box-shadow:0 1px 2px rgba(0,0,0,.2);box-shadow:0 1px 2px rgba(0,0,0,.2);}
+.button:hover{text-decoration:none;}
+.button:active{position:relative;top:1px;}
+.bigrounded{-webkit-border-radius:2em;-moz-border-radius:2em;border-radius:2em;}
+.medium{font-size:12px;padding:.4em 1.5em .42em;}
+.small{font-size:11px;padding:.2em 1em .275em;}
+/* color styles
+---------------------------------------------- */
+/* blue */
+.blue{color:#d9eef7;border:solid 1px #0076a3;background:#0095cd;background:-webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));background:-moz-linear-gradient(top, #00adee, #0078a5);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');}
+.blue:hover{background:#007ead;background:-webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));background:-moz-linear-gradient(top, #0095cc, #00678e);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');}
+.blue:active{color:#80bed6;background:-webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));background:-moz-linear-gradient(top, #0078a5, #00adee);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');}
+
+.no-available{color:#999999; background:#CCC}
+/*扁平化*/
+/* blue */
+.b-blue{color:#d9eef7;border:solid 1px #529BBE;background:#529BBE;}
+.b-blue:hover{background:#007ead;}
+.b-blue:active{color:#80bed6;}

@@ -1,0 +1,31 @@
+body{background:#fff;}
+.head-box{ position:relative;}
+a.search-link{width:50px; height:46px; text-align:center; font-size:14px; display:block; position:absolute; top:50%; margin-top:-23px; right:10px; color:#fff;}
+
+.c-menu{width:40px;height:40px; background: rgba(243,243,243,.9); border-radius:100%; position:fixed; right:10px; bottom:60px; box-shadow:0 0 0 1px #ddd; z-index:10;}
+.transition, .transition:after, .transition:before {transition: all 0.3s cubic-bezier(0.68, -0.5, 0.27, 0.98);translate3d: 0, 0, 0;-webkit-backface-visibility: hidden;}
+.bar{display:inline-block; width:18px; height:2px; background-color: #96dcdc; position: absolute; border-radius:5px; padding: 0; top: 0; bottom: 0; left: 0; right: 0;  margin: auto;}
+.bar:before, .bar:after {display: block;  content: " ";  background-color: transparent;  position: absolute;  width:18px; height: 0; border-radius:5px;}
+.bar:before{top: 0;right: 0; border: 1px solid #96dcdc; margin-top:5px; box-sizing:border-box;}
+.bar:after{bottom: 0;right: 0;border: 1px solid #96dcdc; margin-bottom:5px; box-sizing:border-box;}
+.change{background-color: transparent;}
+.change:before, .change:after {margin: 0;}
+.change:after{-webkit-transform: rotate(-135deg); transform: rotate(-135deg);}
+.change:before{-webkit-transform: rotate(135deg); transform: rotate(135deg);}
+
+.corner-menu{ position: fixed;height:300px;width:300px;right:-150px; bottom:-100px; z-index:9; border-radius:100%; background:rgba(0,139,241,.8);}
+.corner-menu:after{content:''; border-radius:100%;position:absolute; width:150px; height:150px; top:50%; left:50%; margin-top:-75px; margin-left:-75px; box-shadow:0 0 10px 5px rgba(0,139,241,.8); background:rgba(255,255,255,1);}
+a.c-nav-1,a.c-nav-2,a.c-nav-3{width:40px; text-align:center;color:#fff; display:block; position:absolute; left:100px; top:10px;}
+a.c-nav-2{left:50px; top:35px;}
+a.c-nav-3{left:15px; top:85px;}
+.corner-menu p{text-align:center;font-size:12px;color:#fff; line-height:22px; }
+.bounceIn{-webkit-animation:bounceIn ease .4s; -moz-animation:bounceIn ease .4s; -ms-animation:bounceIn ease .4s; animation:bounceIn ease .4s;}
+.bounceOut{-webkit-animation:bounceOut ease .4s; -moz-animation:bounceOut ease .4s; -ms-animation:bounceOut ease .4s; animation:bounceOut ease .4s;}
+@-webkit-keyframes bounceIn{0%{-webkit-transform:scale(0); opacity:0;}100%{-webkit-transform:scale(1); opacity:1}}
+@-moz-keyframes bounceIn{0%{-moz-transform:scale(0); opacity:0;}100%{-moz-transform:scale(1); opacity:1}}
+@-ms-keyframes bounceIn{0%{ -ms-transform:scale(0); opacity:0;}100%{-ms-transform:scale(1); opacity:1}}
+@keyframes bounceIn{0%{transform:scale(0); opacity:0;}100%{transform:scale(1); opacity:1}}
+@-webkit-keyframes bounceOut{0%{-webkit-transform:scale(1); opacity:1;}100%{-webkit-transform:scale(0); opacity:0}}
+@-moz-keyframes bounceOut{0%{-moz-transform:scale(1); opacity:1;}100%{-moz-transform:scale(0); opacity:0}}
+@-ms-keyframes bounceOut{0%{-ms-transform:scale(1); opacity:1;}100%{-ms-transform:scale(0); opacity:0}}
+@keyframes bounceOut{0%{transform:scale(1); opacity:1;}100%{transform:scale(0); opacity:0}}

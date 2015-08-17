@@ -14,7 +14,7 @@ $(function(){
 
 
 function getAvatar($uid){
-	return '/images/1.png';
+	return '/clientPage/images/1.png';
     if (!$uid){
         $uid=1;
     }

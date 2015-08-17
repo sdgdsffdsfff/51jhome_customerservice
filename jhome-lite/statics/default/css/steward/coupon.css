@@ -1,0 +1,43 @@
+@charset "utf-8";
+.coupons-list{ padding-bottom:0;}
+.coupons-item{ position:relative; padding:10px 0 15px; overflow:hidden; margin-bottom:1px;}
+.coupons-item:after{content:''; position:absolute; width:80%; height:14px; left:10%; bottom:-7px; background:url(../../images/steward/dot.png) repeat-x; background-position:center center; background-size:14px 14px;}
+.coupons-giving{ background:#ff4c00; border-bottom:0px solid #da3702;}
+.coupons-used{ background:#ff9000; border-bottom:0px solid #da6c00;}
+.coupons-lost{ background:#c3c4c6; border-bottom:0px solid #959698;}
+.coupons-item .shop-img{ width:36px; height:36px; border-radius:100%; margin-right:5px;}
+.coupons-item .c-title{ height:40px; line-height:40px; font-size:16px; color:#fff; padding:0 10px; overflow:hidden;}
+.coupons-item .c-name{ font-size:22px; font-weight:bold; color:#fff; text-align:center; padding:0 0 8px; overflow:hidden;}
+.coupons-item .c-info{height:22px; font-size:14px; color:#fff; line-height:22px; text-align:center; overflow:hidden;}
+.coupons-item .c-tag{ width:100px; height:100px; border-radius:100%; color:#da3702; border:5px solid #da3702; font-size:16px; text-align:center;
+padding-top:50px; position:absolute; top:-30px; right:-30px; -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); -ms-transform:rotate(45deg); transform:rotate(45deg);}
+.coupons-used .c-tag{color:#da6c00; border:5px solid #da6c00;}
+.coupons-lost .c-tag{color:#959698; border:5px solid #959698;}
+
+.give-btn{ background:#ff6a00; padding:6px 15px; font-size:14px; text-align:center; color:#fff; position:absolute; top:10px; right:15px; border-radius:5px; box-shadow:0 2px 0 1px #ff2003; z-index:2;}
+
+.link-list{ padding:0 10px; background:#fff; /*border-top:1px solid #ddd;*/ margin:20px 0;}
+.link-list li{height:40px; line-height:39px; border-bottom:1px solid #ddd; padding:0 5px;}
+.link-list li:last-child{ border:0;}
+.link-list a{height:40px; line-height:39px; font-size:16px; display:block; color:#626262;}
+.two-code{ padding:10px 0;}
+.coupons-box .c-cont{ color:#626262; font-size:16px; text-align:center; line-height:22px;}
+.coupons-box .c-num{ color:#999; font-size:14px; text-align:center; line-height:18px;}
+.coupons-box .matrix{ width:200px; margin:0 auto; margin-bottom:10px;}
+
+.c-detail-title,.c-shop-title{height:40px; line-height:40px; font-size:14px; color:#999; padding:0 10px;}
+.c-shop-title{ text-align:center;}
+.c-detail-box{ background:#fff; padding:15px 10px;}
+.c-detail-box p{ font-size:15px; line-height:24px;}
+.c-contact{ margin:20px 0 0 0; padding:10px 10px; background:#fff; overflow:hidden;}
+a.show-list{color:#666}
+
+.c-shop-list{ background:#fff; padding:10px 10px 20px;}
+.c-shop-item{ position:relative;}
+.c-shop-item .c-phone{width:50px; height:100%; position:absolute; top:0; right:0; background:#fff url(../../images/steward/phone.png) no-repeat; background-position:18px center; background-size:26px 26px; z-index:1; display: block;}
+.c-shop-item .c-phone:before{ content:''; position:absolute; border-left:1px solid #ddd; height:60%; top:20%;}
+.c-shop-item .cs-info{ padding:15px 55px 15px 0; border-bottom:1px solid #ddd; position:relative;}
+.c-shop-item h3{ height:26px; line-height:26px; font-weight:bold; font-size:16px; color:#626262; padding-right:80px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+.c-shop-item p{line-height:18px; font-size:14px; color:#999;}
+.c-shop-item .c-range{ position: absolute; top:20px; right:60px; color:#999; font-size:14px;}
+.get-more{ padding:10px; text-align:center;}

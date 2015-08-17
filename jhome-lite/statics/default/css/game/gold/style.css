@@ -1,0 +1,70 @@
+body{ margin:0; padding:0;font-style: normal;font:14px "\5fae\8f6f\96c5\9ed1",Arial, Helvetica, sans-serif; background:#efefef;}
+*{ -webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing:border-box; padding:0; margin:0;}
+.clear:after{content:'\0020';display:block;height:0;clear:both}
+.clear{*zoom:1}
+ol, ul ,li{list-style: none;}
+em,i{ font-style:normal;}
+a,a:hover{text-decoration:none; outline: none;}
+.fl{ float:left;}
+.fr{ float:right;}
+.bg-red{ background:#f0a095;}
+/*提示选择框*/
+.pSpace {width: 95%;padding: 0;overflow: hidden;border-radius: 5px;}
+.popLayer {width: 90%;margin: 0 auto;background-color: #FFF;z-index: 8888;overflow: hidden;padding-bottom:10px;}
+.editTCon {margin: 50px 10px;text-align: center;font-size: 18px;line-height: 25px;color: #434343;}
+.editArea {height: 50px;padding: 13px 15px 0;border-top: 1px solid #e5e5e5;background-color: #f8f8f8;}
+.editBtn1, .editBtn2 {width: 48%;height: 35px;line-height: 35px;border: 1px solid #cdcdcd;font-size: 16px;color: #858585;text-align: center;border-radius: 5px;}
+.editBtn1 {float: left;border: 1px solid #bf1f1f;background: -webkit-gradient(linear,0% 0%, 0% 100%, from(#ff6161), to(#e54b4b));background: -moz-linear-gradient(0% 0% 270deg, #ff6161,#e54b4b);color: #fff;}
+.editBtn2 {float: right;border: 1px solid #ccc;background: -webkit-gradient(linear,0% 0%, 0% 100%, from(#fbfbfb), to(#f5f5f5));background: -moz-linear-gradient(0% 0% 270deg, #fbfbfb,#f5f5f5);color: #434343;}
+
+#loading{ background:#FFF; position:fixed; top:0; left:0; bottom:0; right:0; z-index:9999;}
+#status{ width:32px; height:32px; background:url(../../../images/game/gold/status.gif) no-repeat top center; background-size:32px 32px; position:fixed; left:50%; top:50%; margin-left:-16px; margin-top:-16px;}
+#load-data{ width:32px; height:32px; border-radius:100%; background:url(../../../images/game/gold/status.gif) no-repeat top center; opacity:.5; background-size:32px 32px; position:fixed; z-index:1000; left:50%; top:50%; margin-left:-16px; margin-top:-16px;}
+
+#advert-bottom{ width:100%; position:fixed; bottom:0; left:0;}
+#share-box{ position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.8) url(../../../images/game/gold/guide.png) no-repeat top right; background-size:240px 170px; z-index:100000;}
+#container{max-width:640px; min-width:320px; margin:0 auto; position:relative; padding-bottom:10px;}
+.bg-box{ position:fixed; top:0; left:0; right:0; bottom:0;background: url(../../../images/game/gold/bg.jpg) no-repeat center center; background-size:cover; z-index:-1;}
+.title{ text-align:center; font-size:16px; color:#333;}
+.top-box{ margin:0 auto; padding:0 15px;}
+.tip-box{ padding:5px 5px; font-size:14px; color:#FFF; background: rgba(240,160,149,.8); border:1px dashed #fff; border-radius:5px;}
+#box {margin:0 auto; padding:10px;border-radius: 10px; position:relative;}
+#box .item{display: block;float: left;border-radius: 10px;cursor: pointer;background:#fff; color:#333; text-align:center;}
+.grid-5 .item{width:19%; height:19%; margin:.5%; position:relative;/*-webkit-transition: -webkit-transform 0.4s ease-in, width 1s, background 0.8s;*/}
+.grid-4 .item{width:24%; height:24%; margin:.5%; position:relative;/*-webkit-transition: -webkit-transform 0.4s ease-in, width 1s, background 0.8s;*/}
+.btn{width:100px; height:40px; line-height:40px; text-align:center; color:#FFF; border-radius:3px; background:rgba(0,0,0,.8); position:absolute; top:50%; left:50%; margin-top:-20px; margin-left:-50px;}
+.c-btn{ width:80%; height:45px; line-height:45px; text-align:center; color:#333; font-size:16px; display:block; margin:10px auto; border:1px solid #ccc; border-radius:3px;}
+.alert-box{ width:80%; height: auto; padding:20px 0; position:fixed; top:50%; left:10%; top:50%; top:70px; border-radius:5px; background:rgba(255,255,255,1); box-shadow:0 0 1px rgba(0,0,0,.6);}
+.alert-box p{ width:80%; margin:10px auto; color:#333; line-height:24px;}
+.left-time{ width:160px; text-align:center; display:inline-block; margin:0 auto; position:absolute; left:50%; margin-left:-80px;}
+.over-img{ text-align:center; opacity:.9}
+.nor {-webkit-transform: rotate3d(0, 1, 0, 0deg);}
+.back {-webkit-transform: rotate3d(0, 1, 0, 180deg);}
+.i-logo{ width:100%; height:100%; background:url(../../../images/game/gold/logo.jpg) no-repeat center center; background-size:80% 80%; border-radius: 10px; display:block;}
+.gold_0{width:100%; height:100%; background: url(../../../images/game/gold/jb.jpg) no-repeat center center; background-size:80% 80%; border-radius: 10px; display:block;}
+.gold_1{width:100%; height:100%; background: url(../../../images/game/gold/zs.jpg) no-repeat center center; background-size:80% 60%; border-radius: 10px; display:block;}
+.gold_2{width:100%; height:100%; background: url(../../../images/game/gold/zd.jpg) no-repeat center center; background-size:80% 80%; border-radius: 10px; display:block;}
+.gold_3{width:100%; height:100%; background: url(../../../images/game/gold/zs-u.jpg) no-repeat center center; background-size:80% 60%; border-radius: 10px; display:block;}
+.boom{width:100%; height:100%; background: url(../../../images/game/gold/boom.jpg) no-repeat center center; background-size:80% 70%; border-radius: 10px; display:block;}
+.status_0,.status_1,.status_2,.status_3,.status_4,.status_5,.status_6{width:100%; height:100%; background: url(../../../images/game/gold/zs-0.jpg) no-repeat center center; background-size:80% 70%; border-radius: 10px; display:block;}
+.status_1{ background: url(../../../images/game/gold/zs-1.jpg) no-repeat center center; background-size:80% 70%;}
+.status_2{ background: url(../../../images/game/gold/zs-2.jpg) no-repeat center center; background-size:80% 70%;}
+.status_3{ background: url(../../../images/game/gold/zs-3.jpg) no-repeat center center; background-size:80% 70%;}
+.status_4{ background: url(../../../images/game/gold/zs-4.jpg) no-repeat center center; background-size:80% 70%;}
+.status_5{ background: url(../../../images/game/gold/zs-5.jpg) no-repeat center center; background-size:80% 70%;}
+.status_6{ background: url(../../../images/game/gold/zs-6.jpg) no-repeat center center; background-size:80% 70%;}
+.g-btn01,.g-btn02,.g-btn03{width:50px; display:block; position:absolute; top:5px;}
+.g-btn01{ left:0;}
+.g-btn03{ right:0;}
+.g-btn02{ left:50%; margin-left:-25px;}
+
+.ranking-list{ padding:0 10px;}
+.ranking-list li{ border:1px dashed #fff; padding:8px 10px; margin-top:10px; background: rgba(240,160,149,.9); color:#fff; border-radius:5px;}
+.ranking-list li:nth-child(1){ background:#f39800;}
+.ranking-list li:nth-child(2){ background:#ffbf55;}
+.ranking-list li:after{content:'\0020';display:block;height:0;clear:both}
+.ranking-list .ranking{ width:50px; font-weight:bold; color:#6e332d; float:left;}
+.ranking-list .name{ width:50%; float:left; overflow:hidden;}
+.ranking-list .score{ background:url(../../../images/game/gold/jb.png) no-repeat left center; background-size:15px 15px; padding-left:20px; float:right}
+.ranking-box .go-btn{ width:60%; margin:30px auto 0; display:block; text-align:center; padding:8px 0;}
+.bImg{ width:20px; height:20px; border-radius:100%; vertical-align:middle; margin-right:5px; margin-top:-2px;}

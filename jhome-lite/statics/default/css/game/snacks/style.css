@@ -1,0 +1,52 @@
+@charset "utf-8";
+/* CSS Document */
+
+body, div, p, iframe, ul, ol, dl, dt, dd, li, dl, h1, h2, h3, h4, table,th, td, input, button, select, textarea {margin:0; padding:0;font-style: normal;font:14px "\5fae\8f6f\96c5\9ed1",Arial, Helvetica, sans-serif;}
+a,button,input,div,li{-webkit-tap-highlight-color:rgba(255,0,0,0);}
+input,textarea,button,select{-webkit-appearance: none;}
+ol, ul ,li{list-style: none;}
+*{ box-sizing: border-box;}
+img {border: 0; vertical-align:middle;}
+body{color:#626262;}
+em,i{ font-style:normal;}
+.clear:after{content:'\0020';display:block;height:0;clear:both}
+.clear{*zoom:1}
+a,a:hover{text-decoration:none; outline: none;}
+.f-l{ float:left;}
+.f-r{ float:right;}
+#loading{ background:#FFF; position:fixed; top:0; left:0; bottom:0; right:0; z-index:9999;}
+#status{ width:32px; height:32px; background:url(../../../images/game/snacks/status.gif) no-repeat top center; background-size:32px 32px; position:fixed; left:50%; top:50%; margin-left:-16px; margin-top:-16px;}
+#share-box{ position:fixed; top:0; left:0; bottom:0; right:0; background: rgba(0,0,0,.8) url(../../../images/game/snacks/guide.png) no-repeat top right; background-size:240px 170px; z-index:10000;}
+#big-box,#big-box-1{position:fixed; top:0; left:0; bottom:0; right:0; background: rgba(0,0,0,.8); z-index:10000;}
+.form-box,.form-box-1{ width:280px; height: 400px; background:#fff; border-radius:5px; position:fixed; top:10px; left:50%; top:50%; margin-top:-200px; margin-left:-140px; padding:20px;}
+.form-box-1{ height:250px; top:50%; margin-top:-125px;}
+.form-box h3{ text-align:center; font-size:18px; font-weight:bold; color:#e5007f; padding:10px;}
+.form-box p,.form-box-1 p{ line-height:20px; color:#626262;}
+.form-box label{ margin-right:10px;height:40px; display:inline-block}
+.form-box input{ width:200px; height:36px; border:1px solid #eee; display:inline-block; padding:5px;}
+.form-box .send-btn,.form-box-1 .send-btn{ width:80%; height:40px; line-height:40px; text-align:center; color:#fff; background:#e5007f; border-radius:5px; display:block; margin:0 auto; font-size:16px; font-weight:bold;}
+.form-box-1 .send-btn{ margin-top:10px;}
+
+#container{ max-width:640px; min-width:320px; margin:0 auto; padding-bottom:20px; overflow:hidden; position:relative; background:url(../../../images/game/snacks/bg.jpg) repeat-y; background-size:contain;}
+.cont-box{ width:90%; margin:0 auto; padding:10px; background:rgba(255,255,255,1); border-radius:5px; box-shadow:0 0 2px rgba(0,0,0,.5);}
+.cont-box p{ line-height:22px; margin-bottom:10px;}
+.tips{width:100%; height:36px; line-height:36px; color:#666; text-align:center; background:rgba(255,255,255,.9); margin-top:20px; overflow:hidden;}
+.share-btn{ width:90%; height:40px; line-height:40px; text-align:center; color:#FFF; font-size:18px; font-weight:bold; background:#e5007f; border-radius:3px; display:block; margin:0 auto;}
+.get-gift{ width:50%; height:40px; line-height:40px; text-align:center; color:#a80775; font-size:18px; font-weight:bold; background:#f2ea04; border-radius:3px; display:block; margin:0 auto;}
+.chance-list{ height:150px; overflow:auto;}
+.chance-list li{ height:30px; line-height:30px; color:#666;}
+.chance-list li:after{content:'\0020';display:block;height:0;clear:both}
+.card-list li{ width:15%; margin:20px 5% 0; float:left; text-align:center;}
+.card-list li img{ width:100%; border-radius:3px; margin-bottom:5px;}
+.tips li{height:36px; line-height:36px; color:#666; text-align:center;}
+.bImg{ width:20px; height:20px; border-radius:100%; vertical-align:middle; margin-right:5px; margin-top:-2px;}
+
+/*outercont  height*/
+#outercont{ width:100%; height: auto; position:relative;}
+#outer-cont {position: relative;width: 100%;top: 20px;margin-bottom: 30px;}
+#inner-cont {position: absolute;width: 100%; bottom:0;}
+#outer {margin: 0 auto; width: 80%;}
+#inner {cursor: pointer;width: 20%; margin:0 auto 25%; position:relative;}
+#outer img, #inner img {display: block;margin: 0 auto;}
+.chance em{ font-size:16px; font-weight:bold;}
+#close-box{ width:40px; height:40px; line-height:40px; text-align:center; position:absolute; top:0; right:0; color:#e5007f; font-size:50px;}

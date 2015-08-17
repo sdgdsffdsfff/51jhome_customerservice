@@ -1,0 +1,30 @@
+.score-go,.score-info{ width:95%; height:40px; line-height:40px; color:#626262; padding-left:10px; margin:10px auto 0; border:1px solid #dedede; border-radius:3px; background:#FFF url(../../images/icon/go.png) no-repeat; background-position:96% center; background-size:8px 15px; display:block;}
+.my-score li{ position:relative; padding-right:60px;}
+.my-score .add-score,.my-score .lose-score{ height:40px; line-height:40px; position:absolute; top:50%; margin-top:-20px; right:10px; font-size:14px; color:#8fc31f;}
+.my-score .lose-score{ color:#dc1524; font-size:16px;}
+.score-shop,.score-change{ width:95%; margin:20px auto; background:#FFF; border:1px solid #e0e0e0; border-radius:3px; padding-bottom:30px;}
+.score-shop .ss-tit{ height:45px; line-height:45px; font-size:14px; color:#626262; border-bottom:1px solid #e0e0e0; padding-left:40px; background:url(../../images/icon/cart_0.png) no-repeat; background-position:10px center; background-size:20px 20px;}
+.score-shop li{ padding:10px 0 20px 0; border-bottom:1px solid #e0e0e0; margin:0 10px; position:relative;}
+.score-shop li:after{content:'\0020';display:block;height:0;clear:both}
+.score-shop .ss-img{ width:80px; height:80px; margin-right:5px; overflow:hidden; float:left; background:url(../../images/loading.gif) center no-repeat}
+.score-shop .ss-info{height:80px; line-height:28px; color:#626262; padding-right:50px; overflow:hidden;}
+.score-shop h3{font-weight:bold}
+.score-shop{margin-top:10px}
+.score-shop .ss-change,.gift-list .gift-num{ height:40px; line-height:40px; padding-right:15px; color:#999; background:url(../../images/icon/go.png) no-repeat right center; background-size:8px 15px; position:absolute; top:50%; margin-top:-20px; right:0;}
+.gift-list .ss-tit{background:url(../../images/icon/cart_1.png) no-repeat; background-position:10px center; background-size:20px 20px;}
+.gift-list .gift-num{ background:none; padding:0; color:#626262;}
+.gift-list .ss-info{height:20px; line-height:20px;}
+.gift-list .change-item{ min-width:40px; height:20px; line-height:20px; font-size:12px; color:#999; display: block;overflow:hidden;}
+.gift-list .gift-tit{ width:100%; height:35px; line-height:30px; padding-right:15px; color:#626262; font-size:14px; overflow:hidden;}
+.score-change{ padding:15px;}
+.score-change .sc-tit{ line-height:24px; padding-bottom:10px; text-align:center; font-size:16px;border-bottom:1px solid #e0e0e0; overflow:hidden; margin-top:20px; margin-bottom:10px;}
+.score-box .sc-item{ height:28px; line-height:28px; font-size:14px; text-align:center; display:block;}
+.score-box .change-info{ width:95%; padding:0 10px; margin:10px auto; font-size:12px; color:#999; line-height:20px;}
+.score-box .change-btn{ width:80%; height:45px; text-align:center; line-height:45px; margin:15px auto 0; border-radius:3px; background:#dc1524; font-size:16px; color:#FFF; display:block;}
+.score-change .c-red{ font-size:14px; font-weight:bold; margin:0 5px;}
+.gift-handle{ width:160px; margin:10px auto;background:#fff;}
+.gift-handle .handle-btn{ width:40px; height:40px; text-align:center; cursor:pointer; line-height:40px; font-size:24px; font-weight:bold; color:#626262; display:inline-block; border:1px solid #e0e0e0; float:left;}
+.gift-handle .gh-num{width:80px; height:40px; line-height:40px; text-align:center; display:inline-block; border:1px solid #e0e0e0; border-right:0; border-left:0; float:left;}
+.score-box .disabled{ background:#bbb;}
+.red{color:#F00}
+.grey{color:#999}

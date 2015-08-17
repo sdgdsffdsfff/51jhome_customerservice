@@ -77,7 +77,7 @@ event.on('distribution', function(){
                             var client = clients[customerid];
                             client.serverid = minUid;
                             server.clients[customerid] = 1;
-                            Chat.init(customerid, minUid, function(err){
+                            Chat.init(customerid, minUid, clients[customerid].username, servers[minUid].servername, function(err){
                                 if(err){
                                     console.log(err);
                                 }
@@ -150,7 +150,7 @@ io.sockets.on('connection', function(socket){
 
             socket.on('message', function(data){
                 var clientid = socket.uid;
-                log("clientid [" + clientid + "] in msg");
+                log("clientid [" + clientid + "] in msg ["+data.content+"]");
                 var serverid = clients[clientid].serverid;
                 clients[clientid].lastactive = (new Date()).getTime();
                 Chat.insert({clientid: clientid, serverid: serverid, whosaid: 2, chatcontent: data.content}, function(err){
@@ -201,6 +201,7 @@ io.sockets.on('connection', function(socket){
                 }
                 server.live = true;
                 server.status = 1;
+                server.socket = socket;
                 needNum += (capacity - server.n);
             }            
         }else{
@@ -239,6 +240,7 @@ io.sockets.on('connection', function(socket){
                 });                
             }
         });
+
         socket.on('getservers', function(){
             var olservers = [];
             for(var i in servers){
@@ -308,6 +310,7 @@ io.sockets.on('connection', function(socket){
             servers[serverid].live = false;
             log("clientids");
             console.log(clientids);
+            //给其他客服发送本客服离线消息，让其他客服更新可转接客服列表
             for(var sid in servers){
                 if(sid != serverid){
                     servers[sid].socket.emit('server_offline', {serverid: serverid});

@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script src="js/app.v2.js"></script> 
+</head>
+<style>
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, fieldset, textarea { margin: 0;}
+body {color: #222;font-family: "微软雅黑",Helvetica,"黑体",Arial,Tahoma;font-size: 14px; line-height: 1.6;}
+a { color: #459ae9; text-decoration: none;}
+input, textarea, button, a {outline: 0 none;}
+ul, ol {list-style-type: none;padding-left: 0;}
+
+.container_box.cell_layout .col_side, .container_box.cell_layout .col_main {word-break: break-all;word-wrap: break-word;}
+.size1of2 {width: 50%;}
+.appmsg{ width:300px;position: absolute;overflow:hidden;margin-bottom:20px;border:1px solid #e7e7eb;background-color:#fff;color:#666}
+.appmsg_info{font-size:13px;line-height:20px;padding-bottom:10px}
+.appmsg_date{font-weight:400;font-style:normal}
+.appmsg_content{padding:0 14px;position:relative;*zoom:1}
+.appmsg_title{font-weight:400;font-style:normal;font-size:16px;padding-top:10px;line-height:22px;max-height:56px;overflow:hidden;word-wrap:break-word;word-break:break-all}
+.appmsg_title a{display:block;color:#666}
+.appmsg_thumb_wrp{height:160px;overflow:hidden}
+.appmsg_thumb{width:100%}
+.appmsg_desc{padding:5px 0 10px;word-wrap:break-word;word-break:break-all}
+.appmsg_opr{background-color:#f4f4f4;border-top:1px solid #e7e7eb}
+.appmsg_opr ul{overflow:hidden;*zoom:1}
+.appmsg_opr_item{float:left;line-height:44px;height:44px}
+.appmsg_opr_item a{display:block;border-right:1px solid #e7e7eb;text-align:center;text-decoration:none}
+.appmsg_opr_item a:hover{text-decoration:none}
+.appmsg_opr_item a.no_extra{border-right-width:0}
+.appmsg_item{*zoom:1;position:relative;padding:20px 14px;border-top:1px solid #e7e7eb}
+.appmsg_item:after{content:"\200B";display:block;height:0;clear:both}
+.appmsg_item .appmsg_title{line-height:24px;max-height:48px;overflow:hidden;*zoom:1;margin-top:14px}
+.appmsg_item .appmsg_thumb{float:right;width:78px;height:78px;margin-left:14px}
+.multi .appmsg_info{padding-top:14px;padding-left:14px;padding-right:14px}
+.multi .appmsg_content{padding:0}
+.multi .appmsg_title{font-size:14px;padding-top:0}
+.cover_appmsg_item{position:relative;margin:0 14px 14px}
+.cover_appmsg_item .appmsg_title{position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,0.6)!important;filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#99000000',endcolorstr = '#99000000')}
+.cover_appmsg_item .appmsg_title a{padding:8px;color:#fff}
+.appmsg_mask{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background-color:#000;filter:alpha(opacity = 60);-moz-opacity:.6;-khtml-opacity:.6;opacity:.6;z-index:1}
+.appmsg .icon_card_selected{display:none;position:absolute;top:50%;left:50%;margin-top:-23px;margin-left:-23px;line-height:999em;overflow:hidden;z-index:1}
+.dialog_wrp .appmsg:hover{cursor:pointer}
+.appmsg:hover .appmsg_mask{display:block}
+.appmsg.selected .appmsg_mask{display:block}
+.appmsg.selected .icon_card_selected{display:inline-block}
+.appmsg_thumb.default{display:block;color:#c0c0c0;text-align:center;line-height:160px;font-weight:400;font-style:normal;background-color:#ececec;font-size:16px}
+.appmsg_item .appmsg_thumb.default{line-height:78px;font-size:14px}
+.appmsg_edit_mask{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(229,229,229,0.85)!important;filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#d9e5e5e5',endcolorstr = '#d9e5e5e5');text-align:center}
+.appmsg_item .appmsg_edit_mask{line-height:118px}
+.cover_appmsg_item .appmsg_edit_mask{line-height:160px}
+.appmsg_edit_mask a{margin-left:8px;margin-right:8px}
+.editing .cover_appmsg_item:hover .appmsg_edit_mask,.editing .appmsg_item:hover .appmsg_edit_mask{display:block}
+.editing .appmsg_thumb{display:none}
+.editing .appmsg_thumb.default{display:block}
+.editing .has_thumb .appmsg_thumb{display:block}
+.editing .has_thumb .appmsg_thumb.default{display:none}
+.editing .appmsg_content{box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;border-bottom-width:0}
+.editing.multi .appmsg_content{border-bottom-width:1px}
+.appmsg_add{margin:20px 14px}
+.tab_content .appmsg{width:320px}
+.appmsg_list{text-align:justify;text-justify:distribute-all-lines;margin:0 30px;}
+.appmsg_list:after{display:inline-block;width:100%;height:0;font-size:0;margin:0;padding:0;overflow:hidden;content:"."}
+.appmsg_list .tj_item{font-size:14px;text-align:left;text-justify:auto}
+.appmsg_col{display:inline-block;*display:inline;*zoom:1;vertical-align:top;width:32%;font-size:14px;text-align:left;font-size:14px;letter-spacing:normal}
+.media_dialog.appmsg_list{position:relative;padding:28px 140px;height:365px;margin:0;overflow-y:scroll}
+.media_dialog .appmsg_col{width:48%}
+.iconAudio{background:transparent url(/mpres/htmledition/images/icon/media/icon_audio_green1e5b3a.gif) no-repeat 0 0;width:20px;height:20px;vertical-align:middle;display:inline-block}
+.iconVideo{background:transparent url(/mpres/htmledition/images/icon_video1e5b3a.png) no-repeat 0 0;width:36px;height:36px;vertical-align:middle;display:inline-block}
+.mediaBox{cursor:pointer;display:inline-block;*display:inline;*zoom:1;border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px;padding:6px;border:1px solid;border-color:#92b572 #92b572 #9bb668;box-shadow:0 1px 2px rgba(0,0,0,0.2),inset 0 -1px 1px rgba(255,255,255,0.1),inset 0 1px 1px rgba(255,255,255,0.2);-moz-box-shadow:0 1px 2px rgba(0,0,0,0.2),inset 0 -1px 1px rgba(255,255,255,0.1),inset 0 1px 1px rgba(255,255,255,0.2);-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.2),inset 0 -1px 1px rgba(255,255,255,0.1),inset 0 1px 1px rgba(255,255,255,0.2);background-color:#c2dfa6}
+.mediaBox .mediaContent{float:left}
+.mediaBox .iconArrow{display:block;position:absolute;top:8px;left:-7px}
+.wxmImg{max-width:100%;display:block}
+.appmsgContentArea{word-wrap:break-word;word-break:break-all}
+.appmsgImgArea{float:left;margin-right:4px;padding:3px}
+.appmsgImgArea img{width:80px;height:80px;display:block}
+.appmsgContentArea{overflow:hidden;*zoom:1}
+.appmsgContentArea .appmsgTitle{font-size:14px;line-height:21px}
+.appmsgContentArea .appmsgDesc{font-size:12px;color:#666;line-height:21px}
+.appmsgFrom{font-size:12px;color:#222}
+.appmsgFrom.resource{margin-left:90px;margin-top:10px}
+.media_img{display:inline-block}
+
+.icon18_common.edit_gray,a:hover .icon18_common.edit_gray,.icon18_common.del_gray,a:hover .icon18_common.del_gray{background: url("https://res.wx.qq.com/mpres/zh_CN/htmledition/comm_htmledition/style/base/base_z1eec8c.png") no-repeat;}
+.icon18_common.edit_gray { background-position:0 -6042px;}
+a:hover .icon18_common.edit_gray { background-position: 0 -6098px;}
+.icon18_common.del_gray { background-position:0 -5230px;}
+a:hover .icon18_common.del_gray {background-position:0 -5286px;}
+.icon18_common {width: 18px;height: 18px;vertical-align: middle;display: inline-block;line-height: 100px;overflow: hidden;}
+
+
+.create_access { width:300px; border: 2px dotted #d9dadc; display: block;line-height: 80px;margin-bottom: 20px;text-align: center;}
+.icon36_common.add_gray { background: url("https://res.wx.qq.com/mpres/zh_CN/htmledition/comm_htmledition/style/base/base_z1eec8c.png") no-repeat scroll 0 -2705px rgba(0, 0, 0, 0);}
+.create_access i {cursor: pointer;}
+.icon36_common {display: inline-block; height: 36px;line-height: 300px;overflow: hidden; vertical-align: middle;width: 36px;}
+
+.create_access a { color: #d9d9d9;display: none; font-size: 14px;line-height: normal; margin-left: 10px; margin-right: 10px;vertical-align: middle;}
+.create_access i { cursor: pointer;}
+.icon_appmsg_create {background: url("https://res.wx.qq.com/mpres/zh_CN/htmledition/comm_htmledition/style/page/media/media_list_z1ec5f7.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);display: inline-block; height: 38px;vertical-align: middle;width: 38px;}
+.create_access a strong {display: block;font-style: normal;font-weight: 400;}
+.icon_appmsg_create.multi {background: url("https://res.wx.qq.com/mpres/zh_CN/htmledition/comm_htmledition/style/page/media/media_list_z1ec5f7.png") no-repeat scroll 0 -96px rgba(0, 0, 0, 0);}
+.create_access:hover{border-color:#b3b3b3}.create_access:hover .add_gray{display:none}.create_access:hover a{display:inline-block}.create_access:hover a:hover{color:#b3b3b3}
+
+.create_access a:hover,.appmsg a:hover{ text-decoration:underline;}
+.appmsg_opr_item a:hover{ text-decoration:none;}
+</style>
+<body>
+<!--添加图文 B-->
+<span class="create_access">
+	<i class="icon36_common add_gray"></i>
+    <a href="#">
+        <i class="icon_appmsg_create"></i>
+        <strong>单图文消息</strong>
+    </a>
+    <a href="#">
+        <i class="icon_appmsg_create multi"></i>
+        <strong>多图文消息</strong>
+    </a>
+</span>
+<!--添加图文 E-->
+
+<!--图文列表 B-->
+<div class="appmsg_list" id="pubuliu" style="width:1000px; position:relative;">
+    <!--单图文 B-->
+    <div class="appmsg ">
+        <div class="appmsg_content">
+            <h4 class="appmsg_title"><a target="_blank" href="#">“快感”服务卡使用指南</a></h4>
+            <div class="appmsg_info">
+                <em class="appmsg_date">03月05日</em>
+            </div>
+            <div class="appmsg_thumb_wrp"><img class="appmsg_thumb" alt="" src="https://mmbiz.qlogo.cn/mmbiz/5ffIkYK6EkkyIWRhjbVRKvMqOyat4Sq7ASUicRZJZSmSkUYib19DkcsqoEgzSx09g1Y1Mo1cLAoxQSMKFeYeuBNg/0"></div>
+            <p class="appmsg_desc">小李不哭，送快感呶没有小金人，照样纯爷们本活动由帅气的腾讯“找房子”赞助（看房求快感，就选找房子）即刻起，但</p>
+            
+        </div>
+        
+        <div class="appmsg_opr">
+            <ul>
+                <li class="appmsg_opr_item grid_item size1of2">
+                <a data-tooltip="编辑" href="#" class="js_tooltip">&nbsp;<i class="icon18_common edit_gray">编辑</i></a>
+                </li>
+                <li class="appmsg_opr_item grid_item size1of2 no_extra">
+                    <a data-tooltip="删除" href="javascript:void(0);" data-id="200254246" class="js_del no_extra js_tooltip">&nbsp;<i class="icon18_common del_gray">删除</i></a>
+                </li>
+            </ul>
+        </div>
+        
+        
+    </div>
+    <!--单图文 B-->
+    
+	<!--多图文 B-->
+    <div class="appmsg">
+        <div class="appmsg_content multi">
+                <div class="appmsg_info">
+                    <em class="appmsg_date">2013年10月16日</em>
+                </div>
+                <div class="cover_appmsg_item">
+                    <h4 class="appmsg_title"><a target="_blank" href="#">管接、管送、全城楼盘任你挑 看房赶紧“找房子”！</a></h4>
+                    <div class="appmsg_thumb_wrp"><img class="appmsg_thumb" alt="" src="http://mmsns.qpic.cn/mmsns/5ffIkYK6Ekl8X0KbRfyOEI7FT8zH2HHnGPFVibib7naiaAXicjB9iajPSxA/0"></div>
+                </div>
+                
+                <div class="appmsg_item">
+                    <img class="appmsg_thumb" alt="" src="http://mmsns.qpic.cn/mmsns/5ffIkYK6Ekl8X0KbRfyOEI7FT8zH2HHntXjekb5Uib1JdibCYiaZWRqTw/0">
+                    <h4 class="appmsg_title"><a target="_blank" href="#">【重要新闻】大浙房产“看房小闪电”起航 首发当天即有意向客户</a></h4>
+                </div>
+        </div>
+        
+        <div class="appmsg_opr">
+            <ul>
+                <li class="appmsg_opr_item grid_item size1of2">
+                <a data-tooltip="编辑" href="#" class="js_tooltip">&nbsp;<i class="icon18_common edit_gray">编辑</i></a>
+                </li>
+                <li class="appmsg_opr_item grid_item size1of2 no_extra">
+                    <a data-tooltip="删除" href="javascript:void(0);" data-id="10000002" class="js_del no_extra js_tooltip">&nbsp;<i class="icon18_common del_gray">删除</i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+	<!--多图文 E-->
+</div>
+<!--图文列表 E-->
+
+
+<!-- footer --> 
+  <footer id="footer"> 
+   <div class="text-center padder clearfix"> 
+    <p> <small>&copy; first 2013, Mobile first web app framework base on Bootstrap</small><br /><br /> <a href="#" class="btn btn-xs btn-circle btn-twitter"><i class="fa fa-twitter"></i></a> <a href="#" class="btn btn-xs btn-circle btn-facebook"><i class="fa fa-facebook"></i></a> <a href="#" class="btn btn-xs btn-circle btn-gplus"><i class="fa fa-google-plus"></i></a> </p> 
+   </div> 
+  </footer> 
+  <!-- / footer --> 
+  <!-- Bootstrap --> 
+  <!-- app --> 
+  <script src="js/app.v2.js"></script> 
+  <!-- fuelux --> 
+  <script src="js/fuelux/fuelux.js"></script> 
+  <!-- datepicker --> 
+  <script src="js/datepicker/bootstrap-datepicker.js"></script> 
+  <!-- slider --> 
+  <script src="js/slider/bootstrap-slider.js"></script> 
+  <!-- file input --> 
+  <script src="js/file-input/bootstrap.file-input.js"></script> 
+  <!-- combodate --> 
+  <script src="js/combodate/moment.min.js"></script> 
+  <script src="js/combodate/combodate.js"></script> 
+  <!-- parsley --> 
+  <script src="js/parsley/parsley.min.js"></script> 
+  <!-- select2 --> 
+  <script src="js/select2/select2.min.js"></script>
+<script>
+$(function(){
+	$('#pubuliu').waterfall({item:".appmsg"});
+});
+
+// 瀑布流插件
+// pannysp 2013.4.9
+;(function ($) {
+    $.fn.waterfall = function(options) {
+        var df = {
+            item: '.item',
+            margin: 20,
+            addfooter: true
+        };
+        options = $.extend(df, options);
+        return this.each(function() {
+            var $box = $(this), pos = [],
+            _box_width = $box.width(),
+            $items = $box.find(options.item),
+            _owidth = $items.eq(0).outerWidth() + options.margin,
+            _oheight = $items.eq(0).outerHeight() + options.margin,
+            _num = Math.floor((_box_width + options.margin)/_owidth);
+
+            (function() {
+                var i = 0;
+                for (; i < _num; i++) {
+                    pos.push([i*_owidth,0]);
+                } 
+            })();
+
+            $items.each(function() {
+                var _this = $(this),
+                _temp = 0,
+                _height = _this.outerHeight() + options.margin;
+
+                _this.hover(function() {
+                    _this.addClass('hover');
+                },function() {
+                    _this.removeClass('hover');
+                });
+
+                for (var j = 0; j < _num; j++) {
+                    if(pos[j][1] < pos[_temp][1]){
+                        //暂存top值最小那列的index
+                        _temp = j;
+                    }
+                }
+                this.style.cssText = 'left:'+pos[_temp][0]+'px; top:'+pos[_temp][1]+'px;';
+                //插入后，更新下该列的top值
+                pos[_temp][1] = pos[_temp][1] + _height;
+            });
+
+            // 计算top值最大的赋给外围div
+            (function() {
+                var i = 0, tops = [];
+                for (; i < _num; i++) {
+                    tops.push(pos[i][1]);
+                }
+                tops.sort(function(a,b) {
+                    return a-b;
+                });
+                $box.height(tops[_num-1]);
+
+                //增加尾部填充div
+                if(options.addfooter){
+                    addfooter(tops[_num-1]);
+                }
+
+            })();
+
+            function addfooter(max) {
+                var addfooter = document.createElement('dl');
+                addfooter.className = 'item additem';
+                for (var i = 0; i < _num; i++) {
+                    if(max != pos[i][1]){
+                        var clone = addfooter.cloneNode(),
+                        _height = max - pos[i][1] - options.margin;
+                        clone.style.cssText = 'left:'+pos[i][0]+'px; top:'+pos[i][1]+'px; height:'+_height+'px;';
+                        $box[0].appendChild(clone);
+                    }
+                }
+            }
+
+        });
+    }
+})(jQuery);
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+@charset "utf-8";
+/* CSS Document */
+.guess-pic{ background:#FFF; padding-bottom:2rem; margin-bottom:2rem;}
+.guess-pic .gp-item{ height:3rem; line-height:3rem; background:#f9f9f9; border-bottom:1px solid #ddd;}
+.gp-item .icon-coin{width: 2.2rem;height: 2.2rem;line-height: 2.2rem;text-align: center;border-radius: 100%;background: #c9de3f;color: #595657;font-size:1.5rem; vertical-align:-0.2rem; margin-right:1rem; margin-left:1rem;display: inline-block;}
+.gp-item .gi-text{ font-size:1.1rem; color:#595757;}
+.gp-item .score-num{ padding:0 .5rem;}
+a.btn-1{width:14rem; text-align:center; height:3rem; line-height:3rem; font-size:1.2rem; color:#fff; background:#00dad1; margin:1rem auto; border-radius:5px; display: block;}
+a.btn-2{width:8rem; text-align:center; height:3rem; line-height:3rem; font-size:1.2rem; color:#00dad1; margin:1rem auto; border-bottom:1px solid #00dad1; font-weight:bold; display: block;}
+a.btn-gray{ background:#d4d4d4;}
+
+.quest-box{background:#fff; margin:.5rem auto 1rem !important; border-bottom:0px solid #eee; padding:1rem;}
+.quest-box .iradio_flat-green,.quest-item .icheckbox_flat-green{ float:left; margin-right:1rem;}
+.quest-box .q-name{ font-size:1.1rem;}
+.quest-box .p-info{ margin:1rem 0;}
+.quest-box .p-tit{ font-size:1.2rem; font-weight:bold;}
+.quest-box .p-date{ font-size:1rem; color:#999;}
+.quest-box .quest-img{width:90%; margin:1rem auto;min-height: 10rem;background: url(../../images/prize/loading.gif) center no-repeat; overflow:hidden;}
+.quest-box .quest-list{margin-bottom:.5rem; border-bottom:1px solid #eee;}
+.quest-box .p-from{ font-size:1rem; color:#999; text-align:center; margin-bottom:2rem;}
+
+.guess-rank{ margin:1rem 1rem 3rem 1rem; height: auto; background:#fff; padding-top:2rem;}
+.guess-rank .rank-tab{ width:14rem; height:2.2rem; overflow:hidden; border:1px solid #00dad1; border-radius:8px; margin:0 auto;  box-sizing: content-box;}
+.guess-rank a.btn-tab{ width:7rem; height:2.2rem; line-height:2.2rem; text-align:center; font-size:1rem; color:#00dad1; float:left;}
+.guess-rank a.btn-on{ background:#00dad1; color:#fff;}
+.rank-list{width:90%; margin:1rem auto;}
+.rank-list .r-item{ line-height:2.4rem; overflow:hidden;}
+.rank-list .r-name{width:50%; height:2.4rem; line-height:2.4rem; float:left; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+.rank-list li:nth-child(1) .r-num,.rank-list li:nth-child(2) .r-num,.rank-list li:nth-child(3) .r-num{ font-size:1.2rem; font-weight:bold;}
+.rank-list .r-num{ float:left; margin-right:1rem; font-weight: normal;}
+.rank-list .r-score{ float: right;}
+.guess-rank .user-data{height:2.4rem; line-height:2.4rem; background:#00dad1; color:#fff; font-size:.8rem; overflow:hidden;}
+.guess-rank .u-item{width:33.3%; height:2.4rem; text-align:center; float:left; padding:0 .5rem; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+
+/*出题*/
+.quest-add{background:#fff; margin:.5rem auto 1rem; padding:1rem;}
+.quest-add .topic-box{ margin-bottom:2rem; overflow:hidden;}
+.quest-add .topic-text{ margin-left:4rem; border-bottom:1px solid #ddd;}
+.quest-add .topic-select,.quest-add .topic-answer{ margin-left:4rem;}
+.quest-add .q-label{width:4rem; float:left; font-size:1.2rem; font-weight:bold;}
+.quest-add textarea{ width:100%; height:5rem; padding:5px; border:0; font-size:1.1rem; line-height:1.6rem; color:#565758;}
+.topic-select li{height:3rem; border-bottom:1px solid #ddd;}
+.topic-select input{height:100%; width:90%; border:0; padding:5px; color:#565758; font-size:1.1rem;}
+.topic-select span{ font-size:1.2rem; color:#999;}
+.quest-add .opt-item{width:23%; display:inline-block; color:#565758; font-size:1.2rem;}
+.quest-add .q-option{display:inline-block; width:1.4rem; height:1.4rem; border-radius:100%; border:0.4rem solid #eee; background:#eee; margin-right:.5rem; vertical-align:-0.25rem;}
+.opt-item-on .q-option{background:#00dad1;}
+
+.operBtn{padding:10px 0 0;}
+.pText{margin-right:10px;font-size:1.8rem;}
+.tipLayer {position:relative;color:#333;background-color:#efefef;border-top:1px solid #e2e2e2;}
+.praiseTips{padding:10px 0 0 10px;line-height:18px;color:#8d8d8d;}
+.photoList{margin:15px 10px;padding-top:5px; margin-right:1rem;}
+.photoList li{float:left;margin:0 15px 15px 0;position:relative;}
+.photoList .on,.maskLay{width:60px;height:60px;}
+.photoCut{width:60px;height:60px;overflow:hidden;}
+.photoCut img{min-width:60px;max-width:80px;}
+.photoList .on{background:#d9d9d9 url(../../images/icon/sprBg.png) no-repeat -244px -4px;margin-right:0;cursor:pointer;}
+.dImg{width:31px;height:27px;margin-top:50%;margin-left:50%;}
+.cBtn{width:25px;height:25px;background:url(../../images/icon/sprBg.png) no-repeat;background-size:400px auto;-webkit-background-size:400px auto;text-indent:-9999px;position:absolute;}
+.cBtn{right:-10px;top:-10px;}
+.cBtnOn{ background-image:url(../../images/icon/sprBg.png);background-position:-25px 0;}
+.maskLay{position:absolute;left:0;top:0;-moz-opacity:0.6;opacity: 0.6;background-color:#000;}
+.progress{width:34px;height:4px;padding:2px 2px 0;position:absolute;left:9px;top:25px;border:2px solid #eaebeb;-moz-border-radius:0.6rem;-webkit-border-radius:0.6rem;border-radius:0.6rem;}
+.proBar{height:2px;background-color:#eaebeb;}
+.textTip{ width:100%;line-height:21px;color:#afafaf;clear:both;}
+
+.successbox{ position:fixed; width:100%; height:100%; top:0; left:0; background:rgba(0,0,0,.6); z-index:100;}
+.success{ width:22rem; height:14rem; padding-bottom:1rem; background:#fff; top:50%; left:50%; margin-top:-7rem; margin-left:-11rem; border-radius:5px; overflow:hidden; position:absolute; z-index:101;}
+.success p{ margin-top:1rem; width:100%; line-height:3rem; text-align:center; font-size:1.5rem; color:#E73744;}
+.success span{ display:block; width:100%; text-align:center; font-size:1.2rem; padding:0 2rem; color:#313131;}
+.success-input{ margin:0px auto; margin-top:15px; text-align:center;}
+.success-input input{ width:7rem; height:2.6rem; line-height:2.6rem; text-align:center; border:0px none; font-size:1.1rem;}
+.success-input .input1{ color:#E73744; background:#E5E5E5; margin-right:1rem;}
+.success-input .input2{ background:#E73744; color:#fff;}
+.successbox .btn-s{width:8rem; text-align:center; height:2.6rem; line-height:2.6rem; font-size:1.1rem; color:#fff; background:#00dad1; margin:0 auto; border-radius:5px; display: inline-block;}
+.successbox .btn-m{ background:#E5E5E5; color:#00dad1; margin-right:1rem;}
+
+/* checkbox */
+.icheckbox_flat-green,.iradio_flat-green{display:inline-block;*display:inline;vertical-align:middle;margin:0;padding:0;width:20px;height:20px;background:url(../../images/prize/green.png) no-repeat;border:0;cursor:pointer}
+.icheckbox_flat-green{background-position:0 0}
+.icheckbox_flat-green.checked{background-position:-22px 0}
+.icheckbox_flat-green.disabled{background-position:-44px 0;cursor:default}
+.icheckbox_flat-green.checked.disabled{background-position:-66px 0}
+.iradio_flat-green{background-position:-88px 0}
+.iradio_flat-green.checked{background-position:-110px 0}
+.iradio_flat-green.disabled{background-position:-132px 0;cursor:default}
+.iradio_flat-green.checked.disabled{background-position:-154px 0}
+@media(-o-min-device-pixel-ratio:5/4),(-webkit-min-device-pixel-ratio:1.25),(min-resolution:120dpi){.icheckbox_flat-green,.iradio_flat-green{background-image:url(../../images/prize/green@2x.png);-webkit-background-size:176px 22px;background-size:176px 22px}}

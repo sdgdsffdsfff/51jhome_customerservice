@@ -1,0 +1,87 @@
+@charset "utf-8";
+/* CSS Document */
+body, div, p, iframe, ul, ol, dl, dt, dd, li, dl, h1, h2, h3, h4, table,th, td, input, button, select, textarea {margin:0; padding:0;font-style: normal;font:14px "\5fae\8f6f\96c5\9ed1",Arial, Helvetica, sans-serif;}/* \5B8B\4F53 宋体 */
+a,button,input,div,li{-webkit-tap-highlight-color:rgba(255,0,0,0);}/* 1.去除android a/button/input标签被点击时产生的边框 2.去除ios a标签被点击时产生的半透明灰色背景 */
+input,textarea,button,select{-webkit-appearance: none;}/*去除iphone系统默认的样式*/
+ol, ul ,li{list-style: none;}
+*{ box-sizing: border-box;}
+img {border: 0; vertical-align:middle;}
+body{ background:#eeeeee;}
+em,i{ font-style:normal;}
+.clear:after{content:'\0020';display:block;height:0;clear:both}
+.clear{*zoom:1}
+a,a:hover{text-decoration:none; outline: none;}
+
+.content{ margin:0px auto; width:100%; min-width:320px; max-width:640px; padding-bottom:30px;}
+/*我也要出题*/
+.question{ margin:0px auto; width:60%; min-width:300px; height:auto; margin-top:20px;}
+.bz{ font-size:12px; float:left; margin-left:10px; width:55%; line-height:25px;}
+.main{ margin:0px auto; width:90%; height:auto; margin-top:30px; position:relative; z-index:5;}
+/*ol*/
+.main ol{ margin:0px auto; width:90%; height:40px;}
+.main ol li{ width:25%; height:40px; float:left;}
+.main ol li p{ margin:0px auto; width:55px; height:40px;}
+.main-p1{ background:url(../../images/guess/b-01.png) no-repeat; background-size:100% 145%;}
+.main-p2{ background:url(../../images/guess/b-02.png) no-repeat; background-size:100% 145%;}
+.main-p3{ background:url(../../images/guess/b-03.png) no-repeat; background-size:100% 145%;}
+.main-p4{ background:url(../../images/guess/b-04.png) no-repeat; background-size:100% 145%;}
+.main-li1 .main-libig{ background-size:100% 90%; height:80px;}
+.main-li2 .main-libig{ background:url(../../images/guess/b-02.png) no-repeat; background-size:100% 90%; height:80px;}
+.main-li3 .main-libig{ background:url(../../images/guess/b-03.png) no-repeat; background-size:100% 90%; height:80px;}
+.main-li4 .main-libig{ background:url(../../images/guess/b-04.png) no-repeat; background-size:100% 90%; height:80px;}
+
+/*排行*/
+.table{ margin:0px auto; width:100%; height:auto; background:#fff; border-radius:5px; overflow:hidden;}
+.tablebox{ width:100%; height:40px; border-radius:5px 5px 0px 0px;}
+.tablebox p{ color:#fff; line-height:40px; font-size:12px; width:auto;}
+.table-bg1{ background:#e4004f;}
+.table-bg1 p{ margin-left:38%;}
+.table-bg2{ background:#0168b7;}
+.table-bg2 p{ float:right; margin-right:10%;}
+.table-bg3{ background:#6a0160;}
+.table-bg4{ background:#8fc320;}
+.table ul{ overflow:hidden; margin-top:20px; width:100%; height:auto;}
+.table ul li{ width:100%; float:left; line-height:30px;} 
+.table ul li em{ display:block; line-height:33px; float:left; font-size:14px; color:#323232; margin-left:10%;}
+.table ul li em.num0{ color:#e4004b; font-size:18px; font-weight:bold;}
+.table ul li em.num1{ color:#d84823; font-size:18px; font-weight:bold;}
+.table ul li em.num2{ color:#f39801; font-size:18px; font-weight:bold;}
+.table ul li p{ float:left; width:50%; line-height:30px; color:#323232; margin-left:3%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px;}
+.table ul li span{ display:block; float:right; line-height:30px; color:#323232; font-size:14px; margin-right:10%;}
+.bgweek{ background:#FF7387;}
+.bgmonth{ background:#8AF9FF;}
+.bgall{ background:#AC92FC;}
+.bglx{ background:#8DFFB6;}
+.myscorebox{ width:100%; height:40px;}
+.myscore{ width:80%; margin:0px auto; margin-top:15px; height:40px; overflow:hidden;}
+.myscore p{ float:left; color:#323232; line-height:40px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px;}
+
+/*出题*/
+.top{ width:100%; height:130px; overflow:hidden;}
+.topic{ margin:0px auto; margin-top:10px; width:95%; border:1px solid #D4D4D4; background:#fff; overflow:hidden;}
+.topic-box{ margin:20px auto; width:90%; margin-bottom:15px; overflow:hidden;}
+.topic-box span{ float:left; font-size:16px; color:#7F7F7F;}
+.topic-text{ float:right; width:85%; height:70px;}
+.topic-text textarea{ display:block; width:100%; line-height:22px; height:100%; padding:5px; font-size:14px; resize:none; color:#7F7F7F; border:1px solid #d4d4d4;}
+.topic-select{ float:right; width:85%;}
+.topic-select li{ float:left; width:100%; margin-bottom:5px; overflow:hidden; line-height:35px;}
+.topic-select li span{ display:block; float:left; width:6%; text-align:center; font-size:16px; color:#7f7f7f;}
+.topic-select li input{ display:block; float:right; width:87%; height:35px; border:1px solid #d4d4d4; color:#7F7F7F; padding:0 5px;}
+.topic-answer{ float:right; width:76%; overflow:hidden;}
+.topic-answer li{ float:left; width:23%; height:30px; line-height:30px; text-align:center; margin-left:2%; border:1px solid #d4d4d4; font-size:16px; color:#7f7f7f; cursor:pointer;}
+.topic-answer li.current{ background:#E73744; color:#fff; border:1px solid #E73744;}
+.topic-answer li input{ float:left; display:none;}
+.topic-img{ float:right; width:74%; position:relative;}
+.topic-img p{ width:40px; height:40px; text-align:center; line-height:35px; border:1px solid #d4d4d4; color:#7f7f7f; font-size:30px; }
+.topic-p{ font-size:12px; width:80%; margin:0px auto; padding-bottom:20px; text-align:center; line-height:25px;}
+.topic-img input{ position:absolute; left:0px; top:0px; z-index:3; width:40px; height:40px; display:block;opacity:0;filter:alpha(opacity=0);-ms-filter:'alpha(opacity=0)';overflow:hidden;}
+.topic-submit{ display:block; margin:0px auto; width:180px; height:40px; background:#E73744; color:#fff; text-align:center; line-height:40px; font-size:18px; border:0px none; border-radius:5px;} 
+.successbox{ position:fixed; width:100%; height:100%; background:rgba(0,0,0,0.5); top:0px; left:0px;}
+.cancel{ position:absolute; top:0px; left:0px; z-index:5; width:100%; height:100%;}
+.success{ width:300px; height:auto; padding-bottom:20px; background:#fff; top:160px; left:50%; margin-left:-150px; border-radius:5px; overflow:hidden; position:absolute; z-index:55;}
+.success p{ margin-top:10px; width:100%; line-height:40px; text-align:center; font-size:20px; color:#E73744;}
+.success span{ display:block; width:100%; text-align:center; font-size:16px; color:#313131;}
+.success-input{ margin:0px auto; margin-top:15px; width:235px;}
+.success-input input{ width:105px; height:35px; line-height:35px; text-align:center; border:0px none; font-size:16px;}
+.success-input .input1{ color:#E73744; background:#E5E5E5; margin-right:15px;}
+.success-input .input2{ background:#E73744; color:#fff;}

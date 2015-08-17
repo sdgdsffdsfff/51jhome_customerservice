@@ -1,0 +1,3 @@
+<?php
+ if (!defined('IN_XLP')){ exit('Access Denied');} return '{"city_id":3301,"corp_info":{"corpID":"wx2867c742c307f39c","corpSecret":"vxmT6bJmLIZzFgNtg7etfyvFZpKlPT5KfTSua8aE1rIXctc1f2OcD43SViOqaacK","agentId":"10","token":"mo6K7BV7T6sB3AhDbfpIxA","encodingAESKey":"gTjowgqLYtSyOo0Rk1utPEvtRyGFAvftNtDIHoe7UE4","departmentId":"3"},"order_setting":{"shipping_fee":"5","sales_offset_sum":0,"sales_offset":0,"shipping_fee_offset_sum":"39","shipping_fee_offset":"5","limit_fee":0,"limit_fee_sum":"1","too_much_shop_fee":0,"too_much_shop_num":0,"shop_fee":"2.00","max_shop_counts":"5"},"auto_reply":null}';
+?>

@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link rel="stylesheet" href="http://medoo.in/css/core.css"/>
+<link rel="shortcut icon" href="favicon.png" />
+<script type="text/javascript">var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-15301273-5']);_gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();</script><title>WHERE Syntax - Medoo</title>
+<meta name="keywords" content="Medoo,Medoo WHERE" />
+<meta name="description" content="Medoo WHERE Syntax" />
+<script type="text/javascript" src="../js/qatrix-1.0.2.min.js"></script>
+<script type="text/javascript" src="../js/prettify.js"></script>
+<script type="text/javascript"> 
+$ready(function ()
+{
+	prettyPrint();
+	$className.add($('api_list_where'), 'on');
+});
+</script>
+</head>
+<body>
+<header>
+<div id="header_body" class="clearfix">
+<a href="http://medoo.in"><img width="297" height="58" id="head_logo" src="http://medoo.in/images/medoo-logo.png" /></a>
+<nav>
+	<ul class="clearfix">
+		<li><a href="http://medoo.in">Home</a></li>
+		<li><a href="http://medoo.in/download">Download</a></li>
+		<li><a href="http://medoo.in/api/new">Get Started</a></li>
+		<li><a href="http://medoo.in/doc">Documentation</a></li>
+		<li><a href="http://medoo.in/about">About</a></li>
+	</ul>
+</nav>
+</div>
+</header><div id="doc_container" class="clearfix">
+<div id="api_list_wrap">
+<h4>Get Started</h4 >
+<ul class="api_list">
+<li id="api_list_new"><a href="http://medoo.in/api/new">new medoo()</a></li>
+</ul>
+ 
+<h4>Where Syntax</h4 >
+<ul class="api_list">
+<li id="api_list_where"><a href="http://medoo.in/api/where">where</a></li>
+</ul>
+ 
+<h4>Query</h4>
+<ul class="api_list">
+<li id="api_list_select"><a href="http://medoo.in/api/select">select</a></li>
+<li id="api_list_insert"><a href="http://medoo.in/api/insert">insert</a></li>
+<li id="api_list_update"><a href="http://medoo.in/api/update">update</a></li>
+<li id="api_list_delete"><a href="http://medoo.in/api/delete">delete</a></li>
+<li id="api_list_replace"><a href="http://medoo.in/api/replace">replace</a></li>
+<li id="api_list_get"><a href="http://medoo.in/api/get">get</a></li>
+<li id="api_list_has"><a href="http://medoo.in/api/has">has</a></li>
+<li id="api_list_count"><a href="http://medoo.in/api/count">count</a></li>
+<li id="api_list_max"><a href="http://medoo.in/api/max">max</a></li>
+<li id="api_list_min"><a href="http://medoo.in/api/min">min</a></li>
+<li id="api_list_avg"><a href="http://medoo.in/api/avg">avg</a></li>
+<li id="api_list_sum"><a href="http://medoo.in/api/sum">sum</a></li>
+</ul>
+ 
+<h4>Advanced</h4>
+<ul class="api_list">
+<li id="api_list_query"><a href="http://medoo.in/api/query">query</a></li>
+<li id="api_list_quote"><a href="http://medoo.in/api/quote">quote</a></li>
+</ul>
+ 
+<h4>Debug</h4>
+<ul class="api_list">
+<li id="api_list_error"><a href="http://medoo.in/api/error">error</a></li>
+<li id="api_list_last_query"><a href="http://medoo.in/api/last_query">last_query</a></li>
+</ul>
+ 
+<h4>Information</h4>
+<ul class="api_list">
+<li id="api_list_info"><a href="http://medoo.in/api/info">info</a></li>
+</ul>
+</div>
+		<div id="main_body">
+<h3>WHERE Syntax</h3>
+<p class="intro">Some of Medoo functions are required $where argument to filter record like SQL where clause which is powerful but with a lot of complex syntax, logical relativity, and potential security problem about SQL injection. But Medoo provided a powerful and extremely easy way to build WHERE query clause and prevent injection.</p>
+ 
+<h4>Basic condition</h4>
+<p class="intro">The basic condition is simple enough to understand. You can use additional symbol to get advanced filter range for number.</p>
+<pre class="prettyprint linenums">
+$database->select("account", "user_name", [
+	"email" => "foo@bar.com"
+]);
+// WHERE email = 'foo@bar.com'
+ 
+$database->select("account", "user_name", [
+	"user_id" => 200
+]);
+// WHERE user_id = 200
+ 
+$database->select("account", "user_name", [
+	"user_id[>]" => 200
+]);
+// WHERE user_id > 200
+ 
+$database->select("account", "user_name", [
+	"user_id[>=]" => 200
+]);
+// WHERE user_id >= 200
+ 
+$database->select("account", "user_name", [
+	"user_id[!]" => 200
+]);
+ 
+// WHERE user_id != 200
+ 
+$database->select("account", "user_name", [
+	"age[<>]" => [200, 500]
+]);
+// WHERE age BETWEEN 200 AND 500
+ 
+// You can use not only single string or number value, but also array
+$database->select("account", "user_name", [
+	"OR" => [
+		"user_id" => [2, 123, 234, 54],
+		"email" => ["foo@bar.com", "cat@dog.com", "admin@medoo.in"]
+	]
+]);
+// WHERE
+// user_id IN (2,123,234,54) OR
+// email IN ('foo@bar.com','cat@dog.com','admin@medoo.in')
+ 
+// Or fetched from select() or get() function
+$database->select("account", "user_name", [
+	"user_id" => $database->select("post", "user_id", ["comments[>]" => 40])
+]);
+// WHERE user_id IN (2, 51, 321, 3431)
+</pre>
+ 
+<h4>Relativity condition</h4>
+<p class="intro">The relativity condition can describe complex relationship between data and data. You can use "AND" and "OR" to build really complex relativity condition for query.</p>
+<pre class="prettyprint linenums">
+// [Basic]
+$database->select("account", "user_name", [
+	"AND" => [
+		"user_id[>]" => 200,
+		"age[<>]" => [18, 25],
+		"gender" => "female"
+	]
+]);
+// WHERE user_id > 200 AND age BETWEEN 18 AND 25 AND gender = 'female'
+ 
+$database->select("account", "user_name", [
+	"OR" => [
+		"user_id[>]" => 200,
+		"age[<>]" => [18, 25],
+		"gender" => "female"
+	]
+]);
+// WHERE user_id > 200 OR age BETWEEN 18 AND 25 OR gender = 'female'
+ 
+// [Compound]
+$database->has("account", [
+	"AND" => [
+		"OR" => [
+			"user_name" => "foo",
+			"email" => "foo@bar.com"
+		],
+		"password" => "12345"
+	]
+]);
+// WHERE (user_name = 'foo' OR email = 'foo@bar.com') AND password = '12345'
+</pre>
+ 
+<h4>Full text searching</h4>
+<p class="intro">For search engine, searching record by target keyword is the key.</p>
+<pre class="prettyprint linenums">
+// [MATCH]
+$database->select("post_table", "post_id", [
+	"MATCH" => [
+		"columns" => ["content", "title"],
+		"keyword" => "foo"
+	]
+]);
+// WHERE MATCH (content, title) AGAINST ('foo')
+ 
+// [LIKE]
+// The default connector of LIKE is AND
+$database->select("account", "user_id", [
+	'LIKE' => [
+		'location' => "foo",
+		'nickname' => "foo",
+		'user_name' => "foo",
+		'description' => "foo"
+	]
+]);
+ 
+$database->select("account", "user_id", [
+	'LIKE' => [
+		'AND' => [
+			'location' => "foo",
+			'nickname' => "foo",
+			'user_name' => "foo",
+			'description' => "foo"
+		]
+	]
+]);
+// WHERE (
+//	location LIKE '%foo%' AND
+//	nickname LIKE '%foo%' AND
+//	user_name LIKE '%foo%' AND
+//	description LIKE '%foo%'
+// )
+ 
+$database->select("account", "user_id", [
+	'LIKE' => [
+		'OR' => [
+			'location' => "foo",
+			'nickname' => "foo",
+			'user_name' => "foo",
+			'description' => "foo"
+		]
+	]
+]);
+// WHERE (
+//	location LIKE '%foo%' OR
+//	nickname LIKE '%foo%' OR
+//	user_name LIKE '%foo%' OR
+//	description LIKE '%foo%'
+// )
+ 
+</pre>
+ 
+<h4>Additional condition</h4>
+<pre class="prettyprint linenums">
+$database->select("account", "user_id", [
+	"GROUP" => "type",
+ 
+	// "ORDER" => "age DESC"
+	"ORDER" => "age",
+ 
+	// Must have to use it with ORDER together
+	"HAVING" => [
+		"user_id[>]" => 500
+	],
+ 
+	// LIMIT => 20
+	"LIMIT" => [20, 100]
+]);
+//	SELECT user_id FROM account
+//	GROUP BY type
+//	ORDER BY age
+//	HAVING user_id > 500
+//	LIMIT 20,100
+</pre>
+ 
+		</div>
+	</div>
+ 
+<footer>
+<div id="footer_body" class="clearfix">
+<a id="github_link" href="https://github.com/catfan/Medoo">
+<div id="github_text">Fork me on Github</div>
+</a><p id="footer_text">The Medoo project, All Rights Reserved, 2013.</p>
+</div>
+</footer></body>
+</html>

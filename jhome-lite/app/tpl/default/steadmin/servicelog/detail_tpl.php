@@ -1,0 +1,157 @@
+<?php
+if (!defined('IN_XLP')) {
+    exit('Access Denied');
+}
+$Document = array(
+    'pageid' => 'servicelog-detail', //页面标示
+    'pagename' => '查看反馈', //当前页面名称
+    'mycss' => array(), //加载的css样式表
+    'myjs' => array(), //加载的js脚本
+    'footerjs'=>array('content/calendar'),
+    'head' => true, //加载头部文件
+);
+include getTpl('header', 'public');
+?>
+<!--顶部导航 开始-->
+<?php include getTpl('top', 'public');?>
+<!--顶部导航 结束-->
+<!--左侧菜单 开始-->
+<?php include getTpl('nav', 'public');?>
+<!--左侧菜单 结束-->
+<!--主体 开始-->
+<section id="content">
+  <section class="main padder">
+    <div class="clearfix">
+      <h4><i class="fa fa-edit"></i><?php echo trim($Document['pagename'],'_');?></h4>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-servicelog">
+          <div class="panel-body">
+            <form class="form-horizontal" action="" method="post" id="form-fb1">
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">时间</label>
+                <div class="col-lg-2">
+                  <input class="form-control fbtime" type="text" value="<?php echo $servicelog['fb_time']; ?>" name="fbtime" readonly />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">反馈人</label>
+                <div class="col-lg-2">
+                    <p class="form-control"><?php echo $servicelog['username'];?></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">反馈人真实姓名</label>
+                <div class="col-lg-2">
+                    <p class="form-control"><?php echo $servicelog['real_name'];?></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">类型</label>
+                <div class="col-lg-2">
+                  <input type="text" readonly="" class="form-control" value="<?php echo $type[$servicelog['type_id']]['name']; ?>">                  
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">是否处理</label>
+                <div class="col-lg-2">
+                    <p class="form-control" id="fb_status"><?php echo $status[$servicelog['status_id']];?></p>
+                </div>
+                <?php /* 与配置文件强耦合 需要优化 */ ?>
+                <?php if($servicelog['status_id'] == 1){ ?>
+                  <div class="col-lg-2">
+                    <button class="btn btn-default" id="btn-dealfb" data-fid="<?php echo $servicelog['fid'];?>">标记为已处理</button>
+                  </div>
+                <?php } ?>
+                
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">订单号</label>
+                <div class="col-lg-5">
+                  <p class="form-control"><?php if($servicelog['order_id']){ echo $servicelog['order_id'];} else {?>无<?php }?></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">用户名</label>
+                <div class="col-lg-5">
+                  <p class="form-control"><?php if($servicelog['client_username']){ echo $servicelog['client_username'];} else {?>无<?php }?></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">手机号码</label>
+                <div class="col-lg-5">
+                  <p class="form-control"><?php if($servicelog['phone']){ echo $servicelog['phone'];} else {?>无<?php }?></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">反馈内容</label>
+                <div class="col-lg-5">
+                  <pre><?php echo $servicelog['servicelog']; ?></pre>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-sm-1 control-label">附件</label>
+                <div class="col-lg-2">
+                  <?php if(isHave($servicelog['upload'])){ ?>
+                    <?php if(preg_match('/^.*?\.(jpg|png|gif|jpeg|bmp|jpe)$/', $servicelog['upload'])){ ?>
+                      <img src="<?php echo getImgUrl($servicelog['upload']);?>" />
+                    <?php }else{ ?>
+                      <p class="form-control"><a href="<?php echo getImgUrl($servicelog['upload']);?>"><i class="fa fa-download"></i>
+点击此处下载附件</a></p>
+                    <?php } ?>
+                  <?php }else{ ?>
+                    <p class="form-control">无附件</p>
+                  <?php } ?>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-2 col-sm-offset-1">
+                  <a href="<?php echo U('servicelog/index');?>" class="btn btn-default">返回至反馈页面</a>
+                  <a href="<?php echo U('servicelog/edit', array('fid' => $servicelog['fid'])) ?>" class="btn btn-default">编辑</a>
+                </div>
+              </div>
+            </form>         
+          </div>
+        </div>     
+      </div>
+    </div>
+  </section>
+</section>
+<!--主体 结束--> 
+
+
+<script>
+$(function(){
+  $('#btn-dealfb').click(function(event){
+    var t = $(this);
+    event.preventDefault();
+    var fid = parseInt($(this).data('fid'));
+    if(typeof fid === 'number'){
+      if(confirm('确定要标记为已处理么?')){
+        $.ajax({
+          url: '<?php echo U("servicelog/update_servicelog_status"); ?>',
+          type: 'POST',
+          data: 'fid=' + fid,
+          dataType: 'json',
+          success: function(data){
+            if(data && data.status == 1){
+              Msg.ok(data.info);
+              $('#fb_status').text('已处理');
+              $(t).remove();
+            }else{
+              Msg.error(data.info);
+            }
+          },
+          error: function(){
+            Msg.error('服务器正在开小差');
+          }
+        });
+      }      
+    }
+  });
+});
+</script>
+<?php
+include getTpl('footer', 'public');
+?>

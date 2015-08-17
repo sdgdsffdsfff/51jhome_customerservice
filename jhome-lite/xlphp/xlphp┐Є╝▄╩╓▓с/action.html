@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xlphp 说明文档</title>
+		<link rel="stylesheet" href="statics/css/book.css">
+		<link rel="stylesheet" href="statics/css/prettify.css">
+		<script type="text/javascript" src="statics/js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="statics/js/prettify.js"></script>
+		<script type="text/javascript">
+			$(function(){	
+				$(window).resize(function(){
+					$('.book-content').css('min-height', $(window).height() - 130);
+				}).resize();
+				
+				//表格隔行变色
+				$('table').TableColor();
+				
+				//代码高亮
+				prettyPrint();
+			});
+			
+			//表格隔行变色插件
+			$.fn.TableColor = function(){
+				return $(this).each(function(){
+					if(this.nodeName.toLowerCase() != 'table') return;
+					var self = $(this);
+					self.find('tr').each(function(index) {
+						var _this = $(this);
+						if(index % 2 == 0){
+							_this.addClass('add');
+						} else {
+							_this.addClass('even');	
+						}
+						_this.hover(
+							function(){_this.addClass('hover')},
+							function(){_this.removeClass('hover')}
+						);
+					});	
+				});
+			}
+		</script>
+</head>
+
+<body>
+<div class="book-content">
+<h2>系统控制器基类说明</h2>
+<h3>用途：全局，需继承使用 </h3>
+<h3>加载：<i>自动</i></h3>
+<h3>类名：<i>action</i></h3>
+<div class="">
+  <p>注意：创建控制器时一定要继承该类，才能继承所有的接口方法，标准的控制器创建代码：</p>
+  <p><code class="prettyprint linenums lang-php">&lt;?php<br />
+  if (!defined('IN_XLP')) {<br />
+    exit('Access Denied!');<br />
+    }<br />
+  /**<br />
+    * Description of indexAction<br />
+    * 用途：首页控制器<br />
+    * 文件路径：\app\lib\action\index\indexAction.class.php<br />
+    * @author xlp<br />
+    */<br />
+    class indexAction extends action {<br />
+   	function __construct() {<br />
+         parent::__construct();<br />
+     }<br />
+  &nbsp;	function index(){<br />
+  &nbsp;&nbsp;	&nbsp;	$this-&gt;dispaly();<br />
+ &nbsp; }<br />
+  }</code></p>
+  <p>控制器可以采用分组形式存放代码，在config_inc.php中进行配置引导系统加载即可，默认控制都放在\app\lib\action\index下，控制器命名规则是：控制器名+Action.class.php，例如首页就是:indexAction.class.php，同时控制器中的类名也必须是indexAction，才能保证正常访问，控制器包含两个默认全局处理方法：</p>
+  <p class="com"><code class="prettyprint linenums lang-php">function _empty(){<br/>
+    //当访问的方法不存在时，会进入这里<br/>
+  };<br/>function _error(){<br/>
+  //访问错误时进入这里<br/>
+ };</code></p>
+<p>如果用户定义了其中一个或者两个方法，当出现控制器方法不存在时会将控制权转移到这两个方法中，_empty() 的优先级高于 _error() ；</p>
+<p>【<span class="fun">新增</span>】【<span class="fun">2014-07-05</span>】通过配置文件config_inc.php，可以实现自动加载公共控制器，并且支持跨分组加载控制器，但是为保持各分组的代码独立性，不建议跨分组调用父类控制器，避免结构复杂和大量加载无效代码带来性能上的损耗，自动加载示例如下：</p>
+<p><code class="prettyprint linenums lang-php">
+//代码位于 config/config_inc.php 中
+/*<br />
+* autoload_action：支持多重加载<br />
+* 键值为分组名称，没有写分组名称的，默认加载 index下的控制器，键值可以是单个控制器或者控制器数组<br />
+* @example 'autoload_action' =&gt; array('index' =&gt; 'common') index分组下加载 commonAction.class.php 控制器<br />
+* @example 'autoload_action' =&gt; array('index' =&gt; 'common','admin'=&gt;'common') 分组分别加载各自下面的 commonAction.class.php 控制器<br />
+* @example 'autoload_action' =&gt; array('common') 所有分组均加载 index分组下的 commonAction.class.php 即全局跨分组加载父类控制器<br />
+* @example 'autoload_action' =&gt; array('index' =&gt; 'common', 'content' =&gt; array('common1','common2'));一个分组可同时加载多个控制器<br />
+* @example 'autoload_action' =&gt; array('common', 'content' =&gt; array('common1','common2')); 全局加载和分组加载配合使用<br />
+*/ <br />
+'autoload_action' =&gt; array('index' =&gt; 'common', 'content' =&gt; 'common', 'weixin' =&gt; 'common', 'test' =&gt; 'main'), //自动加载的控制器</code></p>
+</div>
+<p class="sm">/*<br />
+* 为模板注册变量<br />
+* @param $name string or array 需要注册的变量，可以是数组<br />
+* @param $value string 变量值<br />
+* @return 无<br />
+* @example $this-&gt;assign('title','xlphp');<br />
+* @example $this-&gt;assign(array('title'=&gt;'xlphp','id'=&gt;12));<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function assign($name, $value = '');</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$this-&gt;assign('title','xlphp');<br/>
+  $this-&gt;assign(array('title'=&gt;'xlphp','id'=&gt;12));</code></p>
+
+<p class="sm">/*<br />
+* 输出模板<br />
+* @param $templates string 模板名称<br />
+* @param $path string 模板目录<br />
+* @return 解析后的模板内容<br />
+* @example $this-&gt;display('index');<br />
+* @example $this-&gt;display('header','public');<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function display($templates = '', $path = '');</code></p>
+<p>例：</p>
+
+<p><code class="prettyprint linenums lang-php">$this-&gt;display('index');<br />
+$this-&gt;display('header','public');</code></p>
+<p class="sm">/*<br />
+* 输出模板解析后的数据流，不会直接输出，可用于ajax返回<br />
+* @param $templates string 模板名称<br />
+* @param $path string 模板目录<br />
+* @return 解析后的模板内容<br />
+* @example $this-&gt;getFetch('index');<br />
+* @example $this-&gt;getFetch('header','public');<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getFetch($templates = '', $path = '');</code></p>
+<p>例：</p>
+
+<p><code class="prettyprint linenums lang-php">$this-&gt;getFetch('index');<br/>
+  $this-&gt;getFetch('header','public');</code></p>
+<p class="sm">/*<br />
+* 输出JSON格式的数据，可用于ajax返回<br />
+* @param $info string 状态信息<br />
+* @param $data string or array 返回的数据容器<br />
+* @param $status int 信息状态标记，一般约定0:失败,1:成功<br />
+* @return 直接输出json字符串并终止运行<br />
+* @example $this-&gt;JsonReturn('操作失败');<br />
+* @example $this-&gt;JsonReturn('ok',null,1);<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function JsonReturn($info = '', $data = null, $status = 0);</code></p>
+<p>例：</p>
+
+<p><code class="prettyprint linenums lang-php">$this-&gt;JsonReturn('操作失败');<br />
+$this-&gt;JsonReturn('ok',null,1);</code></p>
+<p class="sm">/*<br />
+* 取得所有模板变量<br />
+* @param 无<br />
+* @return array<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getAllVar();</code></p>
+<p class="sm">/*<br />
+* 取得纯数字类型的GET参数<br />
+* @param $field string 接受字段名<br />
+* @param $val int 默认值<br />
+* @return int<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function _getid($field = '', $val = '');</code></p>
+<p class="sm">/*<br />
+* 取得纯数字类型的POST参数<br />
+* @param $field string 接受字段名<br />
+* @param $val int 默认值<br />
+* @return int<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function _postid($field = '', $val = '');</code></p>
+<p class="sm">/*<br />
+* 取得经过安全处理后的的GET参数，支持传递数组<br />
+* @param $field string 接受字段名<br />
+* @param $val string 默认值<br />
+* @param $fun string 自定义处理函数，默认值可以在config_inc.php中设置<br />
+* @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function _get($field = '', $val = '', $fun = '');</code></p>
+<p class="sm">/*<br />
+* 取得经过安全处理后的的POST参数，支持传递数组<br />
+* @param $field string 接受字段名<br />
+* @param $val string 默认值<br />
+* @param $fun string 自定义处理函数，默认值可以在config_inc.php中设置<br />
+* @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function _post($field = '', $val = '', $fun = '');</code></p>
+<p class="sm">/*<br />
+* 用指定的函数递归处理参数，支持传递数组<br />
+* @param $array array or string 待处理的参数<br />
+* @param $fun string 自定义处理函数<br />
+* @return array or string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function sec(&amp;$array, $fun = 'stripslashes');</code></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>相关链接：</p>
+<p><a href="index.html">首页</a></p>
+<p><a href="define.html">框架常量</a></p>
+<p><a href="action.html">控制器</a></p>
+<p><a href="model.html">模型</a></p>
+<p><a href="function.html">全局函数库</a></p>
+<p><a href="class.html">框架核心类库</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

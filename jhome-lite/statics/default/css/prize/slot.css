@@ -1,0 +1,22 @@
+.slot-page{}
+.fixclear{clear:both;font-size:0;height:0;position:relative;}
+.slot-index{margin:0;}
+.slot-yyl{width:300px;margin:0 auto;background-size:300px auto;padding:0;position:relative;background-repeat:no-repeat;}
+.slot-yyl-num1,.slot-yyl-num2{position:absolute;width:80px;height:20px;font-size:18px;line-height:20px;font-weight:700;color:#f00;top:284px;text-align:center;}
+.slot-yyl-num1{left:33px;}
+.slot-yyl-num2{right:33px;}
+.slot-yyl-msg{position:absolute;width:270px;height:30px;font-size:12px;line-height:30px;font-weight:700;color:#f00;top:88px;left:25px;text-align:center;}
+.slot-yyl-btn{position:absolute;bottom:15px;left:50%;display:block;margin-left:-47px;}
+.slot-yyl-link{display:block;width:70px;height:24px;line-height:24px;border-radius:3px;border:2px solid #fff;color:#fff;font-size:12px;font-weight:700;text-align:center;text-decoration:none;position:absolute;bottom:-10px;right:36px;background-color:rgb(235,100,1);}
+.slot-yao-box{width:300px;height:330px;margin:0 auto;position:relative;}
+.slot-yao-inner{position:absolute;overflow:hidden;width:240px;height:96px;top:150px;left:30px;}
+.slot-yao-inner ul{list-style:none;margin:0;padding:0;position:absolute;width:60px;top:0;}
+.slot-yao-inner ul li{font-size:0;padding:0; width:60px; height:86px;}
+.slot-yao-inner ul li img{width:100%;display:block;padding:5px 0;}
+.slot-yao-inner ul.logo-1{left:10px;}
+.slot-yao-inner ul.logo-2{left:90px;}
+.slot-yao-inner ul.logo-3{left:171px;}
+.slot-yao-text{height:240px; padding:15px 20px}
+.slot-yao-text i{font-size:10px;}
+.slot-yao-text h3{font-size:16px;margin:.5em 0;color:rgb(245,88,60);}
+.slot-yao-text p{font-size:12px;line-height:18px;}

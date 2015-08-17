@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xlphp 说明文档</title>
+		<link rel="stylesheet" href="statics/css/book.css">
+		<link rel="stylesheet" href="statics/css/prettify.css">
+		<script type="text/javascript" src="statics/js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="statics/js/prettify.js"></script>
+		<script type="text/javascript">
+			$(function(){	
+				$(window).resize(function(){
+					$('.book-content').css('min-height', $(window).height() - 130);
+				}).resize();
+				
+				//表格隔行变色
+				$('table').TableColor();
+				
+				//代码高亮
+				prettyPrint();
+			});
+			
+			//表格隔行变色插件
+			$.fn.TableColor = function(){
+				return $(this).each(function(){
+					if(this.nodeName.toLowerCase() != 'table') return;
+					var self = $(this);
+					self.find('tr').each(function(index) {
+						var _this = $(this);
+						if(index % 2 == 0){
+							_this.addClass('add');
+						} else {
+							_this.addClass('even');	
+						}
+						_this.hover(
+							function(){_this.addClass('hover')},
+							function(){_this.removeClass('hover')}
+						);
+					});	
+				});
+			}
+		</script>
+</head>
+
+<body>
+<div class="book-content">
+<h2>系统数据库模型基类说明</h2>
+<h3>用途：全局，需继承使用 </h3>
+<h3>加载：<i>自动</i></h3>
+<h3>类名：<i>model</i></h3>
+<div class="">
+  <p>注意：创建数据库模型时一定要继承该类，才能继承所有的接口方法，标准的模型创建代码：</p>
+  <p><code class="prettyprint linenums lang-php">&lt;?php<br />
+  if (!defined('IN_XLP')) {<br />
+    exit('Access Denied!');<br />
+    }<br />
+  /**<br />
+    * Description of adminModel<br />
+    * 用途：管理员数据模型<br />
+    * 调用方法：D('admin')<br />
+    * 文件路径：\app\lib\model\adminModel.class.php<br />
+    * @author xlp<br />
+    */<br />
+    class adminModel extends model {<br />
+   	function __construct() {<br />
+         parent::__construct();<br />
+         $this-&gt;dbTable = 'admin';//数据表名<br />
+     }<br />
+  }<br />
+  </code></p>
+  <p>数据模型中都支持链式操作，链式函数有：'field', 'where', 'order', 'group', 'having', 'table', 'data','limit','page'</p>
+  <p>只支持字符串的有：field、order、group、having、table，其余是支持字符串和数组作为参数</p>
+  <p>其中比较特殊的有limit和page：</p>
+  <p><code class="prettyprint linenums lang-php">$rs = M('access_stat')-&gt;where(array('aid' =&gt; 12))-&gt;limit(0, 20)-&gt;order('id desc')-&gt;findAll();<br/>
+$rs = M('access_stat')-&gt;where(array('aid' =&gt; 12))-&gt;page($page)-&gt;order('id desc')-&gt;findAll();</code></p>
+<p>page有两个参数，第一个是当前页码，第二个是每页记录数（默认为20），所以完整使用应该是：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('access_stat')-&gt;where(array('aid' =&gt; 12))-&gt;page($page,20)-&gt;order('id desc')-&gt;findAll();</code></p>
+<p>&nbsp;</p>
+<p>【<span class="fun">新增</span>】【<span class="fun">2014-07-05</span>】通过配置文件config_inc.php，可以实现自动加载公共模型，公共模型考虑到全局调用的情况，不支持分组加载，所有公共模型会实现全局加载，全局调用。自动加载示例如下：</p>
+<p><code class="prettyprint linenums lang-php">/*<br />
+* autoload_model：不支持多重加载<br />
+* @example 'autoload_model' =&gt; array('common','common1'), //自动加载的模型数组<br />
+*/<br />
+'autoload_model' =&gt; array(), //自动加载的模型</code></p>
+</div>
+<p class="sm">/*<br />
+* 静态方法, 单例统一访问入口<br />
+* @return  object  返回对象的唯一实例<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">static function getInstance($config = 'database');</code></p>
+<p class="sm">/*<br />
+* 构造方法<br />
+* @return  object  返回对象的唯一实例<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function __construct($config = 'database');</code></p>
+<p class="sm">/*<br />
+* 设置调试模式，开启以后会打印出此方法之前所有的待执行的SQL语句<br />
+* @param $bool bool 是否开启<br />
+* @return 无<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function setDebug($bool = true);</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">D('admin')-&gt;setDebug();</code></p>
+<p class="sm">/*<br />
+* 设置显示数据库错误信息<br />
+* 默认情况下所有执行失败的sql语句是不会显示详细错误的，在调试程序是开启此方法便于排错<br />
+* @param $bool bool 是否开启<br />
+* @return 无<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function setShowError($bool = true);</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">D('admin')-&gt;setShowError();</code></p>
+<p class="sm">/*<br />
+* 获取表前缀<br />
+* @param 无<br />
+* @return 添加前缀的数据表名称<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getTablepre();</code></p>
+<p class="sm">/*<br />
+* 直接执行SQL语句，支持原生SQL语句<br />
+* @param $sql string 待执行的SQL语句<br />
+* @param $returnOne bool 是否是返回单条语句<br />
+* 本方法获取结果集时是返回多维数组的，部分情况只查询单条记录时，设置$returnOne=true，就会直接返回二维数组，以减少数组的层次<br />
+* @return array<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function query($sql = '', $returnOne = false);</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">D('admin')-&gt;query('SELECT aid,admin_name FROM __TABLE__ WHERE uid=12 LIMIT 1',true);//查询uid=12的用户信息<br/>
+  $sql = 'SELECT a.*,b.title,c.username,c.phone FROM __TABLE__ AS a LEFT JOIN __PRRE__event AS b ON a.id=b.id AND a.aid=b.aid LEFT JOIN __PRE__user AS c ON a.uid=c.uid AND a.aid=c.aid WHERE  c.uid=12 order by pid DESC LIMIT 0,20';<br />
+$rs = M('prize')-&gt;query($sql);</code></p>
+<p class="com">注意：在query方法中，有两个占位符可以使用，__TABLE__：指向前模型数据表，__PRRE__：表前缀，在M和D函数中均可以使用</p>
+<p class="sm">/*<br />
+* 插入数据<br />
+* @param $arr array 待插入的数组<br />
+* @return int 新增记录的主键值<br />
+*/</p>
+<p class="clo">支持链式函数：data</p>
+<p><code class="prettyprint linenums lang-php">function insert($arr = array());</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">D('admin')-&gt;insert(array('username'=&gt;'admin','psw'=&gt;123,'group_id'=&gt;1));<br/>
+  D('admin')-&gt;data(array('username'=&gt;'admin','psw'=&gt;123,'group_id'=&gt;1))-&gt;insert();</code></p>
+<p>使用data时，insert依然能带数组参数，当他的参数与data中数组键名重复时会覆盖掉data中的同名键名的值</p>
+<p class="sm">/*<br />
+* 批量插入数据<br />
+* @param $arr array 待插入的数组<br />
+* @return int 新增记录的数量<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function insertAll($arr = array());</code></p>
+<p><span class="clo">支持链式函数：data</span></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">D('admin')-&gt;insertAll(array(array('username'=&gt;'admin1','psw'=&gt;123,'group_id'=&gt;1),array('username'=&gt;'admin2','psw'=&gt;123456,'group_id'=&gt;2)));<br/>
+  D('admin')-&gt;data(array(array('username'=&gt;'admin1','psw'=&gt;123,'group_id'=&gt;1),array('username'=&gt;'admin2','psw'=&gt;123456,'group_id'=&gt;2)))-&gt;insertAll();</code></p>
+<p>使用data时，insertAll依然能带数组参数，当他的参数与data中数组键名重复时会覆盖掉data中的同名键名的值，因此不建议同时使用insertAll和data来传入参数</p>
+<p class="sm">/*<br />
+* 更新数据<br />
+* @param $arr array 待更新的数组<br />
+* @param $where array or string 更新条件，支持数组和字符串，但不能为空<br />
+* @return int 更新影响记录的数量<br />
+*/</p>
+<p class="clo">支持链式函数：data</p>
+<p><code class="prettyprint linenums lang-php">function update($arr, $where = array());</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">D('admin')-&gt;update(array('username'=&gt;'admin','psw'=&gt;123,'group_id'=&gt;1),array('uid'=&gt;1));<br/>
+  D('admin')-&gt;data(array('username'=&gt;'admin','psw'=&gt;123))-&gt;update(array('group_id'=&gt;1'),array('uid'=&gt;1));</code></p>
+<p>使用data时，update依然能带数组参数，当他的参数与data中数组键名重复时会覆盖掉data中的同名键名的值，因此不建议同时使用update和data来传入参数</p>
+<p class="sm">/*<br />
+* 删除数据简写模式<br />
+* @param $where array or string 更新条件，支持数组和字符串，但不能为空<br />
+* @return int 影响记录的数量<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function delete($where = array());</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">D('admin')-&gt;delete(array('uid'=&gt;1));</code></p>
+<p class="sm">/*<br />
+* 返回最后插入的记录的ID<br />
+* @param 无<br />
+* @return int<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getInsertid();</code></p>
+<p class="sm">/*<br />
+* 返回所有执行的SQL语句<br />
+* @param 无<br />
+* @return array<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getAllsql();</code></p>
+<p class="sm">/*<br />
+* 处理安全字符串<br />
+* @param $arr string 待处理的字符串<br />
+* @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getSafeStr($arr);</code></p>
+<p class="sm">/*<br />
+  * 处理复杂where条件<br />
+  * @param $arr array 待处理的where数组<br />
+  * @return string<br />
+  */</p>
+<p><code class="prettyprint linenums lang-php">function getWhere($arr);</code></p>
+<p class="sm">/*<br />
+* 返回数据库查询次数<br />
+* @param 无<br />
+* @return int<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getQuerynum();</code></p>
+<p class="sm">/*<br />
+* 返回表所有字段<br />
+* @param 无<br />
+* @return array<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getFields();</code></p>
+<p class="sm">/*<br />
+* 返回记录集总数<br />
+* @param 无<br />
+* @return int<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getTotal();</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;where($where)-&gt;page($p)-&gt;order('id DESC')-&gt;findAll();<br />
+$total=M('event')-&gt;getTotal();</code></p>
+<p class="com">注意：框架中，当执行汇总查询时默认会自动统计符合条件的记录，所以，在执行汇总操作后可以直接获取总记录数，单仅限于跟踪最近一个执行汇总操作的记录，当执行下一条汇总SQL时，记录数会被新的集合覆盖</p>
+<p class="sm">/*<br />
+* 返回数据库驱动<br />
+* @param 无<br />
+* @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getDbtype();</code></p>
+<p class="sm">/*<br />
+* 链式操作，返回多条记录<br />
+* @param $getTotal bool 是否统计结果集，如果为false，则getTotal()只会返回0<br />
+* @return array<br />
+*/</p>
+<p class="clo">支持链式函数：field、group、where、order、limit、page</p>
+<p><code class="prettyprint linenums lang-php">function findAll($getTotal = true);</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;field('id,title,infotime')-&gt;where($where)-&gt;page($p)-&gt;order('id DESC')-&gt;findAll();</code></p>
+<p class="sm">/*<br />
+* 链式操作，返回单条记录<br />
+* @param 无<br />
+* @return array<br />
+*/</p>
+<p class="clo">支持链式函数：field、where、order</p>
+<p><code class="prettyprint linenums lang-php">function find();</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;field('id,title,infotime')-&gt;where($where)-&gt;order('id DESC')-&gt;find();</code></p>
+<p class="sm">/*<br />
+* 链式操作，返回多条记录,数组键名为主键<br />
+* @param $key 表的主键<br />
+* @param $getTotal bool 是否统计结果集，如果为false，则getTotal()只会返回0<br/>
+* @return array<br />
+*/</p>
+<p class="clo">支持链式函数：field、group、where、order、limit、page</p>
+<p><code class="prettyprint linenums lang-php">function select($key = 'id'，$getTotal = true);</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;field('id,title,infotime')-&gt;where($where)-&gt;page($p)-&gt;order('id DESC')-&gt;select('id');</code></p>
+<p class="sm">/*<br />
+* 链式操作，返回单条记录单字段<br />
+* @param $field string 表的字段<br />
+* @return string<br />
+*/</p>
+<p class="clo">支持链式函数：where、order</p>
+<p><code class="prettyprint linenums lang-php">function getField($field = '');</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;where($where)-&gt;order('id DESC')-&gt;getField('title');</code></p>
+<p class="sm">/*<br />
+* 链式操作，返回符合条件的记录集总数<br />
+* @param $field string 用于统计的表字段<br />
+* @return int<br />
+*/</p>
+<p class="clo">支持链式函数：field、where</p>
+<p><code class="prettyprint linenums lang-php">function count($field = '*');</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;where($where)-&gt;count('id');<br/>
+  $rs = M('event')-&gt;field('id')-&gt;where($where)-&gt;count();</code></p>
+<p class="sm">/*<br />
+* 链式操作，指定字段值增加<br />
+* @param $field string 用于增加计数的表字段<br />
+* @param $num int 增加数<br />
+* @return int 影响的行数<br />
+*/</p>
+<p class="clo">支持链式函数：where</p>
+<p><code class="prettyprint linenums lang-php">function setInc($field, $num = 1);</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;where($where)-&gt;setInc('hits',1);</code></p>
+<p class="sm">/*<br />
+* 链式操作，指定字段减少<br />
+* @param $field string 用于减少计数的表字段<br />
+* @param $num int 减少数<br />
+* @return int 影响的行数<br />
+*/</p>
+<p class="clo">支持链式函数：where</p>
+<p><code class="prettyprint linenums lang-php">function setDec($field, $num = 1);</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;where($where)-&gt;setDec('totals',1);</code></p>
+<p class="sm">/*<br />
+* 开启事务<br />
+* @param 无<br />
+* @return <br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function begin();</code></p>
+<p class="sm">/*<br />
+* 使用事务提交数据<br />
+* @param $sqlArray array 用于事物执行的SQL数组<br />
+* @return <br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function transaction($sqlArray);</code></p>
+<p class="sm">/*<br />
+* 提交事务<br />
+* @param 无<br />
+* @return <br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function commit();</code></p>
+<p class="sm">/*<br />
+* 回滚事务<br />
+* @param 无<br />
+* @return <br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function rollback();</code></p>
+<p class="sm">/*<br />
+* 根据表名获取字段及默认值，该方法会缓存表的字段名<br />
+* 如果数据库字段有变化，需要手动删除缓存文件，缓存位于runtime/data/_Fields/下<br />
+* @param $noFields array 需要排除的字段数组<br />
+* @return array 字段数组<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getTableFields($noFields = array());</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">$rs = M('event')-&gt;getTableFields();<br/>print_r($rs);</code></p>
+
+返回结果：<br />
+<p><code class="prettyprint linenums lang-php">
+Array<br />
+(<br />
+[key] =&gt; id<br />
+[fields] =&gt; Array<br />
+&nbsp;&nbsp;
+(<br />
+ &nbsp;&nbsp;&nbsp;	[aid] =&gt; Array<br />
+&nbsp;&nbsp;
+(<br />
+  &nbsp;&nbsp; [name] =&gt; <br />
+  &nbsp;&nbsp; [value] =&gt; <br />
+  &nbsp;&nbsp; [null] =&gt; 0<br />
+  &nbsp;&nbsp; [type] =&gt; int<br />
+&nbsp;&nbsp;
+)<br />
+ &nbsp; [title] =&gt; Array<br />
+   &nbsp; (<br />
+      [name] =&gt; 标题 <br />
+      [value] =&gt; <br />
+      [null] =&gt; 0<br />
+      [type] =&gt; char<br />
+   &nbsp; )<br />
+  &nbsp;&nbsp; [type] =&gt; Array<br />
+     (<br />
+        [name] =&gt; 类型<br />
+        [value] =&gt; <br />
+        [null] =&gt; 0<br />
+        [type] =&gt; int<br />
+     )<br /> )<br />
+  )</code></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>相关链接：</p>
+<p><a href="index.html">首页</a></p>
+<p><a href="define.html">框架常量</a></p>
+<p><a href="action.html">控制器</a></p>
+<p><a href="model.html">模型</a></p>
+<p><a href="function.html">全局函数库</a></p>
+<p><a href="class.html">框架核心类库</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xlphp 说明文档</title>
+		<link rel="stylesheet" href="statics/css/book.css">
+		<link rel="stylesheet" href="statics/css/prettify.css">
+		<script type="text/javascript" src="statics/js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="statics/js/prettify.js"></script>
+		<script type="text/javascript">
+			$(function(){	
+				$(window).resize(function(){
+					$('.book-content').css('min-height', $(window).height() - 130);
+				}).resize();
+				
+				//表格隔行变色
+				$('table').TableColor();
+				
+				//代码高亮
+				prettyPrint();
+			});
+			
+			//表格隔行变色插件
+			$.fn.TableColor = function(){
+				return $(this).each(function(){
+					if(this.nodeName.toLowerCase() != 'table') return;
+					var self = $(this);
+					self.find('tr').each(function(index) {
+						var _this = $(this);
+						if(index % 2 == 0){
+							_this.addClass('add');
+						} else {
+							_this.addClass('even');	
+						}
+						_this.hover(
+							function(){_this.addClass('hover')},
+							function(){_this.removeClass('hover')}
+						);
+					});	
+				});
+			}
+		</script>
+</head>
+
+<body>
+<div class="book-content">
+<h2>系统自定义常量说明</h2>
+<h3>用途：全局常量 </h3>
+<h3>加载：<i>自动</i></h3>
+<p>系统常量</p>
+<p><code class="prettyprint linenums lang-php">ROOT: G:\PHPnow\htdocs\test\; //项目根目录<br />
+  IN_XLP: 1; //文件访问控制，保证每个文件都是由入口文件进入访问<br />
+  APP_PATH: G:\PHPnow\htdocs\test\app\; //项目路径<br />
+  XLPHP_PATH: G:\PHPnow\htdocs\hzforall/xlphp\; //框架路径<br />
+  DEBUG: 0; //是否调试模式<br />
+  TRACE: 0; //是否测试模式<br />
+  SCRIPT_NAME: index.php; //入口文件<br />
+  URL: http://127.0.0.1/test/member/index.html; //当前页面完整请求链接<br />
+  MAIN_URL: http://127.0.0.1/test/index.php; //真实访问根链接<br />
+  BASE_URL: http://127.0.0.1/test/; ///访问根链接，可用户拼接图片等资源完整访问路径<br />
+  WEB_URL: /test; ///相对路径<br />
+  WEB_TITLE: 'xlphp框架'; //全局标题<br />
+  VCODE: ytuyiqwrwriocv%^*hhi@kl; //全局密钥，可用于加密，解密<br />
+  IS_CGI: 0; //是否CGI模式<br />
+  IS_WIN: 1; //是否windows服务器<br />
+  IS_CLI: 0; //是否CLI<br />
+  SITE_PATH: /test; ///自定义路径，用于设置CDN，此处填写CDN网址，所有PUBLIC_PATH、IMG_PATH、JS_PATH、CSS_PATH皆会指向CDN域名<br />
+  WEB_PATH: /test;//项目相对于根目录路径<br />
+  TIME: 1403753258; //系统时间，可以代替time()函数使用<br />
+  GROUP_NAME: member; //分组名称<br />
+  ACTION_NAME: index; //控制器名称<br />
+  MODEL_NAME: index; //模块名称<br />
+  GROUP_TPL_DIR: member; //自定义当前分组模板目录（手动定义，非必须）<br />
+  TPL_PATH: G:\PHPnow\htdocs\test\app\tpl/default; //模板路径<br />
+  PUBLIC_PATH: /test/statics/default; ///静态资源根目录<br />
+  IMG_PATH: /test/statics/default/images; ///模板使用图片资源路径<br />
+  JS_PATH: /test/statics/default/js; //模板使用js资源路径<br />
+  CSS_PATH: /test/statics/default/css/ ; //模板使用css资源路径<br/>
+  LOCAL_PUBLIC_PATH: /test/statics/default; //静态资源根目录，不同于PUBLIC_PATH，它始终指向本服务器目录，<strong>可用于解决CDN资源带来的跨域问题</strong><br />
+  USER_AGENT: ; //用户user_agent，用于检测客户端浏览器参数</strong><br />
+</code></p>
+  <p class="com">注意：</p>
+  <p class="com">1、【<span class="fun">更新</span>】【<span class="fun">2014-07-09</span>】GROUP_TPL_DIR 可自己在每个分组父级控制器初始化时自行设置，如果设置了GROUP_TPL_DIR，则当前分组模板目录以指定的目录为准，否则将默认采用当前分组名下的模板;</p>
+  <p class="com">例如：当前分组为“admin”，则默认模板路径为：tpl/[模板样式]/admin/[控制器]/[模块]_tpl.php，但是如果在调用模板之前设置了常量GROUP_TPL_DIR，则变成：tpl/[模板样式]/[GROUP_TPL_DIR]/[控制器]/[模块]_tpl.php，利用好GROUP_TPL_DIR，可以让模板调用更灵活。</p>
+
+  <p></p>
+  <p> <code class="prettyprint linenums lang-php">
+  class commonAction extends action {<br />
+       	//初始化全局信息<br />
+        function __construct() {<br />
+             //设置后台模板目录<br />
+             define('GROUP_TPL_DIR', 'content');<br/>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+    }</code></p>
+<p class="com">&nbsp;</p>
+  <p class="com">2、TPL_PATH、PUBLIC_PATH、IMG_PATH、JS_PATH、CSS_PATH只会在调用模板输出数据时才定义，因此只可在模板中使用;</p>
+  <p class="com">3、WEB_URL与SITE_PATH的区别，当在config/config_inc.php中定义了main_path时，SITE_PATH值为main_path的值 ;</p>
+  <p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>相关链接：</p>
+<p><a href="index.html">首页</a></p>
+<p><a href="define.html">框架常量</a></p>
+<p><a href="action.html">控制器</a></p>
+<p><a href="model.html">模型</a></p>
+<p><a href="function.html">全局函数库</a></p>
+<p><a href="class.html">框架核心类库</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

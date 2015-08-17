@@ -23,7 +23,8 @@ Chat.insert = function(content, callback){
                         {contents:
                             {
                                 content: chatcontent,
-                                time: parseInt((new Date()).getTime()/ 1000)
+                                time: parseInt((new Date()).getTime()/ 1000),
+                                whosaid: whosaid
                             }
                         }
                 }, function(err, ret){
@@ -37,7 +38,7 @@ Chat.insert = function(content, callback){
     });
 };
 
-Chat.init = function(clientid, serverid, callback){
+Chat.init = function(clientid, serverid, clientname, servername,callback){
     clientid = clientid+'';
     serverid = serverid+'';
     mongodb.open(function(err, db){
@@ -57,7 +58,7 @@ Chat.init = function(clientid, serverid, callback){
                     return callback(err);
                 }
                 if(ret == null){
-                    collection.insert({clientid: clientid, serverid: serverid, contents: []},{
+                    collection.insert({clientid: clientid, serverid: serverid, clientname: clientname, servername: servername, contents: []},{
                         safe: true
                     }, function(err){
                         mongodb.close();
@@ -74,35 +75,4 @@ Chat.init = function(clientid, serverid, callback){
     });
 };
 
-Chat.history = function(clientid, serverid, page, callback){
-    var page_size = 10;
-    mongodb.open(function(err, db){
-        if(err){
-            return callback(err);
-        }
-        db.collection('chats', function(err, collection){
-            if(err){
-                mongodb.close();
-                return callback(err);
-            }
-
-            collection.findOne({clientid: clientid, serverid: serverid}, {}, function(err, ret){
-                if(err){
-                    mongodb.close();
-                    return callback(err);
-                }
-                if(ret == null || ret.contents.length == 0){
-                    return null;
-                }else{
-                    var total = ret.cotents.length;
-                    var start = page_size * (page - 1);
-                    var end = start + page_size - 1;
-                    start = start >= total ? total : start;
-                    end = end >= total ? total : end;
-                    callback(ret.contents.slice(start, end), total, page);
-                }
-            });
-        });
-    });
-};
 module.exports = Chat;

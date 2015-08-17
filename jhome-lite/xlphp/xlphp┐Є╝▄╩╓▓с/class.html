@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xlphp 说明文档</title>
+		<link rel="stylesheet" href="statics/css/book.css">
+		<link rel="stylesheet" href="statics/css/prettify.css">
+		<script type="text/javascript" src="statics/js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="statics/js/prettify.js"></script>
+		<script type="text/javascript">
+			$(function(){	
+				$(window).resize(function(){
+					$('.book-content').css('min-height', $(window).height() - 130);
+				}).resize();
+				
+				//表格隔行变色
+				$('table').TableColor();
+				
+				//代码高亮
+				prettyPrint();
+			});
+			
+			//表格隔行变色插件
+			$.fn.TableColor = function(){
+				return $(this).each(function(){
+					if(this.nodeName.toLowerCase() != 'table') return;
+					var self = $(this);
+					self.find('tr').each(function(index) {
+						var _this = $(this);
+						if(index % 2 == 0){
+							_this.addClass('add');
+						} else {
+							_this.addClass('even');	
+						}
+						_this.hover(
+							function(){_this.addClass('hover')},
+							function(){_this.removeClass('hover')}
+						);
+					});	
+				});
+			}
+		</script>
+</head>
+
+<body>
+<div class="book-content">
+<h2>cache.class.php</h2>
+<h3>用途：缓存处理 </h3>
+<h3>加载：<i>自动</i></h3>
+<h3>类名：<i>Mycache</i></h3>
+<p>S函数已经封装了全部的接口，可以直接使用S函数来完成缓存操作 ,支持子目录缓存</p>
+<p>
+  <code class="prettyprint linenums lang-php">function S($name, $value = '', $expire = 0);</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">S('user/uid_12',array('uid'=&gt;12,'username'=&gt;'admin','isLogin'=&gt;true));</code></p>
+<h2>csv.class.php</h2>
+<h3>用途：输出CSV格式的数据文件，用于导出数据成为下载文件 </h3>
+<h3>加载：<i>手动</i></h3>
+<h3>类名：<i>csv</i></h3>
+<p class="sm">/*<br />
+* 读取CSV文件<br />
+* @param $fileName string 数据文件路径<br />
+* @param $in string 导入数据的编码<br />
+* @param $out string 导出数据的编码<br />
+*/</p>
+<p class="sm"><code class="prettyprint linenums lang-php">public function read($filePath = '', $in = 'gbk', $out = 'utf-8');</code></p>
+<p class="sm">/*<br />
+* 输出CSV文件<br />
+* @param $title array 输出展示的标题列<br />
+* @param $data array 输出数据<br />
+* @param $name string 输出文件名<br />
+* @param $in string 导入数据的编码<br />
+* @param $out string 导出数据的编码<br />
+*/</p>
+<p class="sm"><code class="prettyprint linenums lang-php">public function write($title, $data, $name, $in = 'utf-8', $out = 'gbk');</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">
+$rs=array(<br />
+&nbsp;
+array('id'=&gt;'1', 'username'=&gt;'user1', 'phone'=&gt;'13666666666', 'code'=&gt;'88979'),<br />
+&nbsp;
+array('id'=&gt;'2', 'username'=&gt;'user2', 'phone'=&gt;'13777777777', 'code'=&gt;'65684'),<br />
+&nbsp;
+array('id'=&gt;'3', 'username'=&gt;'user3', 'phone'=&gt;'13888888888', 'code'=&gt;'711497')<br />
+);<br/>
+load('csv');<br />
+$myCsv = new csv();<br />
+$list = array();<br />
+foreach ($rs as $val) {<br />
+&nbsp;
+$list[] = array(<br />
+&nbsp;	&quot;\t&quot; . $val['id'],<br />
+&nbsp;	&quot;\t&quot; . $val['username'],<br />
+&nbsp;	&quot;\t&quot; . $val['phone'],<br />
+&nbsp;	&quot;\t&quot; . $val['code']<br />
+);<br />
+$myCsv-&gt;write(array('UID', '姓名', '手机号', '中奖码'), $list, &quot;prize_&quot; . date('y-m-d'));</code></p>
+<h2>curl.class.php</h2>
+<h3>用途：CURL 操作类 </h3>
+<h3>加载：<i>手动</i></h3>
+<h3>类名：<i>Mycurl</i></h3>
+<p class="sm">/*<br />
+* *  静态方法, 单例统一访问入口<br />
+* *  @return  object  返回对象的唯一实例<br />
+* */</p>
+<p><code class="prettyprint linenums lang-php">static function getInstance();</code></p>
+<p class="sm">/*<br />
+* 构造函数<br />
+*<br />
+* @param array $setopt :请参考 private $setopt 来设置<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function __construct($setopt = array());</code></p>
+<p>默认 CURL SETOPT 信息</p>
+<p><code class="prettyprint linenums lang-php">//默认 CURL SETOPT 信息<br />
+private $setopt = array(<br />
+//访问的端口,http默认是 80<br />
+'port' =&gt; 80,<br />
+//客户端 USERAGENT,如:&quot;Mozilla/4.0&quot;,为空则使用用户的浏览器<br />
+'userAgent' =&gt; '',<br />
+//连接超时时间<br />
+'timeOut' =&gt; 30,<br />
+//是否使用 COOKIE 建议打开，因为一般网站都会用到<br />
+'useCookie' =&gt; true,<br />
+//是否支持SSL<br />
+'ssl' =&gt; false,<br />
+//客户端是否支持 gzip压缩<br />
+'gzip' =&gt; true,<br />
+//是否使用代理<br />
+'proxy' =&gt; false,<br />
+//代理类型,可选择 HTTP 或 SOCKS5<br />
+'proxyType' =&gt; 'HTTP',<br />
+//代理的主机地址,如果是 HTTP 方式则要写成URL形式如:&quot;http://www.proxy.com&quot;<br />
+//SOCKS5 方式则直接写主机域名为IP的形式，如:&quot;192.168.1.1&quot;<br />
+'proxyHost' =&gt; '',<br />
+//代理主机的端口<br />
+'proxyPort' =&gt; 1234,<br />
+//代理是否要身份认证(HTTP方式时)<br />
+'proxyAuth' =&gt; false,<br />
+//认证的方式.可选择 BASIC 或 NTLM 方式<br />
+'proxyAuthType' =&gt; 'BASIC',<br />
+//认证的用户名和密码<br />
+'proxyAuthUser' =&gt; 'user',<br />
+'proxyAuthPwd' =&gt; 'password',<br />
+);</code></p>
+<p class="sm">/*<br />
+* 以 GET 方式执行请求<br />
+*<br />
+* @param string $url :请求的URL<br />
+* @param array $params ：请求的参数,格式如: array('id'=&gt;10,'name'=&gt;'yuanwei')<br />
+* @param array $referer :引用页面,为空时自动设置,如果服务器有对这个控制的话则一定要设置的.<br />
+* @return 错误返回:false 正确返回:结果内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function get($url, $params = array(), $referer = '');</code></p>
+<p class="sm">/*<br />
+* 以 POST 方式执行请求<br />
+*<br />
+* @param string $url :请求的URL<br />
+* @param array $params ：请求的参数,格式如: array('id'=&gt;10,'name'=&gt;'yuanwei')<br />
+* @param array $uploadFile :上传的文件,支持相对路径,格式如下<br />
+* 单个文件上传:array('img1'=&gt;'./file/a.jpg')<br />
+* 同字段多个文件上传:array('img'=&gt;array('./file/a.jpg','./file/b.jpg'))<br />
+* @param array $referer :引用页面,引用页面,为空时自动设置,如果服务器有对这个控制的话则一定要设置的.<br />
+* @return 错误返回:false 正确返回:结果内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function post($url, $params = array(), $uploadFile = array(), $referer = '');</code></p>
+<p class="sm">/*<br />
+* 以 PUT 方式执行请求<br />
+*<br />
+* @param string $url :请求的URL<br />
+* @param array $params ：请求的参数,格式如: array('id'=&gt;10,'name'=&gt;'yuanwei')<br />
+* @param array $referer :引用页面,为空时自动设置,如果服务器有对这个控制的话则一定要设置的.<br />
+* @return 错误返回:false 正确返回:结果内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function put($url, $params = array(), $referer = '');</code></p>
+<p class="sm">/*<br />
+* 以 DELETE 方式执行请求<br />
+*<br />
+* @param string $url :请求的URL<br />
+* @param array $params ：请求的参数,格式如: array('id'=&gt;10,'name'=&gt;'yuanwei')<br />
+* @param array $referer :引用页面,为空时自动设置,如果服务器有对这个控制的话则一定要设置的.<br />
+* @return 错误返回:false 正确返回:结果内容<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function delete($url, $params = array(), $referer = '');</code></p>
+<p class="sm">/*<br />
+* 得到错误信息<br />
+*<br />
+* @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function error();</code></p>
+<p class="sm">/*<br />
+* 得到错误代码<br />
+*<br />
+* @return int<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function errno();</code></p>
+<p class="sm">/*<br />
+* 得到发送请求前和请求后所有的服务器信息和服务器Header信息,其中<br />
+* [before] ：请求前所设置的信息<br />
+* [after] :请求后所有的服务器信息<br />
+* [header] :服务器Header报文信息<br />
+*<br />
+* @return array<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getInfo();</code></p>
+<h2>tree.class.php</h2>
+<h3>用途：通用的树型类，可以生成任何树型结构 </h3>
+<h3>加载：<i>手动</i></h3>
+<h3>类名：<i>Mytree</i></h3>
+<p class="sm">/*<br />
+* 构造函数，初始化类<br />
+* @param array 二维数组<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function __construct($arr = array());</code></p>
+<p class="sm">/*<br />
+* 得到父级数组<br />
+* @param int<br />
+* @return array<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getParent($myid);</code></p>
+<p class="sm">/*<br />
+* 得到子级数组<br />
+* @param int<br />
+* @return array<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getChild($myid);</code></p>
+<p class="sm">/*<br />
+返回指定id的属性值<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getVal($myid, $t = 't_title');</code></p>
+<p class="sm">/*<br />
+取出指定ID的全部子菜单<br/> */</p>
+<p><code class="prettyprint linenums lang-php">public function getChildId($myid, $self = true);</code></p>
+<p class="sm">/*<br />
+取出指定类别的菜单项<br />
+  */</p>
+<p><code class="prettyprint linenums lang-php">public function setType($type, $t = 'menu_id');</code></p>
+<p class="sm">/*<br />
+* 得到当前位置数组<br />
+* @param int<br />
+* @return array<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getPos($myid, &amp;$newarr = '');</code></p>
+<p class="sm">/*<br />
+* 得到树型结构<br />
+* @param int ID，表示获得这个ID下的所有子级<br />
+* @param string 生成树型结构的基本代码，例如：&quot;&lt;option value=\$catid \$selected&gt;\$spacer\$t_title&lt;/option&gt;&quot;<br />
+* @param int 被选中的ID，比如在做树型下拉框的时候需要用到<br />
+* @return string<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getTree($myid, $str = &quot;&lt;option value=\$catid \$selected&gt;\$spacer\$t_title&lt;/option&gt;&quot;, $sid = 0, $adds = '', $str_group = '');</code></p>
+<p class="sm">/*<br />
+* 同上一方法类似,但允许多选<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getTreeMulti($myid, $str, $sid = 0, $adds = '');</code></p>
+<p class="sm">/*<br />
+* @param integer $myid 要查询的ID<br />
+* @param string $str   第一种HTML代码方式<br />
+* @param string $str2  第二种HTML代码方式<br />
+* @param integer $sid  默认选中<br />
+* @param integer $adds 前缀<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getTreeCategory($myid, $str, $str2, $sid = 0, $adds = '');</code></p>
+<p class="sm">/*<br />
+* 同上一类方法，jquery treeview 风格，可伸缩样式（需要treeview插件支持）<br />
+* @param $myid 表示获得这个ID下的所有子级<br />
+* @param $effected_id 需要生成treeview目录数的id<br />
+* @param $str 末级样式<br />
+* @param $str2 目录级别样式<br />
+* @param $showlevel 直接显示层级数，其余为异步显示，0为全部限制<br />
+* @param $style 目录样式 默认 filetree 可增加其他样式如'filetree treeview-famfamfam'<br />
+* @param $currentlevel 计算当前层级，递归使用 适用改函数时不需要用该参数<br />
+* @param $recursion 递归使用 外部调用时为FALSE<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">function getTreeView($myid, $effected_id = 'example', $str = &quot;&lt;span class='file'&gt;\$t_title&lt;/span&gt;&quot;, $str2 = &quot;&lt;span class='folder'&gt;\$t_title&lt;/span&gt;&quot;, $showlevel = 0, $style = 'filetree ', $currentlevel = 1, $recursion = FALSE);</code></p>
+<p class="sm">/*<br />
+* 获取子栏目json<br />
+* Enter description here ...<br />
+* @param unknown_type $myid<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function creatSubJson($myid = 0, $str = '');</code></p>
+<p>&nbsp;</p>
+<h2>upload.class.php</h2>
+<h3>用途：上传文件操作类 </h3>
+<h3>加载：<i>手动</i></h3>
+<h3>类名：<i>Myupload</i></h3>
+<h3>配置文件：<i>config/upload_inc.php</i></h3>
+<p class="sm">/*<br />
+* *  静态方法, 单例统一访问入口<br />
+* *  @return  object  返回对象的唯一实例<br />
+* */</p>
+<p><code class="prettyprint linenums lang-php">static public function getInstance();</code></p>
+<p class="sm">/*<br />
+* 功能：检测并组织文件<br />
+* $form      文件域名称<br />
+* $filename 上传文件保存名称，为空或者上传多个文件时由系统自动生成名称<br />
+* $filename = 1，并上传多个同文件域名称文件时，则文件保存为原上传文件名称。<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function upload($sdir = '');</code></p>
+<p>例：</p>
+<p><code class="prettyprint linenums lang-php">if (isHave($_FILES['upimg']) &amp;&amp; !isHave($_FILES['upimg']['error'])) {<br />
+     load('upload');<br />
+   
+$myUpload = new Myupload();<br />
+   
+$upload = $myUpload-&gt;upload('userfile');//设置上传目录为 userfile<br />
+  
+if ($upload) {<br />
+       
+print_r($upload);<br />
+   
+}<br />
+} else {<br />
+   
+exit($_FILES['upimg']['error']);<br />
+}</code></p>
+<p>上传返回内容：（成功）</p>
+<p> <code class="prettyprint linenums lang-php">Array<br />
+(<br />
+[0] =&gt; Array<br />
+  
+  (<br />
+   
+  [filefield] =&gt; upimg<br />
+   
+  [hash] =&gt; 83512688dd99f6c51a88484f120d4cc1<br />
+   
+  [savepath] =&gt; upload/userfile/2014/0627/p4xDDciJkmayM0usqctk.jpg<br />
+   
+  [realname] =&gt; 0011.jpg<br />
+   
+  [size] =&gt;1352 <br />
+   
+  [type] =&gt; jpg<br />
+   
+  [width] =&gt; 60<br />
+   
+  [height] =&gt; 38<br />
+ 
+  )<br />
+)</code></p>
+<p>上传返回内容：（失败）</p>
+<p> <code class="prettyprint linenums lang-php">Array<br />
+(<br />
+[0] =&gt; Array<br />
+  
+  (<br />
+ 
+  )<br />
+)</code></p>
+<p>filefield:上传文件域名称</p>
+<p>hash：上传文件MD5，可以用来检测重复上传，减少服务器占用空间</p>
+<p>savepath：上传保存路径</p>
+<p>realname：上传原文件名</p>
+<p>size：图片尺寸，单位为字节，输出的时候可以用changeFileSize格式化</p>
+<p>type：文件类型后缀</p>
+<p>width：宽</p>
+<p>height：高</p>
+<p><strong>注意</strong>：上传一定会返回多维数组，如果上传失败，返回内容则为空，可以用getErrorMsg()来捕获错误信息</p>
+<p class="sm">/*<br />
+* 上传错误信息<br />
+*/</p>
+<p><code class="prettyprint linenums lang-php">public function getErrorMsg();</code></p>
+<p>捕获上传失败的错误信息</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>相关链接：</p>
+<p><a href="index.html">首页</a></p>
+<p><a href="define.html">框架常量</a></p>
+<p><a href="action.html">控制器</a></p>
+<p><a href="model.html">模型</a></p>
+<p><a href="function.html">全局函数库</a></p>
+<p><a href="class.html">框架核心类库</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

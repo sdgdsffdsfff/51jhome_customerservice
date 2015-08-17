@@ -1,0 +1,135 @@
+html{overflow-y:scroll}
+body{ font-family: "Î¢ÈíÑÅºÚ"; padding:0;margin:0}
+ol,ul{ list-style: none; }
+a{ 
+	color: #333;
+	text-decoration: none;
+}
+img{
+	border: 0 none;
+}
+.book-content{
+	line-height: 30px;
+	margin: 5px 30px;
+	padding: 6px;
+}
+.book-title,.book-footer {
+	margin:5px 12px;
+	padding:6px;
+	height:36px;
+	line-height:36px;
+}
+.book-title h1 {
+	margin: 0; 
+	padding: 0;
+	float:left;
+}
+.book-content .code{
+	background: #FAFAFA; 
+	border: 1px solid #D1D7DC;
+	padding: 6px;
+	font-size: 12px;
+	font-family: Consolas;
+	margin: 10px 0;
+}
+.book-content p{
+	margin: 0;
+	padding: 0;
+}
+.book-content .sm{ font-size:15px; line-height:22px; margin-bottom:20px; border-top:1px #CCCCCC dashed; padding-top:10px; margin-top:20px; color:#999}
+.book-content table{
+	background: #666;
+	margin: 10px 0;
+}
+.book-content table th{
+	color: #fff;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	background: #666;
+}
+.book-content td{
+	padding-left: 10px;
+	padding-right: 10px;
+	background: #fff; 
+	cursor: pointer;
+}
+.book-content .odd td{
+	background: #efefef; 
+}
+.book-content table .hover td{
+	background: #D9E5F5;
+}
+.book-content-menu{
+	padding: 6px 50px;
+	line-height: 30px;
+	list-style: outside decimal;
+}
+.book-content a{
+	color: #459C01;
+	border-bottom: 1px dotted #459C01;
+}
+.book-content ul{
+	margin: 0;
+	padding: 0;
+}
+.book-content ul li{
+	margin: 0;
+	padding: 0 0 0 20px;
+	background: url(../img/point.png) no-repeat 6px 13px;
+}
+.book-content h3,.book-content h4{
+	color: #487858;
+	font-size: 18px;
+	font-weight: 300;
+}
+.book-content h4 {
+	color: #000;
+}
+.book-content .tips{
+	font-weight: 700;
+	color: #F60;
+	border: 1px solid #CCC;
+	padding: 0 10px;
+}
+.book-content .warning{
+	border: 1px solid #CCC;
+	padding: 5px 10px 5px 30px;
+	background: url(../img/w.png) #FAFAFA no-repeat 5px 10px ;
+}
+.book-content .cli{
+	background:#2d2d2d;
+	border:1px solid silver;
+	padding:3px 20px;
+	color:#f5f5f5;
+}
+.page {
+	float:right
+}
+.page a {
+	line-height: 99px;
+	overflow:hidden;
+	display:inline-block;
+	margin-right:10px;
+	width:36px;
+	height:36px;
+	background:url(../img/page.png) no-repeat;
+}
+.page .prev {
+	background-position: 0 0;
+}
+.page .prev:hover {
+	background-position: 0 -95px;
+}
+.page .index {
+	background-position: 0 -190px;
+}
+.page .index:hover {
+	background-position: 0 -238px;
+}
+.page .next {
+	background-position: 0 -48px;
+}
+.page .next:hover {
+	background-position: 0 -143px;
+}

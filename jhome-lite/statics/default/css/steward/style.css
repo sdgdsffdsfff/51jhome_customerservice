@@ -1,0 +1,90 @@
+@charset "utf-8";
+/* CSS Document */
+body, div, p, iframe, ul, ol, dl, dt, dd, li, dl, h1, h2, h3, h4, table,th, td, input, button, select, textarea {margin:0; padding:0;font-style: normal;font:14px "\5fae\8f6f\96c5\9ed1",Arial, Helvetica, sans-serif;}/* \5B8B\4F53 宋体 */
+a,button,input,div,li{-webkit-tap-highlight-color:rgba(255,0,0,0);}
+input,textarea,button,select{-webkit-appearance: none;}
+ol, ul ,li{list-style: none;}
+*{ box-sizing: border-box;}
+img {border: 0; vertical-align:middle;}
+body{color:#626262; background:#e8e8e8;}
+em,i{ font-style:normal;}
+.clear:after{content:'\0020';display:block;height:0;clear:both}
+.clear{*zoom:1}
+a,a:hover{text-decoration:none; outline: none;}
+.f-l{ float:left;}
+.f-r{ float:right;}
+a.menu-sm:link,a.menu-sm:hover,a.menu-sm:active,a.menu-sm:visited{ color:#626262;}
+a.menu-lg:link,a.menu-lg:hover,a.menu-lg:active,a.menu-lg:visited{ color:#626262;}
+
+#container{ max-width:640px; min-width:320px; margin:0 auto; position:relative;}
+#big-mask{ width:100%; height:100%; position:fixed; background:rgba(255,255,255,0); z-index:1000}
+.top-item{ position:relative;}
+.top-cont{ width:100%; position:absolute; top:0; left:0; z-index:1;}
+.user-info{ width:40%; padding-top:5%; float:left;}
+.header-box{ width:60px; height:60px; margin:0 auto; border:2px solid #fff; border-radius:100%;}
+.header-img{ width:100%; height:100%; border-radius:100%;}
+.user-item{width:100%; height:36px; line-height:36px; text-align:center; position:relative;}
+.user-name{ max-width:80%; height:36px; line-height:36px; color:#fff; font-size:14px; display: inline-block; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+.user-item .blue-tag{position:absolute; left:75%; top:8px; height:18px; line-height:18px; z-index:1; float:left;}
+.side-info{width:60%; padding-top:5%; padding-right:10px; float:right;}
+.weather-item p{ text-align:right; color:#FFF; margin-top:5px; font-size:12px;}
+.weather-item span{ margin-left:10px; font-size:12px; color:#FFF; }
+.select-house{ height:30px; line-height:30px; font-size:16px; color:#FFF; display:block; text-align:right; margin-bottom:10px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+
+.menu-box-1{ background:#fff; border-bottom:1px solid #ddd; padding-bottom:15px; border-top-left-radius:5px; border-top-right-radius:5px; margin-top:-5px; position:relative; z-index:1;}
+.menu-1{width:100%; position:relative; padding-top:13%; margin-bottom:45px;}
+.menu-sm{ width:18%; color:#626262; position:absolute; bottom:0; display:block;}
+.menu-lg{ width:24%; color:#626262; position:absolute; left:38%; bottom:0; display:block;}
+.menu-sm p,.menu-lg p{width:100%; height:30px; line-height:30px; display:block; text-align:center; position:absolute; bottom:-30px;}
+.menu-sm img,.menu-lg img{ width:100%; border-radius:100%;}
+
+.recom-item{ width:90%; height:auto; margin:0 auto; display:block; position:relative;}
+.recom-item img{width:100%; border-radius:5px;}
+.recom-item p{width:100%; height:36px; line-height:36px; padding:0 10px; border-bottom-left-radius:5px; border-bottom-right-radius:5px; background:rgba(0,0,0,.6); position:absolute; left:0; bottom:0; z-index:1;}
+.blue-tag{ background:#4382ce; font-size:10px; padding:0 5px; color:#fff; border-radius:3px; margin:0 5px;}
+.recom-name{float:left; height:36px; color:#fff; line-height:36px; width:70%; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+.date-item{font-size:11px; color:#fff;}
+
+.menu-2{ background:#fff; border-top:1px solid #ddd; border-bottom:1px solid #ddd; padding:10px 0; margin-top:10px; position:relative;}
+.menu-2 .m-item{ width:25%; float:left; text-align:center;}
+.menu-2 p{ display:block; color:#626262; text-align:center; line-height:24px; font-size:12px;}
+.menu-2 img{ width:60%; max-width:70px;}
+
+.menu-bottom{width:100%; height:50px; background:#37312f; position:fixed; bottom:0; left:0; z-index:9999;}
+.menu-bottom li{ float:left; width:25%; text-align:center; padding:5px 0;}
+.menu-bottom img{height:20px;}
+.menu-bottom p{ display:block; color:#fff; font-size:12px; line-height:22px; text-align:center;}
+.notice-item{height:20px; min-width:20px; line-height:20px; padding:0 5px; font-size:12px; background:#fff; color:#37312f; border-radius:20px; display: inline-block; margin:0 auto;}
+.has-notice{background:#f33746; color:#fff;}
+
+.right-icon{ color:#4382ce; background:url(../../images/steward/j-5.png) no-repeat right center; background-size:8px 15px; padding-right:15px; float:right;}
+.ok-icon{ background:url(../../images/steward/j-1.png) no-repeat left center; background-size:18px 18px; padding-right:25px;}
+.down-icon{ background:url(../../images/steward/j-8.png) no-repeat right center; background-size:15px 8px; padding-right:45px;}
+
+.change-house-box{ position:relative;}
+.house-list{width:60%; color:#fff; background:rgba(52,63,70,.98); border-radius:10px; padding:20px 10px 10px; position:absolute; top:9%; right:10px; z-index:1001}
+.house-list li{ height:40px; line-height:40px; font-size:12px; padding-right:60px; border-bottom:1px solid #555; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; position:relative;}
+.house-list .change-link{ text-align:center; color:#fff; display:block; line-height:36px;}
+.house-list .house-tag{line-height:40px; position:absolute; top:0; right:0;}
+.house-list .selected{ color:#ff525e; border-bottom:1px solid #ff525e;}
+
+/* main_image */
+.main-visual{height:auto;overflow:hidden;position:relative;}
+div.menu-flicking-con{position:absolute;bottom:5px;width:40%;left:30%;z-index:999;height:10px; line-height:10px; text-align:center;}
+div.menu-flicking-con a{width:5px;height:5px;display:inline-block;border-radius:100%;margin:5px 3px;background:#666;text-indent:-10000px}
+div.menu-flicking-con a.on{background:#4382ce;}
+#recom-prev,#recom-next,#menu-prev,#menu-next{ display:none;}
+
+div.recom-flicking-con{position:absolute;bottom:5px;width:40%;left:30%;z-index:999; height:10px; line-height:10px; text-align: center; padding-left:12px;}
+div.recom-flicking-con a{width:15px;height:2px;display:inline-block;margin:5px 2px;background:#666;text-indent:-10000px}
+div.recom-flicking-con a.on{background:#4382ce;}
+
+/*提示选择框*/
+.tips{padding:5px 20px;margin:0 auto;background:rgba(0,0,0,.6);line-height:21px;font-size:14px;text-align:center;color:#FFF;border-radius:5px;}
+.pSpace {width: 95%;padding: 0;overflow: hidden;border-radius: 5px;}
+.popLayer {width: 90%;margin: 0 auto;background-color: #FFF;z-index: 8888;overflow: hidden;padding-bottom:10px;}
+.editTCon {margin: 50px 10px;text-align: center;font-size: 18px;line-height: 25px;color: #434343;}
+.editArea {height: 50px;padding: 13px 15px 0;border-top: 1px solid #e5e5e5;background-color: #f8f8f8;}
+.editBtn1, .editBtn2 {width: 48%;height: 35px;line-height: 35px;font-size: 16px;color:#858585;text-align: center;border-radius:5px;}
+.editBtn1 {float: left;background:#4182ce;color: #fff;}
+.editBtn2 {float: right;border: 1px solid #ccc;background:#fbfbfb;color: #434343;}
